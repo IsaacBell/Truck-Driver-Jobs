@@ -1,0 +1,46 @@
+<h1>Mailout Log Batches</h1>
+<p>
+<a href='#' onclick="$('#search_form').slideToggle();">Show/Hide Search Form</a> |
+<a href='/logs/totals'>Log Totals</a>
+</p>
+
+<%= render :partial => 'mailout_logs/search_form' %>
+
+<% if @batches && @batches.count > 0 %>
+  <table class='data'>
+    <tr><%= raw @pager.sortable_table_headings({
+      'batch_id'            => 'Batch ID',
+      'schedule_id'         => 'Schedule ID',
+      'mailout_id'          => 'Mailout',
+      'date_started'        => 'Date started',
+      'date_completed'      => 'Date completed',
+      'applicant_count'     => 'App Count',
+      'page_count'          => 'Page Count',      
+      'count_successful'    => 'Successful',
+      'count_failed'        => 'Failed',
+      'percentage_complete' => '% Complete',
+      'status'              => 'Status'      
+    }) %></tr>
+    <% @batches.each do |b| %>
+      <tr onclick="window.location='/admin/logs/<%= b.id %>';">
+        <td><%= b.id %></td>
+        <td><%= b.schedule_id %></td>
+        <td>
+          <% if b.mailout && b.mailout.company %><%= b.mailout.company.name %><% else %>Unknown Company<% end %> - 
+          <% if b.mailout %><%= b.mailout.name %><% else %>Uknown Mailout<% end %>
+        </td>
+        <td><%= b.date_started   ? b.date_started.strftime('%F %T')   : "" %></td>
+        <td><%= b.date_completed ? b.date_completed.strftime('%F %T') : "" %></td>
+        <td align='right'><%= b.applicant_count %></td>
+        <td align='right'><%= b.page_count %></td>
+        <td align='right'><%= b.count_successful %></td>
+        <td align='right'><%= b.count_failed %></td>
+        <td align='right'><%= b.percentage_complete * 100 %></td>
+        <td><%= b.status %></td>        
+      </tr>
+    <% end %>
+  </table>
+  <p><%= raw @pager.generate %></p>
+<% else %>
+  <p>No log batches found.</p>
+<% end %>

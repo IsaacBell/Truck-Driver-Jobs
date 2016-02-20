@@ -1,0 +1,215 @@
+.right-sidebar {
+  margin-left: 60px;
+  width: 300px;
+  float: left;
+  padding-top: 42px;
+  @include breakpx(0, 600px) {
+    width: 100%;
+    float: none; 
+    margin-left: 0;
+  }
+  @include breakpx(600px, 960px) {
+    width: 33.33333%;
+    float: right;
+    margin-left: 0;
+    padding-left: 2%;
+  }
+  .company-column {
+    width: 100%; 
+    padding: 38px 0 15px 0;
+    .company-unit {
+      color: $color-blue;
+      padding: 1px 9px;
+      text-align: left;
+      display: block;
+      text-decoration: none;
+      border-left: 1px solid $color-main;
+      width: 230px;
+      margin: 0 auto 31px auto;
+      &:last-of-type {
+        margin-bottom: 0; 
+      }
+      &:hover {
+    //    border: 1px solid $color-main; 
+    //    padding: 12px 14px;
+        .name {
+          text-decoration: underline;
+        }
+      }
+      @include mini {
+        margin: 5px auto 10px auto;
+      }
+      .name {
+        font-size: 16px;
+        margin-bottom: 3px;
+        color: $color-link;
+      }
+      .phone {
+        color: #31690c !important;
+        display: inline-block;
+        font-size: 15px;
+        margin-bottom: 3px;
+      }
+      .content {
+        color: $color-dark;
+        font-size: 13px;
+        text-decoration: none;
+        min-height: 48px;
+      }
+      @include mini {
+        width: 90%;
+        max-width: none;
+        float: none;
+        clear: both;
+        padding: 1px 5%;
+      }
+    }
+    @include mini {
+      padding-top: 15px;
+    }
+  }
+  .quick {
+    width: 156px;
+    margin: 0 auto;
+    display: block;
+    @include small {
+      margin: 0 auto 20px auto;
+    }
+  }
+  .section-title {
+    font-size: 16px;
+    text-transform: uppercase; 
+  }
+  .job-categories {
+    width: 100%;
+    padding: 25px 4% 30px 4%;
+    @include gradient(); 
+    @include small {
+      text-align: left;
+      padding-top: 10px;
+    }
+  }
+  .section {
+    margin-top: 20px;
+    padding-left: 33px;
+    @include breakpx(600px, 960px) {
+      padding-left: 14px;
+    }
+    .title {
+      font-size: 18px; 
+      color: #35495d;
+      margin-bottom: 10px; 
+    }
+    ul {
+      li {
+        a {
+          color: #859bb2; 
+          font-size: 14px; 
+          text-decoration: none; 
+          &:before {
+            content: "-  "; 
+          }
+          &:hover {
+            color: $color-link; 
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  .ad-container {
+    margin-top: 30px;
+    text-align: center;
+    padding-bottom: 15px;
+    width: 100%;
+    @include gradient(); 
+   .section-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #323a45;
+      text-transform: none;
+      margin-bottom: 40px;
+    }
+    .advertisement {
+      text-align: center; 
+      width: 100%;
+      margin: 20px auto;
+    }
+  }
+  .other-jobs {
+    padding-bottom: 15px;
+    width: 100%;
+    @include gradient(); 
+   .section-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #323a45;
+      text-transform: none;
+      text-align: center;
+      width: 90%;
+      max-width: 152px;
+      margin: 0 auto 40px auto;
+    }
+    .job-listing {
+      width: 68%;
+      text-align: left;
+      margin: 0 auto 24px auto;
+      h4 {
+        line-height: 18px;
+        margin-bottom: 0;
+      }
+      .name {
+        font-size: 14px;
+        margin-bottom: 3px;
+        display: inline-block;
+      }
+      .company {
+        font-size: 13px;
+        color: #111111;
+        margin-bottom: 2px;
+      }
+      .date {
+        font-size: 12px;
+      }
+    }
+    @include small {
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 30px;
+    }
+  }
+  .driver-facts {
+    margin-top: 20px;
+    width: 100%;
+    padding: 20px 47px 20px 20px;
+    text-align: right;
+    font-size: 13px;
+    color: #767f8c;
+    .section-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #323a45;
+      text-transform: none;
+      text-align: center;
+    }
+    p {
+      margin-bottom: 10px;
+      a {
+        color: #767f8c;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+    .number {
+      font-size: 18px;
+      color: #5b7a98;
+    }
+    .huge {
+      font-weight: bold;
+      color: #35495d;
+    }
+  }
+}

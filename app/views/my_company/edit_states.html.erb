@@ -1,0 +1,30 @@
+
+<%= render :partial => 'my_company/profile_header' %>
+
+<div id='company_<%= @company.id %>_hiring_state'></div>
+<br />
+
+<%= render :partial => 'my_company/profile_footer' %>
+
+<% content_for :caboose_js do %>
+<script type="text/javascript">
+
+<%
+company_states = CompanyState.where(:company_id => @company.id).collect{ |cs| cs.state }
+%>
+
+var mb = false;
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'Company',
+    id: <%= @company.id %>,
+    update_url: '/my-company',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      { name: 'hiring_state', nice_name: 'States', type: 'checkbox-multiple', value: <%= raw Caboose.json(company_states) %>, width: 800, options_url: '/my-company/state-options' }
+    ]
+  });  
+});
+
+</script>
+<% end %>

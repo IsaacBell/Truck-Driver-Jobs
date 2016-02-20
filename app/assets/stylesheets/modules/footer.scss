@@ -1,0 +1,92 @@
+.footer.main {
+  background: $footer-bg-color;
+  padding: 32px 1% 25px 1%; 
+  letter-spacing: 1px;
+  clear: both;
+  .copyright {
+    color: #767f8c;
+    font-size: 11px;
+    margin-top: 35px;
+    text-align: center; 
+    clear: both;
+  }
+  .grid-row {
+    .unit1of5 {
+      @include small {
+        padding-left: 0 !important;
+        width: 100% !important;
+      }
+    }
+    .title {
+      color: #323a45;
+      font-size: 14px;
+      text-transform: uppercase; 
+      margin-bottom: 8px;
+      @include small {
+        font-size: 18px;
+        margin-bottom: 5px;
+        margin-top: 15px;
+        text-align: left; 
+        padding-left: 15px;
+      }
+      &.orange {
+        color: $color-main; 
+      }
+    }
+    ul {
+      text-align: left; 
+      @include small {
+        padding-left: 20px;
+      }
+      li {
+        padding: 2px 0; 
+        a {
+          color: #767f8c; 
+          font-size: 12px;
+          text-decoration: none; 
+          line-height: 20px;
+          @include small {
+            font-size: 16px;
+          }
+          &:hover {
+            color: #323a45; 
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    .socials {
+      a {
+        margin-top: 5px; 
+        font-size: 25px;
+      }
+    }
+  }
+  .logo {
+    @include small {
+      margin-bottom: 10px;
+    }
+    img {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 10px;
+      float: left;
+    }
+    a {
+      display: inline-block;
+      text-transform: uppercase;
+      font: $font-aqua;
+      letter-spacing: 0;
+      color: #767f8c; 
+      font-size: 13px; 
+      text-decoration: none;
+      span {
+        display: block;
+      }
+      @include small {
+        float: left;
+        margin-left: 17px;
+      }
+    }
+  }
+}

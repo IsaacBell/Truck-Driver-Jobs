@@ -1,0 +1,60 @@
+<div class="constrain">
+  <div class="left-content blog">
+
+    <div class="blog-header">
+      <a href="/blog" title="Back to Blog" class="back">&#171; back to blog</a>
+      <h1 class="blog-title"><%= @post.title %></h1>
+    </div>
+
+    <div class="blog-wrapper">
+      <div class="top">
+        <img src="<%= @post.image.url(:large) %>" class="news-image" />
+        <div class="text">
+          <% author_name = (@post.post_categories.first && @post.post_categories.first.name != "Hide Author") ? @post.post_categories.first.name : "" %>
+          <% if author_name != "" %>
+            <p class="author">
+              <span>by</span> 
+              <span class="author-name"><%= author_name %></span
+            </p>
+          <% end %>
+          <div class="body">
+            <% 
+              html = Nokogiri::HTML( @post.body ) 
+              text = html.at('body').inner_text
+            %>
+            <%= text.nil? ? "" : text.split[0...25].join(' ') + " ..." %>
+          </div>
+        </div>
+      </div>
+      <div class="blog-body">
+        <p>FULL ARTICLE:</p>
+        <%= raw @post.body %>
+      </div>
+    </div>
+
+    <div class="blog-links">
+      <% next_post = Caboose::Post.where("id > ?", @post.id).first %>
+      <% prev_post = Caboose::Post.where("id < ?", @post.id).last %>
+
+      <% if prev_post %>
+        <a href="/blog/<%= prev_post.id %>" title="<%= prev_post.title %>" class="prev">&#171; previous article</a>
+      <% end %>
+      <% if next_post %>
+        <a href="/blog/<%= next_post.id %>" title="<%= next_post.title %>" class="next">next article &#187;</a>
+      <% end %>
+
+    </div>
+
+  </div>
+  <div class="right-sidebar blog">
+
+      <%= render 'layouts/quick_apply_button' %>
+
+      <%= render 'layouts/sidebar_job_categories' %>
+
+      <%= render 'layouts/sidebar_sponsors' %>
+
+  </div>
+</div>
+
+

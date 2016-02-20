@@ -1,0 +1,151 @@
+.advanced-search-form {
+  background: #fff;
+  padding: 30px;
+  @include small {
+    padding: 30px 2%;
+  }
+  form {
+    width: 96%;
+    margin: 0 auto;
+  }
+  .field {
+    margin-bottom: 10px;
+    clear: both;
+    &::after {
+      content: "."; 
+      visibility: hidden; 
+      display: block; 
+      height: 0; 
+      clear: both;
+    }
+    label {
+      color: #303438;
+      font-size: 15px;
+      float: left;
+      margin-bottom: 2px;
+      display: block;
+      width: 40%;
+      &.required {
+        &::after {
+          content: "*"; 
+          margin-left: 4px;
+        }
+      }
+      @include small {
+        float: none;
+      }
+    }
+    .select-container {
+      width: 50%;
+      float: right;
+      position: relative;
+      @include small {
+        float: left;
+      }
+    }
+    .select-box {
+      width: 100% !important;
+      @include small {
+        width: 250px !important;
+      }
+    }
+    .option {
+      width: 25%;
+      float: right;
+      padding: 2px 0;
+      @include small {
+        width: 40%;
+        float: left;
+      }
+    }
+    .customSelect { 
+      background: #ececec;
+      color: $color-link;
+      display: inline-block;
+      font-size: 15px;
+      -webkit-appearance: none;
+      padding: 6px 6px 2px 6px;
+      border: 1px solid $color-main;
+      font: $input-font;
+      width: 100%;
+
+    //  width: 150px;
+    }
+    .customSelect.customSelectHover {
+    /* Styles for when the select box is hovered */
+    }
+    .customSelect.customSelectOpen {
+    /* Styles for when the select box is open */
+    }
+    .customSelect.customSelectFocus {
+ //     border: 1px solid $color-main;
+    }
+    .customSelectInner {
+      width: 100% !important;
+      color: $color-link;
+      &:after {
+        content: '\25BC';
+        float: right;
+        font-size: 9px;
+        position: relative;
+        top: 3px;
+        right: 1px;
+        color: $color-link;
+      }
+      @include small {
+        width: 235px !important;
+      }
+    }
+    input[type=text] {
+      border: 1px solid $color-main;
+      background: #ececec;
+      width: 50%;
+      float: right;
+      color: $color-link;
+      padding: 6px 6px 2px 6px;
+      font-size: 15px;
+      @include small {
+        float: left;
+        width: 100%;
+      }
+    }
+    input[type=radio], input[type=checkbox] {
+      margin-right: 5px;
+    }
+    .meta {
+      color: #6b6b6b;
+      font-size: 12px;
+    }
+    .input-container {
+      width: 50%;
+      float: right;
+      input {
+        width: 100%;
+        float: none;
+      }
+      @include small {
+        width: 100%;
+        float: left;
+      }
+    }
+    .left {
+      float: left;
+      width: 50%;
+    }
+    .right {
+      width: 50%;
+      float: right;
+    }
+    .opt-text {
+      display: inline;
+    }
+  }
+  .btn {
+    padding: 8px 20px;
+    margin-top: 8px;
+    font-size: 13px;
+    margin-left: 50%;
+    width: auto;
+    display: inline-block;
+  }
+}

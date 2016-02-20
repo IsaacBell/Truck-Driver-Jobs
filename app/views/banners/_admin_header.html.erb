@@ -1,0 +1,40 @@
+<% content_for :caboose_css do %>
+<% end %>
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<% end %>
+
+<%
+Caboose.log(@banner)
+Caboose.log(@banner.company_id)
+Caboose.log(@banner.company)
+@crumbtrail.add({
+  '/admin' => 'Admin',
+  '/admin/companies' => 'Companies',
+  @banner.company.url => @banner.company.name,
+  "#{@banner.company.url}/banners" => 'Banners',
+  @banner.url => 'Edit Banner'
+})
+case request.fullpath
+  when @banner.url                then @crumbtrail.add('#', 'General')
+  when "#{@banner.url}/locations" then @crumbtrail.add('#', 'Locations')    
+  when "#{@banner.url}/delete"    then @crumbtrail.add('#', 'Delete')
+end
+%>
+<%= raw @crumbtrail.print %>
+
+<h1>Edit Banner</h1>
+<ul id='tabs'>
+<%
+tabs = {
+  'General'        => @banner.url,
+  'Locations'      => "#{@banner.url}/locations",  
+  'Delete Banner' => "#{@banner.url}/delete"
+}
+%>
+<% tabs.each do |text, href| %>
+<li<%= raw request.fullpath == href ? " class='selected'" : '' %>><a href='<%= href %>'><%= raw text %></a></li>
+<% end %>
+<li class='back'><input type='button' value='< Back' onclick="window.location='<%= @banner.company.url %>/banners';" /></li>
+</ul>
+<div id='content2'>

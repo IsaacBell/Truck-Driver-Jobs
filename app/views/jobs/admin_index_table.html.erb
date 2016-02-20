@@ -1,0 +1,22 @@
+<table class='data' id='jobs'>
+  <tr><%= raw @pager.sortable_table_headings({
+    'id'             => '&nbsp;',
+    'title'          => 'Title',
+    'job_type'       => 'Job Type',
+    'city'           => 'City',
+    'state'          => 'State',
+    'date_available' => 'Date Available',
+    'premium'        => 'Premium'
+  }) %></tr>
+  <% @jobs.each do |job| %>
+    <tr onclick="window.location='<%= job.url %>';">
+      <td><input type='checkbox' name='job_<%= job.id %>' id='<%= job.id %>' value='1' /></td>
+      <td><%= job.title    %></td>
+      <td><%= job.job_type %></td>
+      <td><%= job.city     %></td>
+      <td><%= job.state    %></td>
+      <td><%= job.date_available ? job.date_available.strftime('%Y-%m-%d') : '' %></td>
+      <td><%= job.premium ? 'Yes' : 'No' %></td>
+    </tr>
+  <% end %>
+</table>

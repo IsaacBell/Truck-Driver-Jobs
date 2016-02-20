@@ -1,0 +1,67 @@
+<div class="constrain">
+  <div class="main-page-content">
+    <div class="left-content">
+
+      <div class="company-row clearfix">
+        <% Listing.search_listings(2).all.each do |listing| %>
+          <%= render :partial => 'layouts/listing', :locals => { :listing => listing } %>
+        <% end %> 
+      </div>
+
+      <% if @jobs.size == 0 %>
+        <p style="margin-top:20px;padding:20px;background:#fff;">Sorry, no jobs were found matching that search.</p>
+
+      <% else %>
+
+        <div class="current-jobs">
+          <h1 class="top">
+            <span class="blue">Current </span>
+            <% if @keyword %><span class="orange"><%= @keyword %> </span><% end %>
+            <% if @location && @location != "" %>
+              <span class="blue">truck driver jobs near <%= @location.titleize %>:</span>
+            <% elsif @pager.params['company'] && @pager.params['company'].strip.length > 0 %>
+              <% c = Company.where(:slug => @pager.params['company']).first %>
+              <span class="blue"><%= c.name %> truck driver jobs:</span>
+            <% else %>
+              <span class="blue">truck driver jobs:</span>
+            <% end %>
+          </h1>
+          <p class="bottom"><%= @pager.options['item_count'] %> <%= @keyword %> job<%= @jobs.count <= 1 ? '' : 's'%> available on truckdriverjobs.com.</p>
+        </div>
+
+        <% @jobs.each do |j| %>
+          
+          <%= render 'layouts/job_post_listing', :job => j %>
+
+        <% end %>
+
+        <%= raw @pager.generate %>
+
+      <% end %>
+
+    </div><!-- end left-content --> 
+
+    <div class="right-sidebar">
+
+      <%= render 'layouts/quick_apply_button' %>
+
+      <div class="company-column">
+        <% Listing.search_listings(3).all.each do |listing| %>
+          <%= render :partial => 'layouts/listing', :locals => { :listing => listing } %>
+        <% end %>
+      </div>
+
+      <%= render 'layouts/sidebar_job_categories' %>
+
+      <div class="ad-container">
+        <p class="section-title">Truck Driving Sponsors</p>
+        <% Banner.search_banners.each do |b| %>
+          <%= render :partial => 'layouts/banner', :locals => { :banner => b } %>
+        <% end %>
+      </div>
+
+    </div><!-- end right-sidebar --> 
+  </div><!-- end main-page-content --> 
+</div><!-- end constrain --> 
+
+

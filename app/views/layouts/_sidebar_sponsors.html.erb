@@ -1,0 +1,6 @@
+<div class="ad-container">
+  <p class="section-title">Truck Driving Sponsors</p>
+  <% Banner.search_banners.each do |b| %>
+    <%= render :partial => 'layouts/banner', :locals => { :banner => b } %>
+  <% end %>
+</div>

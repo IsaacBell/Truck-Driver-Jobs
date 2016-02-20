@@ -1,0 +1,41 @@
+<div class="constrain">
+  <div class="main-page-content">
+    <div class="left-content">
+
+      <div class="current-jobs">
+        <h1 class="top">Truck Driver Jobs in <%= @state %>:</h1>
+        <p class="bottom">Current truck driver jobs in <%= @state %> from the leading 
+          trucking companies hiring on truckdriverjobs.com. Review the companies hiring 
+          in <%= @state %> and apply directly to the company(s) of your choice.
+        </p>
+        <h2 class="state-title"><%= @state %> TRUCKING JOBS</h2>
+      </div>
+
+      <% if @companies && @companies.count > 0 %>
+        <% @companies.each do |c| %>
+          <%= render 'layouts/company_listing', :company => c %>
+        <% end %>                
+      <% else %>
+        <p>No companies are currently hiring in <%= @state %>.</p>
+      <% end %>
+
+    </div><!-- end left-content --> 
+
+    <div class="right-sidebar">
+
+      <%= render 'layouts/quick_apply_button' %>
+
+      <%= render 'layouts/sidebar_job_categories' %>
+
+      <div class="ad-container">
+        <p class="section-title">Truck Driving Sponsors</p>
+        <% Banner.state_banners(States.abbr(@state)).each do |b| %>
+          <%= render :partial => 'layouts/banner', :locals => { :banner => b } %>
+        <% end %>
+      </div>            
+
+    </div><!-- end right-sidebar --> 
+  </div><!-- end main-page-content --> 
+</div><!-- end constrain --> 
+
+

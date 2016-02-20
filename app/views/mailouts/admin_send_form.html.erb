@@ -1,0 +1,75 @@
+<%= render :partial => 'mailouts/admin_header' %>
+
+<div id="message"></div>
+
+<%= render :partial => 'mailouts/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+function send_mailout(mailout_id, confirm) 
+{
+  $('#message').empty().html($('<p/>').addClass('loading').html("Getting mailout details..."));
+  $.ajax({
+    url: '/admin/mailouts/' + mailout_id + '/confirm-send',
+    type: 'post',    
+    success: function(resp) { confirm_send_mailout(mailout_id, resp); }
+  });
+}
+
+function confirm_send_mailout(mailout_id, resp)
+{  
+  resp.app_count  = parseInt(resp.app_count);
+  resp.page_count = parseInt(resp.page_count);  
+  
+  if (resp.app_count == 0)
+  {
+    $('#message').html("<p class='note error'>There are no applicants to send right now.</p>");
+    return;
+  }  
+  var p = $('<p/>').addClass('note warning')
+    .append("Are you sure you want to send the mailout?<br />")
+    .append('' + resp.app_count + " applicant" + (resp.app_count == 1 ? '' : 's') + " will be sent in " + resp.page_count + " request" + (resp.page_count == 1 ? '' : 's') + ".<br /><br />")
+    .append($('<input/>').attr('type','button').val('Yes').click(function() { send_mailout_helper(mailout_id, resp); })).append(' ')
+    .append($('<input/>').attr('type','button').val('No').click(function() { cancel_send(mailout_id); }));
+  $('#message').empty().append(p);
+}
+
+function send_mailout_helper(mailout_id, resp)
+{  
+  resp.app_count  = parseInt(resp.app_count);
+  resp.page_count = parseInt(resp.page_count); 
+  
+  // See if there are apps to send
+  if (resp.app_count == 0)
+  {
+    var error = "It doesn't look like there are applicants to send right now.";
+    $('#message').html("<p class='note error'>" + error + "</p>");
+    return;
+  }
+ 
+  // Otherwise, update the loading message and continue
+  $('#message').empty().html($('<p/>').addClass('loading').html("Sending mailout..."));    
+  $.ajax({
+    url: '/admin/mailouts/' + mailout_id + '/send',
+    type: 'post',    
+    success: function(resp2) {
+      if (resp2.error)   $('#message').empty().html("<p class='note error'>"   + resp2.error   + "</p>");
+      if (resp2.success) $('#message').empty().html("<p class='note success'>" + resp2.success + "</p>");      
+    }
+  });
+}
+
+function cancel_send(mailout_id)
+{
+  var p = $('<p/>').append($('<input/>').attr('type','button').val('Send Mailout').click(function() { send_mailout(mailout_id); }));                
+  $('#message').empty().append(p);
+}
+
+$(document).ready(function() {
+  cancel_send(<%= @mailout.id %>);
+});
+
+</script>
+<% end %>

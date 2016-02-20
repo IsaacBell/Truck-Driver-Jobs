@@ -1,0 +1,31 @@
+<%= render :partial => 'listings/admin_header' %>
+
+<p><div id='listing_<%= @listing.id %>_status'   ></div></p>
+<p><div id='listing_<%= @listing.id %>_homepage' ></div></p>
+<p><div id='listing_<%= @listing.id %>_content'  ></div></p>
+
+<div id="message"></div>
+
+<%= render :partial => 'listings/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<%= javascript_include_tag "jquery-ui/datepicker" %>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'Listing',
+    id: <%= @listing.id %>,
+    update_url: '<%= @listing.url %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      { name: 'status'   , nice_name: 'Status'           , type: 'select'   , value: <%= raw Caboose.json(@listing.status  )         %>, width: 800 , options_url: '/admin/listings/status-options' },      
+      { name: 'content'  , nice_name: 'Content'          , type: 'richtext' , value: <%= raw Caboose.json(@listing.content )         %>, width: 800 , height: 300 },            
+    ]
+  });  
+});
+
+</script>
+<%= raw caboose_tinymce %>
+<% end %>

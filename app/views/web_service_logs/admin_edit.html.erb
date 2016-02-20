@@ -1,0 +1,30 @@
+<h1>Web Service Log Details</h1>
+
+<table class='data'>
+<tr><td>Date processed  </td><td><%= @web_service_log.date_processed.strftime('%F %T') %></td></tr>
+<tr><td>Params          </td><td><pre><%= raw JSON.pretty_generate(JSON.parse(@web_service_log.params.gsub('=>',':')))  %></pre></td></tr>
+<tr><td>Request         </td><td><pre><%= raw JSON.pretty_generate(JSON.parse(@web_service_log.request.gsub('=>',':'))) %></pre></td></tr>
+</table><br />
+<div id='message'></div>
+<p>
+<input type='button' value='<Back' onclick="window.location='/admin/web-service-logs';" />
+<input type='button' value='Add to Applicants' onclick='add_to_applicants(<%= @web_service_log.id %>);' />
+</p>
+
+<%= content_for :caboose_js do %>
+<script type='text/javascript'>
+
+function add_to_applicants(ws_log_id)
+{
+  $.ajax({
+    url: '/admin/web-service-logs/' + ws_log_id + '/add-to-applicants',
+    type: 'post',
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.success) $('#message').html("<p class='note success'>" + resp.success + "</p>");
+    }
+  });
+}
+
+</script>
+<% end %>

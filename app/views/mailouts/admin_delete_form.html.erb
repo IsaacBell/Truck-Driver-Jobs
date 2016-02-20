@@ -1,0 +1,44 @@
+<%= render :partial => 'mailouts/admin_header' %>
+
+<div id="message"></div>
+
+<%= render :partial => 'mailouts/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+function delete_mailout(mailout_id, confirm) 
+{
+  if (!confirm)
+  {
+    var p = $('<p/>').addClass('note warning')
+      .append("Are you sure you want to delete the mailout? ")
+      .append($('<input/>').attr('type','button').val('Yes').click(function() { delete_mailout(mailout_id, true); })).append(' ')
+      .append($('<input/>').attr('type','button').val('No').click(function() { cancel_delete(mailout_id); }));      
+    $('#message').empty().append(p);
+    return;
+  }  
+  $('#message').empty().html($('<p/>').addClass('loading').html("Deleting mailout..."));
+  $.ajax({
+    url: '<%= raw @mailout.company.url %>/mailouts/' + mailout_id,
+    type: 'delete',    
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+function cancel_delete(mailout_id)
+{
+  var p = $('<p/>').append($('<input/>').attr('type','button').val('Delete Mailout').click(function() { delete_mailout(mailout_id); }));                
+  $('#message').empty().append(p);
+}
+
+$(document).ready(function() {
+  cancel_delete(<%= @mailout.id %>);
+});
+
+</script>
+<% end %>

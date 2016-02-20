@@ -1,0 +1,12 @@
+<div class="page-title-text clearfix" id="block_<%= block.id %>">
+  <h1 class="section-title"><%= raw block.child_value('title') %></h1>
+  <div class="content formatted-textarea">
+    <%== block.child_value('content') %>
+  </div>
+</div>
+
+<% if block.child_value('content').nil? || block.child_value('content') == "" %>
+  <style>
+    #block_<%= block.id %> .section-title { margin-bottom: 0; text-decoration: none; }
+  </style>
+<% end %>

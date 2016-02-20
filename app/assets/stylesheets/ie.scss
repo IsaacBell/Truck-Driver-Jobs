@@ -1,0 +1,105 @@
+html.lt-ie9, html.ie9 {
+
+  .grid-row {
+    .unit1of1 {
+      width: 100%; 
+      float: left;
+      text-align: left; 
+    }
+    .unit1of2 {
+      width: 50%;
+      float: left;
+      text-align: left; 
+    }
+    .unit1of3 {
+      width: 33.3333333%; 
+      float: left;
+      text-align: left; 
+    }
+    .unit2of3 {
+      width: 66.6666666%;
+      float: left;
+      text-align: left; 
+    }
+    .unit1of4 {
+      width: 25%;
+      float: left;
+      text-align: left; 
+    }
+    .unit3of4 {
+      width: 75%;
+      float: left;
+      text-align: left; 
+    }
+    .unit1of5 {
+      width: 20%; 
+      float: left;
+      text-align: left; 
+    }
+    .unit2of5 {
+      width: 40%; 
+      float: left;
+      text-align: left; 
+    }
+    .unit4of5 {
+      width: 80%;
+      float: left;
+      text-align: left; 
+    }
+  }
+
+  .conceal {
+   // @include big {
+      display: none !important;
+  //  }
+  }
+
+  .reveal {
+  //  @include big {
+      display: inherit;
+  //  }
+  }
+
+  .reveal-m {
+  //  @include big {
+      display: inherit;
+  //  }
+  }
+  .home-constrain {
+    clear: both;
+  }
+  .footer .copyright {
+    margin-top: 15px;
+  }
+  .home-banner #logo-link {
+    display: block;
+  }
+  #main-search .field {
+    margin-right: 10px;
+  }
+  .header.main {
+    background: #3B3B3B;
+  }
+  .header.main .logo-link #link {
+    position: relative;
+    top: 3px;
+  }
+  #main-search {
+    max-width: 800px;
+    input {
+      background: #3b3b3b;
+    }
+  }
+  .posting-plans-wrapper #which {
+    clear: both;
+  }
+  body a {
+    color: $color-link;
+  }
+  .header.main .buttons .btn {
+    color: #fff;
+  }
+  .content_wrapper {
+    padding-bottom: 30px;
+  }
+}

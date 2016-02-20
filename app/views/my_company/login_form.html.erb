@@ -1,0 +1,45 @@
+<div class="company-grid">
+  <div class="constrain">
+    <div class="top-info clearfix">
+      <h1 class="section-title">Company Login</h1>      
+    </div>
+    <div class="grid-container clearfix">
+
+<form action="/companies/login" method="post" id="login-form">		
+<p><input type="text"     name="username" id="username" placeholder="Email"    /></p>
+<p><input type="password" name="password" id="password" placeholder="Password" /></p>	
+<ul id="login-options">
+	<li><a href="/login/forgot-password?return_url=<%= @return_url %>" class='forgot'>Forgot your password?</a></li>
+</ul>
+<div id="message"></div>
+<p class="buttons">  
+	<input type="submit" class="btn" value="Login" onclick='company_login(); return false;' />
+</p>
+</form>      
+
+    </div><!-- end grid-container --> 
+  </div><!-- end constrain --> 
+</div><!-- end company grid --> 
+
+<% content_for :caboose_js do %>
+<script type="text/javascript">
+var modal = false;
+	
+function company_login() {
+  $('#message').html("<p class='loading'>Logging in...</p>");
+
+	$.ajax({
+		url: '/my-company/login',
+		type: 'post',
+		data: $('#login-form').serialize(),
+		success: function(resp) {
+			if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");			
+			if (resp.redirect) window.location = resp.redirect;
+		},
+		error: function() {	
+			$('#message').html("<p class='note error'>Error logging in.</p>");			
+		}
+	});
+}
+</script>
+<% end %>

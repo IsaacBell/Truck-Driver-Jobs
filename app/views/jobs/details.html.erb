@@ -1,0 +1,159 @@
+<%
+c = @job.company
+cat_links = @job.categories.collect{ |cat| "<a href='/#{cat.slug}' class='cat-link' title='#{cat.name}'>#{cat.name}</a>" }
+%>
+
+<div class="single-job-post">
+  <div class="constrain">    
+    <div class="left-content">
+      <div class="top-info">
+        <h1 class="title"><%= @job.title %></h1>
+        <p class="post-details">
+          Posted in <%= raw cat_links.join(', ') %> <%= @job.date_available ? ("on " + @job.date_available.strftime('%B %e, %Y')) : "" %>
+        </p>
+      </div>
+      <div class="profile-section">
+        <div class="logo-container">
+          <div class="logo-holder">
+            <% if c.logo %>
+              <img src="<%= c.logo.url(:thumb) %>" alt="<%= c.name %>" class="logo" />
+            <% end %>
+          </div>
+        </div>
+        <div class="buttons">
+          <h2 class="company-name"><%= c.name %></h2>
+          <a href="<%= @job.app_url ? @job.app_url : c.app_url %>" class="apply btn" title="Apply"><span class="text">Click to Apply</span> &#187;</a>
+          <a href="/<%= c.slug %>-job-application/<%= @job.slug %>" class="blue btn" title="Quick Apply"><span class="text">Quick Apply</span> &#187;</a>
+        </div>
+      </div>
+
+      <table class="job-meta">
+        <tr><td>Company Phone   </td><td><%= c.recruiter_phone %></td></tr>
+        <tr><td colspan='2'>Company Website<br /><a href="<%= c.website.start_with?('http') ? c.website : ("http://" + c.website) %>" title="<%= c.name %>" target="_blank"><%= c.website.gsub('http://', '').gsub('https://', '') %></a></td></tr>
+        <tr><td>Job Type        </td><td><%= @job.job_type %></td></tr>
+        <tr><td>Location        </td><td><%= @job.city %>, <%= @job.state %></td></tr>
+        <tr><td>Address         </td><td><%= @job.address %></td></tr>
+      </table>
+
+      <div class="section job-description">
+        <h3 class="section-title">Job Description:</h3>
+        <div class="share-btns clearfix">       
+          <!-- Twitter  -->
+          <div id="twitter"><a href="https://twitter.com/share" class="twitter-share-button"
+            data-url="http://www.truckdriverjobs.com/job/<%= @job.slug %>"      
+            data-text="Check out this job I found on TruckDriverJobs.com!"
+            data-count="horizontal"
+            data-lang="en">Tweet</a></div> 
+          <!-- Google Plus --> 
+          <div id="gplus">
+            <g:plusone size="medium" href="http://www.truckdriverjobs.com/job/<%= @job.slug %>" data-annotation="bubble">
+            </g:plusone>
+          </div>
+          <!-- Facebook -->
+          <div id="facebook" class="fb-share-button" 
+            data-href="http://www.truckdriverjobs.com/job/<%= @job.slug %>"
+            data-type="button"></div>
+        </div>
+        <p class="job-details"><%= @job.title %></p>
+        <div class="content formatted-textarea"><%= raw @job.description %></div>
+      </div>
+
+      <div class="job-details">
+        <!--
+        <p><%= @job.city %>, <%= States.name(@job.state) %> <%= @job.title.gsub('Driver', 'Driving').gsub('driver','driving') %></p>
+        <p><%= c.name %> <%= @job.title.gsub('Driver', 'Driving').gsub('driver','driving') %> in <%= @job.city %>, <%= @job.state %></p>
+        -->        
+      </div>
+
+      <div class="section how-to-apply">
+        <h3 class="section-title">How to Apply:</h3>        
+        <a href="<%= @job.app_url ? @job.app_url : c.app_url %>" class="apply btn" title="Apply"><span class="text">Click to Apply</span> &#187;</a>
+        <a href="/<%= c.slug %>-job-application/<%= @job.slug %>" class="blue btn" title="Quick Apply"><span class="text">Quick Apply</span> &#187;</a>        
+      </div>
+
+      <div class="section map-container">
+        <h3 class="section-title">Location on Map:</h3>
+        <div id="map-canvas"></div>
+      </div>
+    </div><!-- end left-content --> 
+
+    <div class="right-sidebar">
+      
+      <% jobs = c.random_available_jobs(10, [@job.id]) %>
+      <% if jobs.count > 0 %>
+        <div class="other-jobs">        
+          <h4 class="section-title">Other Jobs Listed by this Company</h4>                
+          <% jobs.each do |j| %>
+            <div class="job-listing">
+              <h4>
+                <a href="/job/<%= j.slug %>" class="name" title="<%= j.title %> in <%= j.city %>, <%= j.state %>"><%= j.title %> in <%= j.city %>, <%= j.state %></a>
+                <p class="company"><%= j.company.name %></p>
+              </h4>
+              <p class="date"><%= j.date_available.strftime('%B %e, %Y') %></p>
+            </div>
+          <% end %>        
+        </div>      
+      <% end %>
+    </div><!-- end right-sidebar --> 
+
+  </div>
+</div>
+
+
+<!-- Load the map --> 
+<% content_for :js do %>
+<script id='facebook-jssdk' src='//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=333174800182878&version=v2.0'></script>
+<script id='twitter-wjs' src='https://platform.twitter.com/widgets.js'></script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+
+<script type='text/javascript'>
+
+var mapCanvasId, mapCenterLat, mapCenterLng, mapDefaultZoom;
+var map_style = [{"featureType":"landscape","stylers":[{"hue":"#F1FF00"},{"saturation":-27.4},{"lightness":9.4},{"gamma":1}]},{"featureType":"road.highway","stylers":[{"hue":"#fa7306"},{"saturation":-20},{"lightness":36.4},{"gamma":1}]},{"featureType":"road.arterial","stylers":[{"hue":"#00FF4F"},{"saturation":0},{"lightness":0},{"gamma":1}]},{"featureType":"road.local","stylers":[{"hue":"#FFB300"},{"saturation":-38},{"lightness":11.2},{"gamma":1}]},{"featureType":"water","stylers":[{"hue":"#0252c8"},{"saturation":4.2},{"lightness":-63.4},{"gamma":1}]},{"featureType":"poi","stylers":[{"hue":"#9FFF00"},{"saturation":0},{"lightness":0},{"gamma":1}]}];
+      
+mapCanvasId = "map-canvas";
+mapCenterLat = <% if @job.latitude  %><%= @job.latitude  %><% else %>33.210596<% end %>;
+mapCenterLng = <% if @job.longitude %><%= @job.longitude %><% else %>-87.566408<% end %>;
+mapDefaultZoom = 12;
+mapInfoText = ""; 
+mapInfoWindow = "<p style='padding:8px;'></p>";
+
+function initialize() {
+  console.log("initialize"); 
+  var mapOptions = {
+    center: new google.maps.LatLng(mapCenterLat, mapCenterLng),
+    scrollwheel: false,
+    zoom: mapDefaultZoom,
+    styles: map_style
+  };
+  var map = new google.maps.Map(document.getElementById(mapCanvasId), mapOptions);
+
+  var marker = new google.maps.Marker({
+    position: {lat: mapCenterLat, lng: mapCenterLng},
+    map: map
+  });
+
+  if(mapInfoText != "") {
+    var info = new google.maps.InfoWindow({
+      content: mapInfoWindow
+    });
+
+    info.open(map, marker);
+
+    google.maps.event.addListener(marker, 'click', function() {
+      info.open(map,marker);
+    });
+  }
+}
+
+function loadScript() {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = "https://maps.googleapis.com/maps/api/js?v=3key=AIzaSyDENedoxisMHbY-o895uaR7xp_bPFHo-24&sensor=false&callback=initialize";
+  document.body.appendChild(script);
+}
+
+window.onload = loadScript;
+
+</script>
+<% end %>

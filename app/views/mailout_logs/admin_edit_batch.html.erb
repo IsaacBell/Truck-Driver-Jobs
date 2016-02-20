@@ -1,0 +1,43 @@
+
+<h1>Mailout Log Batch Details</h1>
+
+<p><input type='button' value='<Back' onclick="window.location='/admin/logs';" /></p>
+
+<table class='data'>
+<tr><td>Mailout:              </td><td><%= @batch.mailout.company.name %> - <a href='<%= @batch.mailout.url %>'><%= @batch.mailout.name %></a></td></tr>
+<tr><td>Applicant count:      </td><td><%= @batch.applicant_count     %></td></tr>
+<tr><td>Page count:           </td><td><%= @batch.page_count          %></td></tr>
+<tr><td>Count successful:     </td><td><%= @batch.count_successful    %></td></tr>
+<tr><td>Count failed:         </td><td><%= @batch.count_failed        %></td></tr>
+<tr><td>Date started:         </td><td><%= @batch.date_started        %></td></tr>
+<tr><td>Date completed:       </td><td><%= @batch.date_completed      %></td></tr>
+<tr><td>Percentage complete:  </td><td><%= @batch.percentage_complete * 100 %>%</td></tr>
+<tr><td>Status                </td><td><%= @batch.status              %></td></tr>
+</table>
+
+<h2>Logs</h2>
+
+<% if (@batch.logs.count > 0) %>
+  <table class='data'>
+    <tr>      
+      <th>Date sent</th>            
+      <th>Successful</th>
+      <th>Applicant count</th>      
+      <th>Scheduled</th>
+      <th>Sendgrid Status</th>
+    </tr>
+    <% @batch.logs.each do |log| %>
+      <tr onclick="window.location='/admin/logs/<%= @batch.id %>/<%= log.id %>';">
+        <td><%= log.date_sent.strftime('%F %T') %></td>                
+        <td><%= log.success ? 'Yes' : 'No' %></td>
+        <td><%= log.applicant_count %></td>
+        <td><%= log.scheduled ? 'Yes' : 'No' %></td>
+        <td><%= log.sendgrid_status %></td>        
+      </tr>
+    <% end %>
+  </table>  
+<% else %>
+  <p>No logs found.</p>
+<% end %>
+
+<p><input type='button' value='<Back' onclick="window.location='/admin/logs';" /></p>

@@ -1,0 +1,31 @@
+<h1>New Applicant</h1>
+
+<form action='/applicants' method='post' id='new_applicant_form'>
+  <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+  <p><input type='text' name='email' id='email' placeholder='Email' style='width: 500px;'></p>
+  <div id='message'></div>
+  <p>
+  <input type='button' value='< Back' onclick="window.location='/admin/applicants';">
+  <input type='submit' value='Add New Applicant' onclick="add_applicant(); return false;">
+  </p>
+</form>
+
+<% content_for :caboose_js do %>
+<script type='text/javascript'>
+
+function add_applicant() 
+{
+  $('#message').html("<p class='loading'>Adding Applicant...</p>");
+  $.ajax({
+    url: '/admin/applicants',
+    type: 'post',
+    data: $('#new_applicant_form').serialize(),
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+</script>
+<% end %>

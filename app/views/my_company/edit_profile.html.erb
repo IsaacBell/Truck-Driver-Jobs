@@ -1,0 +1,51 @@
+
+<%= render :partial => 'my_company/profile_header' %>
+
+<p><div id='company_<%= @company.id %>_logo'               ></div></p>
+<p><div id='company_<%= @company.id %>_background'         ></div></p>
+<p><div id='company_<%= @company.id %>_name'               ></div></p>
+<p><div id='company_<%= @company.id %>_slug'               ></div></p>
+<p><div id='company_<%= @company.id %>_address'            ></div></p>
+<p><div id='company_<%= @company.id %>_city'               ></div></p>
+<p><div id='company_<%= @company.id %>_state'              ></div></p>
+<p><div id='company_<%= @company.id %>_zip'                ></div></p>
+<p><div id='company_<%= @company.id %>_website'            ></div></p>
+<p><div id='company_<%= @company.id %>_app_url'            ></div></p>
+<p><div id='company_<%= @company.id %>_contact_name'       ></div></p>
+<p><div id='company_<%= @company.id %>_contact_email'      ></div></p>
+<p><div id='company_<%= @company.id %>_contact_phone'      ></div></p>
+<p><div id='company_<%= @company.id %>_recruiter_phone'    ></div></p>
+
+<%= render :partial => 'my_company/profile_footer' %>
+
+<% content_for :caboose_js do %>
+<script type="text/javascript">
+
+var mb = false;
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'Company',
+    id: <%= @company.id %>,
+    update_url: '/my-company',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [            
+      { name: 'logo'               , nice_name: 'Logo'              , type: 'image'    , value: <%= raw Caboose.json(@company.logo       ? @company.logo.url(:tiny)       : '') %>, width: 800, update_url: '<%= @company.url %>/logo' },
+      { name: 'background'         , nice_name: 'Background Image'  , type: 'image'    , value: <%= raw Caboose.json(@company.background ? @company.background.url(:tiny) : '') %>, width: 800, update_url: '<%= @company.url %>/background' },
+      { name: 'name'               , nice_name: 'Name'              , type: 'text'     , value: <%= raw Caboose.json(@company.name              ) %>, width: 800 },
+      { name: 'slug'               , nice_name: 'Slug'              , type: 'text'     , value: <%= raw Caboose.json(@company.slug              ) %>, width: 800 },
+      { name: 'address'            , nice_name: 'Address'           , type: 'text'     , value: <%= raw Caboose.json(@company.address           ) %>, width: 800 },
+      { name: 'city'               , nice_name: 'City'              , type: 'text'     , value: <%= raw Caboose.json(@company.city              ) %>, width: 800 },
+      { name: 'state'              , nice_name: 'State'             , type: 'text'     , value: <%= raw Caboose.json(@company.state             ) %>, width: 800 },
+      { name: 'zip'                , nice_name: 'Zip'               , type: 'text'     , value: <%= raw Caboose.json(@company.zip               ) %>, width: 800 },
+      { name: 'website'            , nice_name: 'Website'           , type: 'text'     , value: <%= raw Caboose.json(@company.website           ) %>, width: 800 },
+      { name: 'app_url'            , nice_name: 'App Link'          , type: 'text'     , value: <%= raw Caboose.json(@company.app_url           ) %>, width: 800 },
+      { name: 'contact_name'       , nice_name: 'Contact name'      , type: 'text'     , value: <%= raw Caboose.json(@company.contact_name      ) %>, width: 800 },
+      { name: 'contact_email'      , nice_name: 'Contact email'     , type: 'text'     , value: <%= raw Caboose.json(@company.contact_email     ) %>, width: 800 },
+      { name: 'contact_phone'      , nice_name: 'Contact phone'     , type: 'text'     , value: <%= raw Caboose.json(@company.contact_phone     ) %>, width: 800 },
+      { name: 'recruiter_phone'    , nice_name: 'Recruiter phone'   , type: 'text'     , value: <%= raw Caboose.json(@company.recruiter_phone   ) %>, width: 800 }      
+    ]
+  });  
+});
+
+</script>
+<% end %>

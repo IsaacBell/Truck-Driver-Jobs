@@ -1,0 +1,49 @@
+<% content_for :caboose_css do %>
+<% end %>
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<% end %>
+
+<%
+@crumbtrail.add({
+  '/admin' => 'Admin',
+  '/admin/companies' => 'Companies',
+  "/admin/companies/#{@company.id}" => @company ? @company.name : 'Unknown Company'  
+})
+case request.fullpath
+  when @company.url                     then @crumbtrail.add('#', 'General'             )
+  when "#{@company.url}/overview"       then @crumbtrail.add('#', 'Overview &amp; More' )  
+  when "#{@company.url}/states"         then @crumbtrail.add('#', 'Hiring States'       )
+  when "#{@company.url}/listings"       then @crumbtrail.add('#', 'Add-on Listings'     )
+  when "#{@company.url}/mailouts"       then @crumbtrail.add('#', 'Mailouts'            )
+  when "#{@company.url}/jobs"           then @crumbtrail.add('#', 'Job Postings'        )
+  when "#{@company.url}/banners"        then @crumbtrail.add('#', 'Banners'             )
+  when "#{@company.url}/delete"         then @crumbtrail.add('#', 'Delete'              )
+end
+%>
+<%= raw @crumbtrail.print %>
+
+<h1>Edit Company</h1>
+<ul id='tabs'>
+<%
+tabs = {
+  'General'             => @company.url,
+  'Overview &amp; More' => "#{@company.url}/overview",  
+  'Hiring States'       => "#{@company.url}/states",
+  'Add-on Listings'     => "#{@company.url}/listings",
+  'Mailouts'            => "#{@company.url}/mailouts",
+  'Job Postings'        => "#{@company.url}/jobs",
+  'Banners'             => "#{@company.url}/banners",
+  'View Profile On Site'=> "/companies/#{@company.slug}",      
+  'Delete Company'      => "#{@company.url}/delete"
+}
+
+%>
+<% tabs.each do |text, href| %>
+<li<%= raw request.fullpath == href ? " class='selected'" : '' %>>
+<a href='<%= href %>' <%= text == 'View Profile On Site' ? raw("target='_blank'") : '' %>><%= raw text %></a>
+</li>
+<% end %>
+<li class='back'><input type='button' value='< Back' onclick="window.location='/admin/companies';" /></li>
+</ul>
+<div id='content2'>

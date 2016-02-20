@@ -1,0 +1,51 @@
+<h1>Upcoming Mailouts</h1>
+
+<p><input type='checkbox' value='1' <% if @only_approved == true %>checked='true'<% end %> 
+  onclick="window.location='/admin/mailouts/upcoming?only_approved='+($(this).prop('checked') ? 1 : 0);" />
+Only Approved Applicants</p>
+
+<% if @mailouts && @mailouts.count > 0 %>
+  <table class='data'>
+    <tr>
+      <th>Mailout  </th>      
+      <th>Email    </th>
+      <th>HTTP     </th>      
+    </tr>
+    <%
+    count_email = 0
+    count_http = 0
+    @mailouts.each do |m|      
+      count = m.applicants(true, @only_approved).count
+      %>
+      <tr>
+        <td><%= m.name %></td>        
+        <%
+        if m.email && m.email.strip.length > 0          
+          count_email = count_email + count
+          %><td align='right'><%= count %></td><td align='right'>0</td><%          
+        else
+          count_http = count_http + count
+          %><td align='right'>0</td><td align='right'><%= count %></td><%
+        end
+        %>
+      </tr>
+      <%
+    end
+    %>
+    <tr>
+      <th align='right'>Total</th>      
+      <th align='right'><%= count_email %></th>
+      <th align='right'><%= count_http  %></th>      
+    </tr>
+  </table>
+<% else %>
+  <p>There are no mailouts right now.</p>
+<% end %> 
+
+<p><input type='button' value='< Back' onclick="window.location='/admin/companies';" ></p>
+
+<% content_for :caboose_css do %>
+<style type='text/css'>
+#content input[type=checkbox] { position: relative; }
+</style>
+<% end %>

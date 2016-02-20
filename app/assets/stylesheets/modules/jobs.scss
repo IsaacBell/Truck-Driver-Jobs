@@ -1,0 +1,95 @@
+.job-post-link {
+  display: block;
+  text-decoration: none;
+  &:hover {
+    .job-post {
+    //  background: none;
+      .title {
+        color: $color-link; 
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.job-post {
+  background: $color-white; 
+  padding: 15px 15px 9px 15px; 
+  margin-bottom: 9px;
+  font-size: 14px;
+  border-bottom: 1px solid #bababa;
+  .left {
+    float: left;
+    @include small {
+      text-align: left;
+    }
+    .title {
+      font-size: 18px;
+      color: #35495d; 
+      margin-bottom: 4px;
+      text-decoration: none;
+      @include small {
+        text-align: left;
+      }
+    }
+  }
+  .right {
+    float: right;
+    text-align: right;
+    font-size: 14px;
+    @include small {
+      clear: left;
+      margin-top: 8px;
+      float: left;
+      text-align: left;
+    }
+    .date {
+      display: block;
+      color: $color-main;
+    }
+    .city {
+      display: block;
+      color: #303438;
+    }
+  }
+  .logo-container {
+    display: table;
+    height: 100px;
+    width: 18%;
+    float: left;
+    clear: both;
+  }
+  .logo-holder {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center; 
+    img {
+      max-height: 95px;
+      width: 95px;
+    }
+  }
+  .job-content {
+    float: right;
+    width: 80%;
+    .company {
+      font-size: 14px;
+      color: #303438;
+      text-decoration: underline; 
+      @include small {
+        text-align: left;
+      }
+    }
+    .description {
+      font-size: 14px;
+      padding-top: 7px;
+      clear: both;
+      color: $color-dark;
+      @include small {
+        text-align: left;
+      }
+      p {
+        text-decoration: none;
+      }
+    }
+  }
+}

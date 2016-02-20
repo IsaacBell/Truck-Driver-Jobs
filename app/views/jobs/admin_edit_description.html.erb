@@ -1,0 +1,31 @@
+<%= render :partial => 'jobs/admin_header' %>
+
+<p>Description<p>
+<p><div id='jobposting_<%= @job.id %>_description'          ></div></p>
+<p>Mini Description<p>
+<p><div id='jobposting_<%= @job.id %>_mini_description'     ></div></p>
+
+<div id="message"></div>
+
+<%= render :partial => 'jobs/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'JobPosting',
+    id: <%= @job.id %>,
+    update_url: '<%= @job.url %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      { name: 'description'          , nice_name: 'Description'          , type: 'richtext' , value: <%= raw Caboose.json(@job.description           ) %>, width: 800, height: 400 },
+      { name: 'mini_description'     , nice_name: 'Mini description'     , type: 'richtext' , value: <%= raw Caboose.json(@job.mini_description      ) %>, width: 800, height: 400 }
+    ]
+  });  
+});
+
+</script>
+<%= raw caboose_tinymce %>
+<% end %>

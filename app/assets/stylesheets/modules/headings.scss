@@ -1,0 +1,37 @@
+h1,h2,h3,h4,h5,h6 {
+  font: $heading-font;
+  font-weight: $heading-weight;
+  line-height: 1em; 
+  &.bold {
+    font-weight: bold; 
+  }
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.6em;
+}
+h2 {
+  font-size: 2.2em;
+  margin-bottom: 0.5em;
+}
+h3 {
+  font-size: 1.9em;
+  margin-bottom: 0.4em;
+}
+h4 {
+  font-size: 1.6em;
+  margin-bottom: 0.3em;
+}
+h5 {
+  font-size: 1.3em;
+  margin-bottom: 0.2em;
+}
+h6 {
+  font-size: 1em;
+  margin-bottom: 0.1em;
+}
+
+span.bold {
+  font-weight: bold; 
+}

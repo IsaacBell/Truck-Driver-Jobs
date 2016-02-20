@@ -1,0 +1,23 @@
+<% if !defined? block %>
+  <div class="ad-container">
+    <p class="section-title">Truck Driving Sponsors</p>
+<% else %>
+  <div class="ad-container" id="block_<%= block.id %>">
+    <p class="section-title"><%= block.child_value('section_title') %></p>
+<% end %>
+    <div class="advertisement">
+      <a href="#" target="_blank" title="CompanyName"><img src="//d2ju3eumzwbxuv.cloudfront.net/assets/ads/ad1.png"></a>
+    </div>
+    <div class="advertisement">
+      <a href="#" target="_blank" title="CompanyName"><img src="//d2ju3eumzwbxuv.cloudfront.net/assets/ads/ad2.png"></a>
+    </div>
+    <div class="advertisement">
+      <a href="#" target="_blank" title="CompanyName"><img src="//d2ju3eumzwbxuv.cloudfront.net/assets/ads/ad3.png"></a>
+    </div>
+    <div class="advertisement">
+      <a href="#" target="_blank" title="CompanyName"><img src="//d2ju3eumzwbxuv.cloudfront.net/assets/ads/ad4.png"></a>
+    </div>
+    <div class="advertisement">
+      <a href="#" target="_blank" title="CompanyName"><img src="//d2ju3eumzwbxuv.cloudfront.net/assets/ads/ad5.png"></a>
+    </div>
+  </div>

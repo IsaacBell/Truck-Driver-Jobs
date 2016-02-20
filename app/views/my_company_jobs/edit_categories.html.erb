@@ -1,0 +1,24 @@
+<%= render :partial => 'my_company_jobs/header' %>
+
+<p><div id='jobposting_<%= @job.id %>_cat_id'></div></p>
+
+<%= render :partial => 'my_company_jobs/footer' %>
+
+<% content_for :caboose_js do %>
+<script type="text/javascript">
+
+var mb = false;
+$(document).ready(function() {
+  mb = new ModelBinder({
+    name: 'JobPosting',
+    id: <%= @job.id %>,
+    update_url: '/my-company/jobs/<%= @job.id %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [      
+      { name: 'cat_id'               , nice_name: 'Categories'           , type: 'checkbox-multiple' , value: <%= raw Caboose.json(@job.categories.collect{ |cat| cat.id }) %>, width: 400, fixed_placeholder: false, options_url: '/categories/options' }      
+    ]
+  });  
+});
+
+</script>
+<% end %>

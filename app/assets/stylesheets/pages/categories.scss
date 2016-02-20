@@ -1,0 +1,66 @@
+.categories {
+  .top-info {
+    padding: 30px 12px 25px 12px;
+    .section-title {
+      font-size: 16px;
+      color: #35495d;
+      margin-bottom: 14px;
+      font-weight: bold;
+      margin-right: 12px;
+      text-decoration: underline;
+    }
+    .instructions {
+      font-size: 14px;
+      color: $color-dark;
+      a {
+        color: $color-link;
+        text-decoration: underline;
+        &:hover {
+          color: $color-main;
+        }
+      }
+    }
+  }
+  .job-categories-list {
+    background: #fff;
+    padding: 30px 25px;
+    .section {
+      .title {
+        margin-top: 28px;
+        color: #35495d;
+        font-size: 18px;
+        border-bottom: 1px solid $color-main;
+        margin-bottom: 20px;
+        padding-bottom: 8px;
+      }
+      ul {
+        li {
+          h3 {
+            margin-bottom: 0;
+            font-size: 15px;
+            line-height: 18px;
+          }
+          .cat-link {
+            color: $color-link;
+            font-size: 15px;
+            &:hover {
+              color: $color-main;
+            }
+          }
+          .description {
+            font-size: 14px;
+            color: $color-dark;
+            padding-left: 32px;
+            margin-top: 7px;
+            margin-bottom: 11px;
+          }
+        }
+      }
+      &:first-of-type {
+        .title {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}

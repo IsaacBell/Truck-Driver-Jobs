@@ -1,0 +1,73 @@
+<h1>Test Filter</h1>
+
+<% if @mailout.applicants && @mailout.applicants.count > 0 %>
+  <p><input type='button' value='Close' onclick="modal.close();" ></p>
+  <div style='width: 780px; height: 400px; overflow: scroll;'>
+  <table class='data'>
+    <tr>
+      <th>First name               </th>
+      <th>Last name                </th>
+      <th>Email                    </th>
+      <th>Phone                    </th>
+      <th>Address                  </th>
+      <th>Address2                 </th>   
+      <th>City                     </th>
+      <th>State                    </th>
+      <th>Zip                      </th>
+      <th>Years experience         </th>
+      <th>Driving school graduate  </th>
+      <th>Currently employed       </th>
+      <th>License type             </th>
+      <th>Driver type              </th>
+      <th>Distance                 </th>
+      <th>Haul type                </th>
+      <th>Moving violations        </th>
+      <th>Preventable accidents    </th>
+      <th>Dui                      </th>
+    </tr>
+  <% @mailout.applicants(true).each do |a| %>
+    <tr>
+      <td><%= a.first_name               %></td>
+      <td><%= a.last_name                %></td>
+      <td><%= a.email                    %></td>
+      <td><%= a.phone                    %></td>
+      <td><%= a.address                  %></td>
+      <td><%= a.address2                 %></td>   
+      <td><%= a.city                     %></td>
+      <td><%= a.state                    %></td>
+      <td><%= a.zip                      %></td>
+      <td><%= a.years_experience_str     %></td>
+      <td><%= a.driving_school_graduate  %></td>
+      <td><%= a.currently_employed       %></td>
+      <td><%= a.license_type.join(', ')  %></td>
+      <td><%= a.driver_type.join(', ')   %></td>
+      <td><%= a.distance.join(', ')      %></td>
+      <td><%= a.haul_type.join(', ')     %></td>
+      <td><%= a.moving_violations        %></td>
+      <td><%= a.preventable_accidents    %></td>
+      <td><%= a.dui                      %></td>
+    </tr>
+  <% end %>
+  </table>
+  </div>  
+<% else %>
+  <p>No applicants were returned by this filter.</p>
+<% end %>
+<p><input type='button' value='Close' onclick="modal.close();" ></p>
+
+<% content_for :caboose_js do %>
+<style type='text/css'>
+
+</style>
+<% end %>
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+var modal = false;
+$(window).load(function() {
+  modal = new CabooseModal(800);  
+});
+
+</script>
+<% end %>

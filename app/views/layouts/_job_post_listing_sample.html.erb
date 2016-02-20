@@ -1,0 +1,53 @@
+<% if !defined? job %>
+  <a href="#" class="job-post-link" title="Local Team Flatbed Truck Driver Job in Albany, GA">
+    <div class="job-post clearfix">
+      <div class="left">
+        <h3 class="title">Local Team Flatbed Truck Driver Job in Albany, GA</h3>
+      </div>
+      <div class="right">
+        <span class="date">September 28, 2014</span>
+        <span class="city">Albany, GA</span>
+      </div>
+      <div class="logo-container">
+        <div class="logo-holder">
+          <img src="//d2ju3eumzwbxuv.cloudfront.net/assets/company_logos/melton_logo.png" alt="Company Name" class="logo">
+        </div>
+      </div>
+      <div class="job-content">
+        <h4 class="company">Melton Truck Lines</h4>
+        <div class="description">
+          <p>We are committed to ensuring our drivers are rewarded for their hard work through exceptional base pay, tarp pay, benefits, as well as bonus and recognition programs. We have a history of setting the standard...</p>
+        </div>
+      </div>
+    </div>
+  </a>
+<% else %>
+  <a href="/job/<%= job.slug %>" class="job-post-link" title="<%= job.title %>">
+    <div class="job-post clearfix">
+      <div class="left">
+        <h3 class="title"><%= job.title %> in <%= job.city %>, <%= job.state %></h3>
+      </div>
+      <div class="right">
+        <span class="date"><%= job.date_available ? job.date_available.strftime('%B %e, %Y') : DateTime.now.strftime('%B %e, %Y') %></span>
+        <span class="city"><%= job.location %></span>
+      </div>
+      <div class="logo-container">
+        <div class="logo-holder">
+          <% if job.company.logo %>
+            <img src="<%= job.company.logo.url(:thumb) %>" alt="<%= job.company.name %>" class="logo">
+          <% end %>
+        </div>
+      </div>
+      <div class="job-content">
+        <h4 class="company"><%= job.company.name %></h4>
+        <div class="description">
+          <% if job.mini_description && job.mini_description.strip.length > 0 %>     
+            <%= raw Caboose.teaser_text(job.mini_description, 300) %>
+          <% else %>
+            <%= raw Caboose.teaser_text(job.description, 300) %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </a>
+<% end %>

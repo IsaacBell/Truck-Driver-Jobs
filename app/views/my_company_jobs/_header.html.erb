@@ -1,0 +1,102 @@
+<% content_for :caboose_css do %>
+<%= stylesheet_link_tag "jquery-ui" %>
+<%= stylesheet_link_tag "caboose/jquery.timepicker" %>
+<%= stylesheet_link_tag "caboose/message_boxes" %>
+<style type='text/css'>
+
+#thecontent .note { color: #000; }
+#thecontent p { margin-bottom: 10px; }
+#thecontent .mb_container .mb_placeholder span { font-size: 16px; line-height: 16px; margin-right: 4px; }
+#thecontent .mb_container .mb_fake { border: 0; padding: 12px 0 0 10px; }
+#thecontent table.dates { margin-bottom: 10px; }
+#thecontent table.dates td { padding-right: 10px; padding-bottom: 10px; }
+
+table.data {
+  border-collapse: collapse;
+}
+  
+table.data th {
+  background: #333;
+  border: #333 1px solid;  
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+table.data th a {
+  color: #fff;
+  display: block;
+  text-decoration: none;
+  border: none;
+  padding: 8px 12px;
+}
+
+table.data th a:hover {
+  color: #000;
+  background: #fff;
+}
+
+table.data td {
+  background: #fff;
+  border: #333 1px solid;
+  margin: 0;
+  padding: 8px 12px;
+}
+
+table.data td.edit_button {
+  
+}
+
+table.data td.edit_button_over {
+  background: #f9ad81 !important;
+}
+
+table.data tr:nth-child(even) td {
+  background-color: #efefef;
+}
+
+
+table.data tr:nth-child(odd) td {
+  background-color: transparent;
+}
+
+table.data tr:hover td,
+table.data tr:nth-child(even):hover td,
+table.data tr:nth-child(odd):hover td {
+  background: #fff799;
+  cursor: pointer; 
+  cursor: hand;
+}
+
+</style>
+<% end %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<%= javascript_include_tag "jquery-ui/datepicker" %>
+<%= javascript_include_tag "caboose/jquery.timepicker" %>
+
+<% end %>
+
+<div class="company-grid">
+  <div class="constrain">
+    <div class="top-info clearfix">
+      <h1 class="section-title">Edit Job Posting</h1>      
+    </div>
+    <div class="grid-container clearfix" id='thecontent'>
+
+<%
+tabs = {
+  'General'                 => "/my-company/jobs/#{@job.id}",
+  'Date Available/Expires'  => "/my-company/jobs/#{@job.id}/dates",  
+  'Categories'              => "/my-company/jobs/#{@job.id}/categories",
+  'Description'             => "/my-company/jobs/#{@job.id}/description",
+  'Mini Description'        => "/my-company/jobs/#{@job.id}/mini-description"        
+}
+
+%>
+<p>
+<% tabs.each do |text, href| %>
+<input type="button" class="btn<%= raw request.fullpath == href ? ' big' : '' %>" value="<%= text %>" onclick="window.location='<%= href %>';" />
+<% end %>
+</p>

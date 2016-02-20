@@ -1,0 +1,19 @@
+<div class="header main">
+  <div class="constrain">
+    <div href="/" class="logo-link">
+      <a href="/" title="TruckDriverJobs.com"><img src="//d2ju3eumzwbxuv.cloudfront.net/assets/small_logo.png" alt="Truck Driver Jobs" /></a>                    
+      <a href="/" id="link" class="reveal" title="TruckDriverJobs.com">TruckDriverJobs.com</a>      
+    </div>
+    <div class="right">
+      <a href="/companies-hiring" id="companies-link" title="Companies Hiring"><span id="companies" class="reveal">Companies Hiring</span></a>
+      <span id="jobs" class="reveal">Truck driver jobs by:</span>
+      <div class="buttons">
+        <% p1 = Caboose::Page.where(:id => 20).first %><% if p1 %><a href="/<%= p1.uri %>" class="clear btn" title="Jobs by State">State</a><% end %>
+        <% p2 = Caboose::Page.where(:id => 54).first %><% if p2 %><a href="/<%= p2.uri %>" class="clear btn" title="Jobs by City" >City</a><% end %>
+        <% p3 = Caboose::Page.where(:id => 11).first %><% if p3 %><a href="/<%= p3.uri %>" class="clear btn" title="Jobs by Type" >Type</a><% end %>
+        <% p4 = Caboose::Page.where(:id => 30).first %><% if p4 %><a href="/<%= p4.uri %>" id="apply" class="reveal" title="Apply Now">Apply Now &#187;</a><% end %>
+      </div>
+    </div>
+    <a class="conceal" href="#" id="show-menu" title="Menu"><img src="//d2ju3eumzwbxuv.cloudfront.net/assets/icons/menu.png" width="40"></a>
+  </div>
+</div>

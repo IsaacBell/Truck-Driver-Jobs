@@ -1,0 +1,187 @@
+<%= render :partial => 'mailouts/admin_header' %>
+
+<p>
+  <a href='<%= @mailout.url %>/blocks/new'  id='new_filter_block'>New filter block</a> |
+  <a href='<%= @mailout.url %>/filter-test' id='test_filter'>Test Filter</a> 
+</p>
+<p><div id='mailout_<%= @mailout.id %>_filter_block_join_type'></div></p>
+<div id='filter_blocks'></div>
+
+<%= render :partial => 'mailouts/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<style type='text/css'>
+
+div.filter_block {
+  border: #ccc 1px solid;  
+  padding: 10px 20px;
+  margin-bottom: 20px;
+}
+
+div.filter_block_and { background: #efefef; }
+div.filter_block_or  { background: #eeeeee; }
+
+div.filter_block .delete_handle {
+  display: block;
+  margin: 0;
+  padding: 0;
+  float: right;
+}
+
+</style>
+<% end %>
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+function reload_filter_blocks()
+{
+  $.ajax({
+    url: '<%= @mailout.url %>/blocks',
+    type: 'get',
+    success: function(blocks) {
+      reload_filter_blocks_helper(blocks);    
+    }
+  });
+}
+
+function reload_filter_blocks_helper(blocks)
+{  
+  if (blocks && blocks.length > 0)
+  {
+    $('#filter_blocks').empty();
+    $(blocks).each(function(i,fb) {  
+      var div = $('<div/>')
+        .attr('id', 'filter_block_' + fb.id)
+        .addClass('filter_block filter_block_' + fb.join_type);
+      div.append($('<a/>').addClass('delete_handle').append($('<span/>').addClass('ui-icon ui-icon-close')).click(function(e) { 
+        e.preventDefault();
+        delete_filter_block(fb.id); 
+      }))
+      div.append($('<h2/>').html(fb.join_type == 'and' ? "All criteria in this block must match." : "Any one criteria in this block must match."));
+      if (fb.filter_criteria && fb.filter_criteria.length > 0)
+      {   
+        var tbl = $('<table/>').addClass('data');
+        var tbody = $('<tbody/>');        
+        $(fb.filter_criteria).each(function(j,fc) {      
+          var tr = $('<tr/>').click(function(e) { caboose_modal_url('<%= @mailout.url %>/blocks/' + fb.id + '/criteria/' + fc.id); });
+          tr.append($('<td/>').addClass('criteria_col'     ).html(fc.col_name))
+            .append($('<td/>').addClass('criteria_operator').html(fc.operator))
+            .append($('<td/>').addClass('criteria_value'   ).html(pretty_value(fc.col, fc.value)));            
+          tbody.append(tr);                  
+        })
+        tbl.append(tbody);
+        div.append(tbl).append('<br />');
+      }
+      else
+      {
+        div.append($('<p/>').html("This block doesn't have any criteria yet."));
+      }        
+      div.append($('<a/>').attr('href','#').html('New criteria').click(function(e) { 
+        e.preventDefault(); 
+        caboose_modal_url('<%= @mailout.url %>/blocks/' + fb.id + '/criteria/new'); 
+      }));
+      $('#filter_blocks').append(div);    
+    });
+  }
+  else
+  {
+    $('#filter_blocks').empty().append($('<p/>').html("This filter doesn't have any blocks yet."));
+  }            
+}
+
+function pretty_value(col, val)
+{
+  if (col == 'driving_school_graduate' ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'currently_employed'      ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'license_type_a'          ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'license_type_b'          ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'license_type_c'          ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'driver_type_company'     ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'driver_type_owner'       ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'driver_type_team'        ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'driver_type_student'     ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'driver_type_lease'       ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'distance_local'          ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'distance_dedicated'      ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'distance_regional'       ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'distance_otr'            ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'haul_type_dry_van'       ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'haul_type_flatbed'       ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'haul_type_reefer'        ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'haul_type_tanker'        ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'haul_type_hazmat'        ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'haul_type_auto_hauler'   ) return val == 1 ? 'Yes' : 'No';
+  if (col == 'haul_type_specialized'   ) return val == 1 ? 'Yes' : 'No';
+  return val;      
+}
+
+function delete_filter_block(filter_block_id, confirm) 
+{
+  if (!confirm)
+  {
+    var p = $('<p/>').addClass('note warning')
+      .append("Are you sure you want to delete the filter block? ")
+      .append($('<input/>').attr('type','button').val('Yes').click(function() { delete_filter_block(filter_block_id, true); })).append(' ')
+      .append($('<input/>').attr('type','button').val('No').click(function() { reload_filter_blocks(); }));      
+    $('#filter_block_' + filter_block_id).empty().append(p);
+    return;
+  }  
+  $('#filter_block_' + filter_block_id).empty().html($('<p/>').addClass('loading').html("Deleting filter..."));
+  $.ajax({
+    url: '<%= @mailout.url %>/blocks/' + filter_block_id,
+    type: 'delete',    
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.reload) reload_filter_blocks();
+    }
+  });
+}
+
+function delete_mailout(mailout_id, confirm) 
+{
+  if (!confirm)
+  {
+    var p = $('<p/>').addClass('note warning')
+      .append("Are you sure you want to delete the mailout? ")
+      .append($('<input/>').attr('type','button').val('Yes').click(function() { delete_mailout(mailout_id, true); })).append(' ')
+      .append($('<input/>').attr('type','button').val('No').click(function() { $('#message').empty(); }));      
+    $('#message').empty().append(p);
+    return;
+  }  
+  $('#message').empty().html($('<p/>').addClass('loading').html("Deleting mailout..."));
+  $.ajax({
+    url: '/admin/mailouts/' + mailout_id,
+    type: 'delete',    
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'Mailout',
+    id: <%= @mailout.id %>,
+    update_url: '<%= @mailout.url %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [    
+      {
+        name: 'filter_block_join_type', 
+        nice_name: 'Filter block join type',
+        type: 'select', 
+        value: <%= raw Caboose.json(@mailout.filter_block_join_type) %>,
+        text: <%= raw Caboose.json(@mailout.filter_block_join_type == 'and' ? 'All blocks must match' : 'Any one block may match') %>,
+        width: 800,
+        options_url: '/admin/mailouts/filter-block-join-type-options' 
+      }                                          
+    ]
+  });
+  caboose_modal('new_filter_block');
+  caboose_modal('test_filter');
+  reload_filter_blocks();  
+});
+
+</script>
+<% end %>

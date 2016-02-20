@@ -1,0 +1,83 @@
+<div class="constrain">
+  <div class="main-page-content">
+    <div class="left-content">
+
+<h1>Quick Apply</h1>
+<form action='/job/<%= @job.slug %>/apply' method='post' id='apply_form'>
+  <div class='row'><div class='input'><input type='text' name='first_name'       placeholder='First Name'                  />*</div></div>
+  <div class='row'><div class='input'><input type='text' name='last_name'        placeholder='Last Name'                   />*</div></div>
+  <div class='row'><div class='input'><input type='text' name='email'            placeholder='Email'                       />*</div></div>
+  <div class='row'><div class='input'><input type='text' name='phone'            placeholder='Phone Number'                />*</div></div>
+  <div class='row'><div class='input'><input type='text' name='city'             placeholder='City'                        />*</div></div>
+  <div class='row'><div class='input'><input type='text' name='state'            placeholder='State'                       />*</div></div>
+  <div class='row'><div class='input'><input type='text' name='zip'              placeholder='Zip'                         />*</div></div>
+  <div class='row'><div class='input'><input type='text' name='years_experience' placeholder='Years of Driving Experience' />*</div></div>
+  <div class='row'><div class='title'>Driving School Graduate? *    </div><div class='input'>
+    <div class='input_with_label'><input type='radio' name='driving_school_graduate' id='driving_school_graduate_yes' value='Yes'  /> <label for='driving_school_graduate_yes' >Yes </label></div>
+    <div class='input_with_label'><input type='radio' name='driving_school_graduate' id='driving_school_graduate_no'  value='No'   /> <label for='driving_school_graduate_no'  >No  </label></div>
+    <div class='spacer'></div>
+  </div></div>
+  <div class='row'><div class='title'>Currently employed as a driver? *</div><div class='input'>
+    <div class='input_with_label'><input type='radio' name='currently_employed' id='currently_employed_yes' value='Yes' /> <label for='currently_employed_yes' >Yes </label></div>
+    <div class='input_with_label'><input type='radio' name='currently_employed' id='currently_employed_no'  value='No'  /> <label for='currently_employed_no'  >No  </label></div>
+    <div class='spacer'></div>
+  </div></div>
+  <div class='row'><div class='title'>License Type *</div><div class='input'>
+    <div class='input_with_label'><input type='checkbox' name='license_type_a' id='license_type_a' value='1' /> <label for='license_type_a'>Class A</label></div>
+    <div class='input_with_label'><input type='checkbox' name='license_type_b' id='license_type_b' value='1' /> <label for='license_type_b'>Class B</label></div>
+    <div class='spacer'></div>
+  </div></div>
+  <div class='row driver_type_row'><div class='title'>Driver Type *</div><div class='input'>
+    <div class='input_with_label'><input type='checkbox' name='driver_type_company' id='driver_type_company' value='1' /> <label for='driver_type_company' >Company Driver </label></div> 
+    <div class='input_with_label'><input type='checkbox' name='driver_type_owner'   id='driver_type_owner'   value='1' /> <label for='driver_type_owner'   >Owner Operator </label></div>
+    <div class='input_with_label'><input type='checkbox' name='driver_type_team'    id='driver_type_team'    value='1' /> <label for='driver_type_team'    >Team Driver    </label></div>
+    <div class='input_with_label'><input type='checkbox' name='driver_type_student' id='driver_type_student' value='1' /> <label for='driver_type_student' >Student Driver </label></div>
+    <div class='input_with_label'><input type='checkbox' name='driver_type_lease'   id='driver_type_lease'   value='1' /> <label for='driver_type_lease'   >Lease Purchase </label></div>
+    <div class='spacer'></div>
+  </div></div>                                                     
+  <div class='row distance_row'><div class='title'>Distance * <span class='small'>(Local jobs not available in all areas, must select 2 distances you are willing to drive to apply)</span></div><div class='input'>
+    <div class='input_with_label'><input type='checkbox' name='distance_local'     id='distance_local'     value='1' /> <label for='distance_local'     >Local               </label></div>
+    <div class='input_with_label'><input type='checkbox' name='distance_dedicated' id='distance_dedicated' value='1' /> <label for='distance_dedicated' >Dedicated           </label></div>
+    <div class='input_with_label'><input type='checkbox' name='distance_regional'  id='distance_regional'  value='1' /> <label for='distance_regional'  >Regional            </label></div>
+    <div class='input_with_label'><input type='checkbox' name='distance_otr'       id='distance_otr'       value='1' /> <label for='distance_otr'       >OTR (Over-the-Road) </label></div>
+    <div class='spacer'></div>
+  </div></div>
+  <div class='row haul_type_row'><div class='title'>Preferred Haul Type</div><div class='input'>        
+    <div class='input_with_label'><input type='checkbox' name='haul_type_dry_van'     id='haul_type_dry_van'     value='1' /> <label for='haul_type_dry_van'     >Dry Van     </label></div>
+    <div class='input_with_label'><input type='checkbox' name='haul_type_flatbed'     id='haul_type_flatbed'     value='1' /> <label for='haul_type_flatbed'     >Flatbed     </label></div>
+    <div class='input_with_label'><input type='checkbox' name='haul_type_reefer'      id='haul_type_reefer'      value='1' /> <label for='haul_type_reefer'      >Reefer      </label></div>
+    <div class='input_with_label'><input type='checkbox' name='haul_type_tanker'      id='haul_type_tanker'      value='1' /> <label for='haul_type_tanker'      >Tanker      </label></div>
+    <div class='input_with_label'><input type='checkbox' name='haul_type_hazmat'      id='haul_type_hazmat'      value='1' /> <label for='haul_type_hazmat'      >Hazmat      </label></div>
+    <div class='input_with_label'><input type='checkbox' name='haul_type_auto_hauler' id='haul_type_auto_hauler' value='1' /> <label for='haul_type_auto_hauler' >Auto Hauler </label></div>
+    <div class='input_with_label'><input type='checkbox' name='haul_type_specialized' id='haul_type_specialized' value='1' /> <label for='haul_type_specialized' >Specialized </label></div>
+    <div class='spacer'></div>
+  </div></div>
+  <div class='row'><div class='title'>Number of moving violations in the past 3 years *</div><div class='input'>
+    <div class='input_with_label'><input type='radio' name='moving_violations' id='moving_violations_0' value='0'  /> <label for='moving_violations_0'>0  </label></div>
+    <div class='input_with_label'><input type='radio' name='moving_violations' id='moving_violations_1' value='1'  /> <label for='moving_violations_1'>1  </label></div>
+    <div class='input_with_label'><input type='radio' name='moving_violations' id='moving_violations_2' value='2'  /> <label for='moving_violations_2'>2  </label></div>
+    <div class='input_with_label'><input type='radio' name='moving_violations' id='moving_violations_3' value='3+' /> <label for='moving_violations_3'>3+ </label></div>
+    <div class='spacer'></div>
+  </div></div>
+  <div class='row'><div class='title'>Number of preventable accidents in the past 3 years *</div><div class='input'>
+    <div class='input_with_label'><input type='radio' name='preventable_accidents' id='preventable_accidents_0' value='0'  /> <label for='preventable_accidents_0'>0  </label></div>
+    <div class='input_with_label'><input type='radio' name='preventable_accidents' id='preventable_accidents_1' value='1'  /> <label for='preventable_accidents_1'>1  </label></div>
+    <div class='input_with_label'><input type='radio' name='preventable_accidents' id='preventable_accidents_2' value='2'  /> <label for='preventable_accidents_2'>2  </label></div>
+    <div class='input_with_label'><input type='radio' name='preventable_accidents' id='preventable_accidents_3' value='3+' /> <label for='preventable_accidents_3'>3+ </label></div>
+    <div class='spacer'></div>
+  </div></div>
+  <div class='row'><div class='title'>DUI in the past 5 years? *</div><div class='input'>
+    <div class='input_with_label'><input type='radio' name='dui' id='dui_yes' value='Yes' /> <label for='dui_yes' >Yes </label></div>
+    <div class='input_with_label'><input type='radio' name='dui' id='dui_no'  value='No'  /> <label for='dui_no'  >No  </label></div>
+    <div class='spacer'></div>
+  </div></div>
+  <p><input type='submit' value='Apply' /></p>
+</form>
+
+    </div>
+  </div>
+</div>
+
+<% content_for :caboose_css do %>
+<%= stylesheet_link_tag 'pages/apply_form' %>
+<% end %>

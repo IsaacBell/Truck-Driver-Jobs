@@ -1,0 +1,47 @@
+<%     
+cr = @change_request
+%>
+<h1>Edit Job Posting Change Request</h1>
+
+<table class='data'>
+  <tr><td>Date requested:   </td><td><%= cr.date_requested.in_time_zone(@logged_in_user.timezone).strftime('%m/%d/%Y %I:%M %P') %></td></tr> 
+  <tr><td>User:             </td><td><%= cr.user.first_name %> <%= cr.user.last_name %></td></tr>        
+  <tr><td>Job:              </td><td><a href='/admin/companies/<%= cr.job_posting.company_id %>/jobs/<%= cr.job_posting_id %>'><%= cr.company_name %> - <%= cr.job_posting.title %></a></td></tr> 
+  <tr><td>Field:            </td><td><%= cr.field             %></td></tr>          
+  <tr><td>Old value:        </td><td><%= DateTime.parse(cr.parsed_old_value).strftime('%m/%d/%Y %I:%M %P') %></td></tr>    
+  <tr><td>New value:        </td><td><%= DateTime.parse(cr.parsed_new_value).strftime('%m/%d/%Y %I:%M %P') %></td></tr>            
+  <tr><td>Client notes:     </td><td><%= cr.client_notes      %></td></tr>  
+  <tr><td>Reviewer notes:   </td><td><div id='jobpostingchangerequest_<%= cr.id %>_reviewer_notes'></div></td></tr>
+  <tr><td>Date reviewed:    </td><td><%= cr.date_reviewed ? cr.date_reviewed.in_time_zone(@logged_in_user.timezone).strftime('%m/%d/%Y %I:%M %P') : 'Not yet reviewed' %></td></tr>
+  <tr><td>Status:           </td><td><div id='jobpostingchangerequest_<%= cr.id %>_status'></div></td></tr>
+</table>
+
+<p>All dates and times are in <%= @logged_in_user.timezone %> timezone.</p>
+
+<div id="message"></div>
+
+<p>
+  <input type='button' value='< Back' onclick="window.location='/admin/job-change-requests';" />
+</p>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<%= javascript_include_tag "jquery-ui/datepicker" %>
+<script type="text/javascript">
+
+var mb = false;
+$(document).ready(function() {
+  mb = new ModelBinder({
+    name: 'JobPostingChangeRequest',
+    id: <%= cr.id %>,
+    base_url: '/admin/job-change-requests',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      { name: 'reviewer_notes', nice_name: 'Reviewer notes', type: 'textarea', value: <%= raw Caboose.json(cr.reviewer_notes) %>, width: 400, height: 100, fixed_placeholder: false },
+      { name: 'status'        , nice_name: 'Status', type: 'select', value: <%= raw Caboose.json(cr.status) %>, width: 400 , options_url: '/admin/job-change-requests/status-options', fixed_placeholder: false }                  
+    ]
+  });  
+});
+
+</script>
+<% end %>

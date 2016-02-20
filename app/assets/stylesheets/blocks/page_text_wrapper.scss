@@ -1,0 +1,25 @@
+.page-text-wrapper {
+  background: #fff;
+  padding: 30px 30px 15px 30px; 
+  margin: 20px 0;
+  font-size: 15px;
+  p {
+    margin-bottom: 15px;
+    line-height: 1.3;
+  }
+  .big {
+    font-size: 1.5em;
+  }
+  .blue {
+    color: #0063f7; 
+    &.big {
+      margin-right: 7px;
+    }
+  }
+  .black {
+    color: #000;
+    &.big {
+      margin-right: 7px;
+    }
+  }
+}

@@ -1,0 +1,110 @@
+<%
+m = @mailout
+fb = @filter_block
+filter_url = "/admin/companies/#{m.company_id}/mailouts/#{m.id}/filters/#{fb.filter_id}"
+filter_block_url = "#{filter_url}/blocks/#{fb.id}"
+%>
+
+<h1>New Criteria</h1>
+
+<form action='<%= filter_block_url %>/criteria' method='post' id='new_criteria_form'>
+  <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>' />
+  <input type='hidden' name='filter_block_id' value='<%= @filter_block.id %>' />  
+<table>
+  <tr>
+    <td>
+      <select name='col' id='col' style='width: 400px;' onchange="show_proper_value_input($(this).val());">
+        <option value=''>-- Column --</option>
+        <% FilterCriteria.col_names.each do |col, title| %>
+          <option value='<%= col %>'><%= title %></option>
+        <% end %>        
+      </select>
+    </td><td>
+      <select name='operator' style='width: 60px;'>      
+        <option value='='   >=</option>
+        <option value='<'   >&lt;</option>
+        <option value='<='  >&lt;=</option>
+        <option value='>'   >&gt;</option>
+        <option value='>='  >&gt;=</option>
+        <option value='<>'  >&lt;&gt;</option>
+        <option value='like'>like</option>
+      </select>
+    </td><td>
+      <input type='text' name='value' id='value' placeholder='Value' style='width: 300px;'>
+      <select name='yesno_value' id='yesno_value' placeholder='Value' style='width: 300px; display: none;'>
+        <option value='1'>Yes</option>
+        <option value='0'>No</option>
+      </select>
+    </td>
+  </tr>
+</table>
+<p>
+<input type='submit' value='Cancel' onclick="modal.close();">
+<input type='submit' value='Add Criteria' onclick="add_criteria(); return false;">
+</p>
+
+</form>
+
+<% content_for :caboose_js do %>
+<script type='text/javascript'>
+
+function add_criteria() 
+{  
+  modal.autosize($('<p/>').addClass('loading').html("Adding criteria..."));
+  $.ajax({
+    url: '<%= filter_block_url %>/criteria',
+    type: 'post',
+    data: $('#new_criteria_form').serialize(),    
+    success: function(resp) {
+      if (resp.error) modal.autosize(resp.error);
+      if (resp.reload) 
+      {
+        parent.reload_filter_blocks();
+        modal.close();
+      }
+    }
+  });
+}
+
+function show_proper_value_input(col)
+{
+  if (col == 'driving_school_graduate' ||  
+      col == 'currently_employed'      ||  
+      col == 'license_type_a'          ||  
+      col == 'license_type_b'          ||  
+      col == 'license_type_c'          ||  
+      col == 'driver_type_company'     ||  
+      col == 'driver_type_owner'       ||  
+      col == 'driver_type_team'        ||  
+      col == 'driver_type_student'     ||  
+      col == 'driver_type_lease'       ||  
+      col == 'distance_local'          ||  
+      col == 'distance_dedicated'      ||  
+      col == 'distance_regional'       ||  
+      col == 'distance_otr'            ||
+      col == 'haul_type_dry_van'       || 
+      col == 'haul_type_flatbed'       ||
+      col == 'haul_type_reefer'        ||
+      col == 'haul_type_tanker'        ||
+      col == 'haul_type_hazmat'        ||
+      col == 'haul_type_auto_hauler'   ||
+      col == 'haul_type_specialized'   ||
+      col == 'dui'                     )
+  {
+    $('#value').hide();
+    $('#yesno_value').show();
+  }
+  else
+  {
+    $('#value').show();
+    $('#yesno_value').hide();
+  }
+}
+
+var modal = false;
+$(window).load(function() {
+  modal = new CabooseModal(800);
+});
+
+</script>
+<% end %>

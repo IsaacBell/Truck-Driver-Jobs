@@ -1,0 +1,211 @@
+<%
+m = @mailout
+fb = @filter_block
+fc = @filter_criteria
+
+filter_url = "/admin/companies/#{m.company_id}/mailouts/#{m.id}/filters/#{fb.filter_id}"
+filter_block_url = "#{filter_url}/blocks/#{fb.id}"
+filter_criteria_url = "#{filter_url}/blocks/#{fb.id}"
+
+%>
+<h1>Edit Criteria</h1>
+
+<table>
+  <tr>
+    <td><div id="filtercriteria_<%= fc.id %>_col"                           ></div></td>
+    <td><div id="filtercriteria_<%= fc.id %>_operator"                      ></div></td>
+    <td><div id='filtercriteria_<%= fc.id %>_value'                         ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_driving_school_graduate' ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_currently_employed'      ></div><%            
+      %><div id='filtercriteria_<%= fc.id %>_value_license_type_a'          ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_license_type_b'          ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_license_type_c'          ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_driver_type_company'     ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_driver_type_owner'       ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_driver_type_team'        ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_driver_type_student'     ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_driver_type_lease'       ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_distance_local'          ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_distance_dedicated'      ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_distance_regional'       ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_distance_otr'            ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_haul_type_dry_van'       ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_haul_type_flatbed'       ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_haul_type_reefer'        ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_haul_type_tanker'        ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_haul_type_hazmat'        ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_haul_type_auto_hauler'   ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_haul_type_specialized'   ></div><%
+      %><div id='filtercriteria_<%= fc.id %>_value_dui'                     ></div></td>
+  </tr>
+</table>
+
+<div id="message"></div>
+<p>
+<input type='button' value='Close' onclick="modal.close();" >
+<input type='button' value='Delete Criteria' onclick="delete_criteria(<%= fc.id %>);" >
+</p>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+function delete_criteria(criteria_id, confirm) 
+{
+  if (!confirm)
+  {
+    var p = $('<p/>').addClass('note warning')
+      .append("Are you sure you want to delete the criteria? ")
+      .append($('<input/>').attr('type','button').val('Yes').click(function() { delete_criteria(criteria_id, true); })).append(' ')
+      .append($('<input/>').attr('type','button').val('No').click(function() { $('#message').empty(); modal.autosize(); }));      
+    modal.autosize(p);
+    return;
+  }  
+  modal.autosize($('<p/>').addClass('loading').html("Deleting criteria..."));
+  $.ajax({
+    url: '<%= filter_block_url %>/criteria/' + criteria_id,
+    type: 'delete',    
+    success: function(resp) {
+      if (resp.error) modal.autosize("<p class='note error'>" + resp.error + "</p>");
+      if (resp.reload) 
+      {
+        parent.reload_filter_blocks();
+        modal.close();
+      }
+    }
+  });
+}
+
+var m = false
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'FilterCriteria',
+    id: <%= fc.id %>,
+    update_url: '<%= filter_criteria_url %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      {
+        name: 'col',
+        nice_name: 'Column',
+        type: 'select',
+        value: <%= raw Caboose.json(fc.col) %> ,
+        fixed_placeholder: false, width: 400,
+        text: <%= raw Caboose.json(FilterCriteria.col_names[fc.col]) %> ,
+        options_url: '/admin/filter-criteria/col-options',
+        after_update: function() {
+          parent.reload_filter_blocks();
+          hide_show_value(this.value);
+        }
+      },
+      { name: 'operator'                      , nice_name: 'Operator' , type: 'select' , value: <%= raw Caboose.json(fc.operator) %>, fixed_placeholder: false, width:  60, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.operator) %>, options_url: '/filter-criteria/operator-options' },
+      { name: 'value'                         , nice_name: 'Value'    , type: 'text'   , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); } },
+      { name: 'value_driving_school_graduate' , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=driving_school_graduate' },
+      { name: 'value_currently_employed'      , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=currently_employed'      },            
+      { name: 'value_license_type_a'          , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=license_type_a'          },
+      { name: 'value_license_type_b'          , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=license_type_b'          },
+      { name: 'value_license_type_c'          , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=license_type_c'          },
+      { name: 'value_driver_type_company'     , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=driver_type_company'     },
+      { name: 'value_driver_type_owner'       , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=driver_type_owner'       },
+      { name: 'value_driver_type_team'        , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=driver_type_team'        },
+      { name: 'value_driver_type_student'     , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=driver_type_student'     },
+      { name: 'value_driver_type_lease'       , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=driver_type_lease'       },
+      { name: 'value_distance_local'          , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=distance_local'          },
+      { name: 'value_distance_dedicated'      , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=distance_dedicated'      },
+      { name: 'value_distance_regional'       , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=distance_regional'       },
+      { name: 'value_distance_otr'            , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=distance_otr'            },
+      { name: 'value_haul_type_dry_van'       , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=haul_type_dry_van'       },
+      { name: 'value_haul_type_flatbed'       , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=haul_type_flatbed'       },
+      { name: 'value_haul_type_reefer'        , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=haul_type_reefer'        },
+      { name: 'value_haul_type_tanker'        , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=haul_type_tanker'        },
+      { name: 'value_haul_type_hazmat'        , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=haul_type_hazmat'        },
+      { name: 'value_haul_type_auto_hauler'   , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=haul_type_auto_hauler'   },
+      { name: 'value_haul_type_specialized'   , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=haul_type_specialized'   },
+      { name: 'value_dui'                     , nice_name: 'Value'    , type: 'select' , value: <%= raw Caboose.json(fc.value   ) %>, fixed_placeholder: false, width: 200, after_update: function() { parent.reload_filter_blocks(); }, text: <%= raw Caboose.json(fc.value) %>, options: [{ value: 1, text: 'Yes' }, { value: 0, text: 'No' }], options_url: '/admin/filter-criteria/value-options?col=dui'                     }      
+    ]
+  });
+  hide_show_value(<%= raw Caboose.json(fc.col) %>);
+});
+
+function hide_show_value(col)
+{  
+  arr = [
+    'value',
+    'value_driving_school_graduate' ,
+    'value_currently_employed'      ,
+    'value_license_type_a'          ,
+    'value_license_type_b'          ,
+    'value_license_type_c'          ,
+    'value_driver_type_company'     ,
+    'value_driver_type_owner'       ,
+    'value_driver_type_team'        ,
+    'value_driver_type_student'     ,
+    'value_driver_type_lease'       ,
+    'value_distance_local'          ,
+    'value_distance_dedicated'      ,
+    'value_distance_regional'       ,
+    'value_distance_otr'            ,
+    'value_haul_type_dry_van'       ,
+    'value_haul_type_flatbed'       ,
+    'value_haul_type_reefer'        ,
+    'value_haul_type_tanker'        ,
+    'value_haul_type_hazmat'        ,
+    'value_haul_type_auto_hauler'   ,
+    'value_haul_type_specialized'   ,
+    'value_dui'
+  ]
+  $('#filtercriteria_<%= fc.id %>_value_container').hide();
+  col_in_array = false;
+  $(arr).each(function(i, name) {
+    if ('value_' + col == name) col_in_array = true
+    $('#filtercriteria_<%= fc.id %>_' + name + '_container').hide(); 
+  });
+  if (col_in_array)
+  {    
+    $(m.controls).each(function(i, ctrl) {      
+      if (ctrl.attribute.name == 'value_' + col)
+      {
+        arr = initial_value_text(col);
+        m.controls[i].attribute.value = arr[0];
+        m.controls[i].attribute.text = arr[1];
+        $('#filtercriteria_<%= fc.id %>_value_' + col).val(arr[1]);
+      }
+    });    
+    $('#filtercriteria_<%= fc.id %>_value_' + col + '_container').show();
+  }
+  else
+    $('#filtercriteria_<%= fc.id %>_value_container').show();
+}         
+
+function initial_value_text(col)
+{
+  if (col == 'driving_school_graduate' ) return [1, 'Yes']; 
+  if (col == 'currently_employed'      ) return [1, 'Yes'];   
+  if (col == 'license_type_a'          ) return [1, 'Yes'];     
+  if (col == 'license_type_b'          ) return [1, 'Yes'];
+  if (col == 'license_type_c'          ) return [1, 'Yes'];
+  if (col == 'driver_type_company'     ) return [1, 'Yes'];
+  if (col == 'driver_type_owner'       ) return [1, 'Yes'];
+  if (col == 'driver_type_team'        ) return [1, 'Yes'];
+  if (col == 'driver_type_student'     ) return [1, 'Yes'];
+  if (col == 'driver_type_lease'       ) return [1, 'Yes'];
+  if (col == 'distance_local'          ) return [1, 'Yes'];
+  if (col == 'distance_dedicated'      ) return [1, 'Yes'];
+  if (col == 'distance_regional'       ) return [1, 'Yes'];
+  if (col == 'distance_otr'            ) return [1, 'Yes'];
+  if (col == 'haul_type_dry_van'       ) return [1, 'Yes'];
+  if (col == 'haul_type_flatbed'       ) return [1, 'Yes'];
+  if (col == 'haul_type_reefer'        ) return [1, 'Yes'];
+  if (col == 'haul_type_tanker'        ) return [1, 'Yes'];
+  if (col == 'haul_type_hazmat'        ) return [1, 'Yes'];
+  if (col == 'haul_type_auto_hauler'   ) return [1, 'Yes'];
+  if (col == 'haul_type_specialized'   ) return [1, 'Yes'];
+  if (col == 'dui'                     ) return [1, 'Yes']; 
+}
+    
+var modal = false;
+$(window).ready(function() {
+  modal = new CabooseModal(800);
+});
+
+</script>
+<% end %>

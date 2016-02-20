@@ -1,0 +1,46 @@
+<div class="constrain">
+  <div class="left-content blog">
+
+    <div class="page-title-text clearfix">
+      <h1 class="section-title">TruckDriverJobs.com Blog</h1>
+      <div class="content">
+        <h2 style="font-style:italic;">Blog for Truck Drivers, Trucking Job News, Industry Updates &amp; More</h2>
+      </div>
+    </div>
+
+    <div class="news-wrapper">
+      <% @posts.each do |p| %>
+        <a class="post-wrapper" href="/blog/<%= p.id %>" title="<%= p.title %>">
+          <h3 class="news-title"><%= raw p.title %></h3>
+          <div class="news-post clearfix">
+            <img src="<%= p.image.url(:large) %>" class="news-image" />
+            <div class="text">
+              <% author_name = (p.post_categories.first && p.post_categories.first.name != "Hide Author") ? p.post_categories.first.name : "" %>
+              <% if author_name != "" %>
+                <p class="author">by <span class="author-name"><%= author_name %></span</p>
+              <% end %>
+              <div class="body">
+                <% 
+                  html = Nokogiri::HTML( p.body ) 
+                  text = html.at('body').inner_text
+                %>
+                <%= text.nil? ? "" : text.split[0...25].join(' ') + " ..." %>
+              </div>
+            </div>
+          </div>
+        </a>
+      <% end %>
+      <%= raw @pager.generate %>
+    </div>
+
+  </div>
+  <div class="right-sidebar blog">
+
+      <%= render 'layouts/quick_apply_button' %>
+      <%= render 'layouts/sidebar_job_categories' %>
+      <%= render 'layouts/sidebar_sponsors' %>
+
+  </div>
+</div>
+
+

@@ -1,0 +1,24 @@
+.industry-news-feed {
+  background: #fff;
+  border-top: 1px solid #ba0d16;
+  padding: 30px 35px 30px 30px;
+  .feed-entry {
+    padding: 10px 0;
+    .feed-title {
+      font-size: 15px;
+    }
+    .content {
+      font-size: 14px;
+    }
+    .date {
+      color: #303438;
+      font-size: 14px;
+      text-align: right;
+    }
+  }
+  .read-more {
+    margin-top: 24px;
+    text-align: right;
+    font-size: 14px;
+  }
+}

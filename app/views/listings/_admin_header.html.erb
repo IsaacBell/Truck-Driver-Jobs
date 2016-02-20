@@ -1,0 +1,37 @@
+<% content_for :caboose_css do %>
+<% end %>
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<% end %>
+
+<%
+@crumbtrail.add({
+  '/admin' => 'Admin',
+  '/admin/companies' => 'Companies',
+  @listing.company.url => @listing.company.name,
+  "#{@listing.company.url}/listings" => 'Listings',
+  @listing.url => 'Edit Listing'
+})
+case request.fullpath
+  when @listing.url                then @crumbtrail.add('#', 'General')
+  when "#{@listing.url}/locations" then @crumbtrail.add('#', 'Locations')    
+  when "#{@listing.url}/delete"    then @crumbtrail.add('#', 'Delete')
+end
+%>
+<%= raw @crumbtrail.print %>
+
+<h1>Edit Add-on Listing</h1>
+<ul id='tabs'>
+<%
+tabs = {
+  'General'        => @listing.url,
+  'Locations'      => "#{@listing.url}/locations",  
+  'Delete Listing' => "#{@listing.url}/delete"
+}
+%>
+<% tabs.each do |text, href| %>
+<li<%= raw request.fullpath == href ? " class='selected'" : '' %>><a href='<%= href %>'><%= raw text %></a></li>
+<% end %>
+<li class='back'><input type='button' value='< Back' onclick="window.location='<%= @listing.company.url %>/listings';" /></li>
+</ul>
+<div id='content2'>

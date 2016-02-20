@@ -1,0 +1,69 @@
+<h1>Render Function Examples</h1>
+<p><input type='button' value='Close' onclick="modal.close();" /></p>
+
+<p>The render function for a mailout returns the string value that is sent to the mailout recipient.</p>
+
+<p>The function is given one variable called <code>applicants</code> that is the array of applicants 
+returned by the mailout's filter.</p>
+
+<h2>Sending XML</h2>
+<div class='code'><pre>
+&lt;applicants&gt;
+  &lt;% applicants.each do |a| %&gt;
+    &lt;first_name&gt;&lt;%=              a.first_name              %&gt;&lt;/first_name&gt;
+    &lt;last_name&gt;&lt;%=               a.last_name               %&gt;&lt;/last_name&gt;
+    &lt;email&gt;&lt;%=                   a.email                   %&gt;&lt;/email&gt;
+    &lt;phone&gt;&lt;%=                   a.phone                   %&gt;&lt;/phone&gt;
+    &lt;address&gt;&lt;%=                 a.address                 %&gt;&lt;/address&gt;
+    &lt;address2&gt;&lt;%=                a.address2                %&gt;&lt;/address2&gt;
+    &lt;city&gt;&lt;%=                    a.city                    %&gt;&lt;/city&gt;
+    &lt;state&gt;&lt;%=                   a.state                   %&gt;&lt;/state&gt;
+    &lt;zip&gt;&lt;%=                     a.zip                     %&gt;&lt;/zip&gt;
+    &lt;years_experience&gt;&lt;%=        a.years_experience        %&gt;&lt;/years_experience&gt;
+    &lt;driving_school_graduate&gt;&lt;%= a.driving_school_graduate %&gt;&lt;/driving_school_graduate&gt;
+    &lt;currently_employed&gt;&lt;%=      a.currently_employed      %&gt;&lt;/currently_employed&gt;
+    &lt;license_type_a&gt;&lt;%=          a.license_type_a          %&gt;&lt;/license_type_a&gt;
+    &lt;license_type_b&gt;&lt;%=          a.license_type_b          %&gt;&lt;/license_type_b&gt;
+    &lt;driver_type_company&gt;&lt;%=     a.driver_type_company     %&gt;&lt;/driver_type_company&gt;
+    &lt;driver_type_owner&gt;&lt;%=       a.driver_type_owner       %&gt;&lt;/driver_type_owner&gt;
+    &lt;driver_type_team&gt;&lt;%=        a.driver_type_team        %&gt;&lt;/driver_type_team&gt;
+    &lt;driver_type_student&gt;&lt;%=     a.driver_type_student     %&gt;&lt;/driver_type_student&gt;
+    &lt;driver_type_lease&gt;&lt;%=       a.driver_type_lease       %&gt;&lt;/driver_type_lease&gt;
+    &lt;distance_local&gt;&lt;%=          a.distance_local          %&gt;&lt;/distance_local&gt;
+    &lt;distance_dedicated&gt;&lt;%=      a.distance_dedicated      %&gt;&lt;/distance_dedicated&gt;
+    &lt;distance_regional&gt;&lt;%=       a.distance_regional       %&gt;&lt;/distance_regional&gt;
+    &lt;distance_otr&gt;&lt;%=            a.distance_otr            %&gt;&lt;/distance_otr&gt;
+    &lt;preferred_haul_type&gt;&lt;%=     a.preferred_haul_type     %&gt;&lt;/preferred_haul_type&gt;
+    &lt;moving_violations&gt;&lt;%=       a.moving_violations       %&gt;&lt;/moving_violations&gt;
+    &lt;preventable_accidents&gt;&lt;%=   a.preventable_accidents   %&gt;&lt;/preventable_accidents&gt;
+    &lt;dui&gt;&lt;%=                     a.dui                     %&gt;&lt;/dui&gt;    
+  &lt;% end %&gt;
+&lt;/applicants&gt; 
+</div></pre>
+
+<h2>Sending JSON</h2>
+<div class='code'><pre>
+&lt;%= applicants.to_json %&gt;
+</div></pre>
+
+<p><input type='button' value='Close' onclick="modal.close();" /></p>
+
+<%= content_for :caboose_css do %>
+<style type='text/css'>
+div.code { 
+  background: #222;
+  border: #333 1px solid;
+  padding: 10px 20px;
+}
+</style>
+<% end %>
+<%= content_for :caboose_js do %>
+<script type='text/javascript'>
+
+var modal = false;
+$(document).ready(function() {
+  modal = new CabooseModal(800);
+});
+
+</script>
+<% end %>

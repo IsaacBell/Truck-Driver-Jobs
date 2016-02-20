@@ -1,0 +1,79 @@
+// Size
+$max-width:           960px;
+
+$break-small:         550px;
+$break-medium:        800px;
+$break-large:         1100px;
+
+
+// Color
+
+$color-main: #fa7306; 
+$color-alt:  #ef7224; 
+$color-highlight: #e54d42;
+$color-blue: #35495d; 
+$color-link: #024bb8;
+
+$color-black: #000;
+$color-white: #fff;
+$color-light: #ccc; 
+$color-dark: #686868; 
+
+// Body
+$body-bg-color:       #f2f2f2;
+$body-font-color:     $color-dark;
+
+
+// Typography
+$font-size:           16px;
+$font-main:           normal $font-size "Myriad", sans-serif; // normal $font-size "Avenir", sans-serif;
+$font-alt:            normal $font-size "Myriad", sans-serif; //normal $font-size "Aqua", sans-serif;
+$font-aqua:           normal $font-size "Aqua", sans-serif;
+$font-bebas:          normal $font-size "Bebas", sans-serif;
+
+// Headings
+$heading-font:        $font-main;
+$heading-weight:      normal; // bold || normal || 300
+
+
+// Header
+$header-height:       auto;
+$header-bg-color:     rgba(0,0,0,0.5);
+$header-nav-lined:    "false"; // "true" || "false"
+$header-text-color:   #fff;
+
+// Sidebar 
+$sidebar-bg-color:    #767676;
+$sidebar-font-color:  #fff;
+$sidebar-icon-color:  #fff; 
+
+// Footer
+$footer-height:       auto;
+$footer-bg-color:     #fff;
+$footer-text-color:   #fff;
+
+
+// Buttons
+$btn-border-radius:   0;
+$btn-border-width:    4px;    // 0 for no border
+$btn-border-color:    #964300;
+$btn-bg-color:        $color-main;
+$btn-font-color:      #fff;
+$btn-font:            $font-main;
+$btn-font-size:       16px;
+$btn-font-weight:     bold; // bold || normal
+$btn-font-case:       uppercase;   // none || uppercase || lowercase || capitalize
+$btn-border-side:     "bottom"; // "all" || "bottom" || "horizontal" || "vertical" || "left" || "right" || "top" || "none"
+
+
+// Inputs
+$input-border-radius:   0;
+$input-bg-color:        #fff;
+$input-border-color:    #fff;
+$input-border-width:    1px; // 0 for no border
+$input-font:            $font-main;
+$input-font-color:      $color-dark;
+$input-font-size:       1em;
+
+
+

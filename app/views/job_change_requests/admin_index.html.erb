@@ -1,0 +1,104 @@
+
+<h1>Edit Job Posting Change Request</h1>
+
+<form action='/admin/job-change-requests' method='get' id='search_form'>
+  <table>
+    <tr>
+      <td>Date requested: </td>
+      <td>
+        <input type='text' name='date_requested_gte' id='date_requested_gte' value='' style='width: 100px;' /> - 
+        <input type='text' name='date_requested_lte' id='date_requested_lte' value='' style='width: 100px;' />
+      </td>
+    </tr>                                    
+    <tr>
+      <td>Field: </td>
+      <td>
+        <select name='field' id='field'>
+          <option value=''>-- Any field --</option>
+          <option value='date_available'>Date available</option>
+          <option value='date_expires'>Date expires</option>
+        </select>
+      </td>
+    </tr>
+    <tr><td>Client notes:   </td><td><input type='text' name='client_notes_like'   id='client_notes_like'   value='' style='width: 100px;' /><td></tr>
+    <tr><td>Reviewer notes: </td><td><input type='text' name='reviewer_notes_like' id='reviewer_notes_like' value='' style='width: 100px;' /><td></tr> 
+    <tr>
+      <td>Date reviewed:  </td>
+      <td>
+        <input type='text' name='date_reviewed_gte'   id='date_reviewed_gte'   value='' style='width: 100px;' /> - 
+        <input type='text' name='date_reviewed_lte'   id='date_reviewed_lte'   value='' style='width: 100px;' />
+      </td>
+    </tr>
+    <tr><td>Status:         </td><td>
+      <select name='status' id='status'>
+        <option value=''>-- Any status --</option>
+        <option value='<%= JobPostingChangeRequest::STATUS_PENDING  %>'>Pending</option>
+        <option value='<%= JobPostingChangeRequest::STATUS_APPROVED %>'>Approved</option>
+        <option value='<%= JobPostingChangeRequest::STATUS_DENIED   %>'>Denied</option>
+      </select>
+    </td></tr>
+  </table>
+  <p><input type='submit' value='Search' /></p>
+</form>
+
+<div id='change_requests'></div>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<%= javascript_include_tag "caboose/date_format" %>
+<script type="text/javascript">
+
+var table = false;
+$(document).ready(function() {  
+  <%
+  utc_offset = Time.now.utc.in_time_zone(@logged_in_user.timezone).utc_offset/3600
+  %>
+
+  table = new IndexTable({    
+    form_authenticity_token: '<%= form_authenticity_token %>',
+    container: 'change_requests',
+    base_url: '/admin/job-change-requests',
+    allow_add: false,
+    allow_bulk_edit: true,
+    allow_bulk_delete: true,
+    allow_bulk_import: false,
+    allow_duplicate: false,  
+    allow_advanced_edit: true,
+    no_models_text: 'There are no change requests that meet your search.',
+    fields: [
+      { name: 'date_requested'    , sort: 'date_requested' , show: true   , editable: false, bulk_edit: false , nice_name: 'Date Requested'  , type: 'text'     , value: function(cr) { return new Date(cr.date_requested).format('%m/%d/%Y %I:%M %P', <%= utc_offset %>);  }, width: 200 }, 
+      { name: 'user_id'           , sort: 'user_id'        , show: true   , editable: false, bulk_edit: false , nice_name: 'User'            , type: 'text'     , value: function(cr) { return cr.user_name; }, width: 200 },
+      { name: 'job_posting_id'    , sort: 'job_posting_id' , show: true   , editable: false, bulk_edit: false , nice_name: 'Job'             , type: 'text'     , value: function(cr) { return cr.company_name + '<br/>' + cr.job_title;  }, width: 200 },
+      { name: 'field'             , sort: 'field'          , show: true   , editable: false, bulk_edit: false , nice_name: 'Field'           , type: 'text'     , value: function(cr) { return cr.field;           }, width: 200 },
+      { name: 'old_value'         , sort: 'old_value'      , show: true   , editable: false, bulk_edit: false , nice_name: 'Old Value'       , type: 'text'     , value: function(cr) { return (cr.old_value ? new Date(cr.parsed_old_value).format('%m/%d/%Y %I:%M %P', <%= utc_offset %>) : ''); }, width: 200 },
+      { name: 'new_value'         , sort: 'new_value'      , show: true   , editable: false, bulk_edit: false , nice_name: 'New Value'       , type: 'text'     , value: function(cr) { return (cr.new_value ? new Date(cr.parsed_new_value).format('%m/%d/%Y %I:%M %P', <%= utc_offset %>) : ''); }, width: 200 },
+      { name: 'client_notes'      , sort: 'client_notes'   , show: true   , editable: false, bulk_edit: false , nice_name: 'Client Notes'    , type: 'text'     , value: function(cr) { return cr.client_notes;    }, width: 200, height: 100 },
+      { name: 'reviewer_notes'    , sort: 'reviewer_notes' , show: true   , editable: true , bulk_edit: true  , nice_name: 'Reviewer Notes'  , type: 'textarea' , value: function(cr) { return cr.reviewer_notes;  }, width: 200, height: 100 },
+      { name: 'date_reviewed'     , sort: 'date_reviewed'  , show: true   , editable: false, bulk_edit: false , nice_name: 'Date Reviewed'   , type: 'text'     , value: function(cr) { return (cr.date_reviewed ? new Date(cr.date_reviewed).format('%m/%d/%Y %I:%M %P', <%= utc_offset %>) : ''); }, width: 200 },
+      { name: 'status'            , sort: 'status'         , show: true   , editable: true , bulk_edit: true  , nice_name: 'Status'          , type: 'select'   , value: function(cr) { return cr.status;          }, width: 200 , options_url: '/admin/job-change-requests/status-options' }          
+    ],
+    search_form_fields: [    
+      'date_requested_gte'   ,
+      'date_requested_lte'   ,
+      'field'                ,
+      'client_notes_like'    ,
+      'reviewer_notes_like'  ,
+      'date_reviewed_gte'    ,
+      'date_reviewed_lte'    ,
+      'status'               
+    ]        
+  });
+});
+
+</script>
+<%= raw caboose_tinymce %>
+<% end %>
+
+<% content_for :caboose_css do %>
+<style type='text/css'>
+div.label_with_checkbox { display: inline-block; margin: 0; padding: 0; position: relative; }
+div.label_with_checkbox input { position: absolute; top: 0; left: 4px; }
+div.label_with_checkbox label { display: block; margin: 0 10px 10px 0; padding: 6px 8px 4px 30px; background: #efefef; border: #ccc 1px solid; }
+div.pager { margin-bottom: 10px; }
+</style>
+<% end %>

@@ -1,0 +1,21 @@
+<%
+  feed = Feedjira::Feed.fetch_and_parse "http://www.truckingnewsonline.com/feed"
+%>
+<div id="block_block.id">
+  <div class="industry-news-feed">
+    <% feed.entries.each do |entry| %>
+      <div class="feed-entry">
+        <a href="<%= entry.url %>" target="_blank" title="<%= entry.title %>" class="feed-title">
+          <%= entry.title %>
+        </a>
+        <p class="content">
+            <%= raw(strip_tags(entry.summary.nil? ? "" : entry.summary.split[0...50].join(' ')) + " [...]") %>
+        </p>
+        <p class="date"><%= DateTime.parse(entry.published.to_s).strftime("%B %-d, %Y %l:%M %p") %></p>
+      </div>
+    <% end %>
+    <div class="read-more">
+      <p>read more: <a href="http://www.truckingnewsonline.com" target="_blank" title="Trucking News Online">www.truckingnewsonline.com</a></p>
+    </div>    
+  </div>
+</div>

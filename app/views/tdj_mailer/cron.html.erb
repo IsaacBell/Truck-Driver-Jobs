@@ -1,0 +1,25 @@
+<h1>Scheduled Mailout Log</h1>
+<% if @logs && @logs.count > 0 %>
+  <table>
+  <tr>
+    <th>Date</th>
+    <th>Company</th>
+    <th>Target</th>
+    <th>Successful</th>
+    <th># Applicants</th>
+  </tr>
+  <% @logs.each do |log| %>
+    <% m = log.mailout %>
+    <tr>
+      <td><%= raw log.date_sent.strftime('%F %T') %></td>
+      <td><%= m.company.name %></td>
+      <td><%= m.email.nil? || m.email.strip.length == 0 ? m.post_url : m.email %></td>
+      <td><%= log.success ? 'Yes' : 'No' %></td>
+      <td><%= log.applicant_count %></td>
+    </tr>
+  <% end %>
+  </table><br />
+<% else %>
+  <p>No mailouts were processed at this time.</p>
+<% end %>
+<p><a href='https://truckdriverjobs.herokuapp.com/logs'>View more mailout logs</a></p>

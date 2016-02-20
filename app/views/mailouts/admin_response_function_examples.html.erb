@@ -1,0 +1,42 @@
+<h1>Response Function Examples</h1>
+<p><input type='button' value='Close' onclick="modal.close();" /></p>
+
+<p>The response function determines whether the response from the target URL is 
+successful or not.  The function is given a response object <code>response</code> 
+with the following properties:</p>
+<ul>
+  <li>body</li>
+  <li>code</li>
+  <li>headers</li>
+</ul>
+<p>The response function returns a boolean value (true or false) indicating the success
+of the call to the target URL.</p>
+
+<h2>Default function</h2>
+<p>If no response function is given, the following function will run 
+to determine the success of the response:</p> 
+<div class='code'><pre>
+return response.code == 200
+</pre></div>
+
+<p><input type='button' value='Close' onclick="modal.close();" /></p>
+
+<%= content_for :caboose_css do %>
+<style type='text/css'>
+div.code { 
+  background: #222;
+  border: #333 1px solid;
+  padding: 10px 20px;
+}
+</style>
+<% end %>
+<%= content_for :caboose_js do %>
+<script type='text/javascript'>
+
+var modal = false;
+$(document).ready(function() {
+  modal = new CabooseModal(800);
+});
+
+</script>
+<% end %>

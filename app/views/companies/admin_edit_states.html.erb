@@ -1,0 +1,74 @@
+<%= render :partial => 'companies/admin_header' %>
+<%
+all_checked = true
+States.all.each do |abbr, name|
+  if !CompanyState.where(:company_id => @company.id, :state => abbr).exists?  
+    all_checked = false
+    break
+  end
+end
+%>
+<div id='company_<%= @company.id %>_state_all'></div>
+<% States.all.each do |abbr, name| %>
+  <% next if abbr == "HI" || abbr == "AK" %>
+  <div id='company_<%= @company.id %>_state_<%= abbr %>'></div>
+<% end %>
+    
+<div id="message"></div>
+
+<%= render :partial => 'companies/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+var mb = false;
+$(document).ready(function() {
+  mb = new ModelBinder({
+    name: 'Company',
+    id: <%= @company.id %>,
+    update_url: '/admin/companies/<%= @company.id %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      {
+        name: 'state_all',
+        nice_name: 'All',
+        type: 'checkbox',
+        value: <%= all_checked ? 1 : 0 %>,
+        width: 100,
+        align: 'right',
+        after_update: function() {
+          var checked = $('#company_<%= @company.id %>_state_all').prop('checked');
+          <% States.all.each do |abbr, name| %>
+            <% next if abbr == "HI" || abbr == "AK" %>
+            $('#company_<%= @company.id %>_state_<%= abbr %>').prop('checked', checked);                        
+          <% end %>          
+        }
+      },
+      <% States.all.each do |abbr, name| %>
+        <% next if abbr == "HI" || abbr == "AK" %>
+        {
+          name: 'state_<%= abbr %>',
+          nice_name: '<%= abbr %>',
+          type: 'checkbox',
+          value: <%= CompanyState.where(:company_id => @company.id, :state => abbr).exists? ? 1 : 0 %>,
+          width: 100,
+          align: 'right',
+          after_update: all_states_checked                      
+        },
+      <% end %>      
+    ]
+  });  
+});
+
+function all_states_checked()
+{
+  var all_checked = true;
+  <% States.all.each do |abbr, name| %>
+    if ($('#company_<%= @company.id %>_state_<%= abbr %>').prop('checked') == false) all_checked = false;                        
+  <% end %>
+  var checked = $('#company_<%= @company.id %>_state_all').prop('checked', all_checked);
+}
+
+</script>
+<% end %>

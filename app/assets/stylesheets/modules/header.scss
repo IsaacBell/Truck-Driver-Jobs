@@ -1,0 +1,172 @@
+.header.main {
+  width: 100%; 
+  background: $header-bg-color; 
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  color: $header-text-color;
+  font: $font-main; 
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase; 
+  font-size: 12px;
+  height: $header-height;
+  padding-bottom: 10px;
+  z-index: 10;
+  @include small {
+    padding-bottom: 0;
+  }
+  .constrain {
+    @include small {
+      padding: 0 1%;
+    }
+  }
+  .logo-link {
+    display: inline-block;
+    float: left; 
+    z-index: 3;
+    position: relative;
+    img {
+      display: inline;
+      width: 50px;
+      height: 50px;
+      margin-right: 3px;
+    }
+    h1 {
+      display: inline; 
+      margin: 0;
+      font-size: 14px;
+    }
+    #link {
+      color: $color-white;
+      text-decoration: none;
+      display: inline;
+      position: relative;
+      bottom: 13px;
+      letter-spacing: 0;
+      font: $font-aqua;
+      font-size: 14px;
+      &:hover {
+        text-decoration: none;
+        color: #fff;
+      }
+    }
+  }
+  .right {
+    text-align: right;
+    padding-top: 15px;
+    @include small {
+      padding-top: 0;
+    }
+  }
+  #companies-link {
+    color: #fff;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  #companies {
+    margin-right: 12px;
+    display: inline;
+    color: #fff;
+  }
+  #jobs {
+    display: inline;
+    text-transform: none;
+    color: #9b9b9b;
+  }
+  .buttons {
+    margin-top: 4px;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    .btn {
+      margin: 1px 1px 1px 4px;
+      padding: 7px 10px 5px 10px;
+      font-size: 12px;
+      &:hover {
+        margin: 0 0 0 3px;
+      }
+      @include small {
+        position: relative;
+        right: 4px;
+      }
+    }
+    #apply {
+      color: #0063f7;
+      font-size: 12px;
+      margin-left: 10px;
+      text-decoration: none;
+      #arrows {
+        display: inline-block;
+        height: 12px;
+        img {
+          width: 3px;
+          height: 6px;
+          position: relative;
+          bottom: 1px;
+        }
+      }
+      &:hover {
+        text-decoration: underline; 
+        #arrows {
+          border-bottom: 1px solid #0063f7;
+        }
+      }
+      @include small {
+        display: block;
+        margin-top: 7px;
+      }
+    }
+    @include small {
+      margin-top: 15px;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      text-align: center;
+    }
+  }
+  #show-menu {
+    float: right;
+    cursor: pointer; 
+    z-index: 3;
+    position: relative;
+    top: 9px;
+    img {
+      width: 40px;
+    }
+  }
+}
+
+#sidr {
+  text-align: left; 
+  font: $font-main;
+  color: $sidebar-font-color; 
+  background: $sidebar-bg-color;
+  .socials {
+    text-align: center; 
+    font-size: 14px;
+    margin-top: 20px;
+    a {
+      margin-right: 10px; 
+      &:last-of-type {
+        margin-right: 0; 
+      }
+    }
+    a:hover::before {
+      color: #fff !important;
+    }
+  }
+  ul {
+    margin-top: 20px;
+    li {
+      padding: 8px 0;
+      a {
+        font: $font-main; 
+        font-size: 16px;
+      }
+    }
+  }
+}

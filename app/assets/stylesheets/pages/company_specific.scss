@@ -1,0 +1,112 @@
+.company-specific {
+  margin-bottom: 30px;
+  .left-content {
+    width: 600px;
+    float: left;
+    @include breakpx(0, 800px) {
+      width: 100%;
+      float: none; 
+    }
+    @include breakpx(800px, 960px) {
+      width: 66.666666%;
+      float: left;
+    }
+  }
+  .right-sidebar {
+    margin-left: 60px;
+    width: 300px;
+    float: left;
+    padding-top: 42px;
+    @include breakpx(0, 800px) {
+      width: 100%;
+      float: none; 
+      margin-left: 0;
+      padding-left: 0;
+    }
+    @include breakpx(800px, 960px) {
+      width: 33.33333%;
+      float: right;
+      margin-left: 0;
+      padding-left: 0;
+    }
+  }
+  .company-container {
+    padding: 32px 28px 42px 28px;
+    background: #fff;
+    font-size: 15px;
+  }
+  .left-content {
+    .profile-section {
+      .logo-container {
+        display: table;
+        height: 150px;
+        width: 150px;
+        background: #fff;
+        border: 1px solid #afafaf;
+        float: left;
+        margin: 0 18px 18px 0;
+        -webkit-box-shadow: 3px 4px 9px 0px rgba(53, 53, 53, 0.3);
+        -moz-box-shadow:    3px 4px 9px 0px rgba(53, 53, 53, 0.3);
+        box-shadow:         3px 4px 9px 0px rgba(53, 53, 53, 0.3);
+      }
+      .logo-holder {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center; 
+        img {
+          max-height: 150px;
+          width: 132px;
+        }
+      }
+      .buttons {
+        float: left;
+        .head {
+          font-size: 20px;
+          margin-top: 11px;
+          &:first-of-type {
+            margin-top: 0;
+          }
+        }
+        .phone {
+          font-size: 16px;
+          color: #31690c;
+        }
+        .website {
+          
+        }
+      }
+      @include small {
+        padding: 0 3%;
+      }
+    }
+    .section {
+      margin-top: 25px;
+      clear: both;
+      .green {
+        color: #31690c;
+      }
+      .section-title {
+        font-size: 20px;
+        color: #303438;
+        margin-bottom: 20px;
+      }
+      ul {
+        list-style-type: disc;
+        padding-left: 20px;
+        margin-bottom: 18px;
+        margin-left: 20px;
+        &:last-of-type { margin-bottom: 0; }
+        li {
+          padding: 2px 0;
+          font-size: 15px;
+        }
+      }
+    }
+    .job-benefits {
+      .benefit-title {
+        font-weight: bold;
+        margin-bottom: 6px;
+      }
+    }
+  }
+}

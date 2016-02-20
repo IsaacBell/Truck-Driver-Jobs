@@ -1,0 +1,46 @@
+<%= render :partial => 'banners/admin_header' %>
+
+<div id="message"></div>
+
+<%= render :partial => 'banners/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<script type="text/javascript">
+
+function delete_banner(banner_id, confirm) 
+{
+  if (!confirm)
+  {
+    var p = $('<p/>').addClass('note warning')
+      .append("Are you sure you want to delete the banner? ")
+      .append($('<input/>').attr('type','button').val('Yes').click(function() { delete_banner(banner_id, true); })).append(' ')
+      .append($('<input/>').attr('type','button').val('No').click(function() { cancel_delete_banner(banner_id); }));      
+    $('#message').empty().append(p);
+    return;
+  }  
+  $('#message').empty().html($('<p/>').addClass('loading').html("Deleting banner..."));  
+  $.ajax({
+    url: '<%= @banner.company.url %>/banners/' + banner_id,
+    type: 'delete',    
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+function cancel_delete_banner(banner_id)
+{
+  $('#message').empty().append(
+    $('<p/>').append(
+      $('<input/>').attr('type', 'button').val('Delete Banner').click(function(e) { delete_banner(banner_id); })
+    )
+  );
+}
+
+$(document).ready(function() {
+  cancel_delete_banner(<%= @banner.id %>);  
+});
+
+</script>
+<% end %>

@@ -1,0 +1,33 @@
+<h1>New Mailout</h1>
+
+<form action='<%= @company.url %>/mailouts' method='post' id='new_mailout_form'>
+  <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+  <p>Please enter either the URL where the applicant data should be posted or the email address to which it should be sent:</p>
+  <p><input type='text' name='post_url' id='post_url' placeholder='URL'   style='width: 500px;'></p>
+  <p><input type='text' name='email'    id='email'    placeholder='Email' style='width: 500px;'></p>
+  <div id='message'></div>
+  <p>
+    <input type='button' value='< Back' onclick="window.location='<%= @company.url %>/mailouts';">
+    <input type='submit' value='Add New Mailout' onclick="add_mailout(); return false;">
+  </p>
+</form>
+
+<% content_for :caboose_js do %>
+<script type='text/javascript'>
+
+function add_mailout() 
+{
+  $('#message').html("<p class='loading'>Adding mailout...</p>");
+  $.ajax({
+    url: '/admin/companies/<%= @company.id %>/mailouts',
+    type: 'post',
+    data: $('#new_mailout_form').serialize(),
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+</script>
+<% end %>

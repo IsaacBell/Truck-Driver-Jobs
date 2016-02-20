@@ -1,0 +1,38 @@
+
+<%= raw @crumbtrail.print({
+  '/admin' => 'Admin',
+  '/admin/companies' => 'Companies'  
+}) %>
+
+<h1>Companies</h1>
+<p>
+<a href='/admin/companies/new'>New Company</a> | 
+<a href='/admin/mailouts/send-scheduled'>Send All Scheduled Mailouts</a> |
+<a href='/admin/mailouts/upcoming'>View Upcoming Scheduled Mailouts</a>
+</p>
+
+<% if (@companies.count > 0) %>
+  <table class='data'>
+    <tr><%= raw @pager.sortable_table_headings({
+      'slug'          => 'Slug',
+      'name'          => 'Name',
+      'package_id'    => 'Package',      
+      'contact_name'  => 'Contact Name',
+      'contact_email' => 'Contact Email',
+      'contact_phone' => 'Contact Phone',
+    }) %></tr>
+    <% @companies.each do |company| %>
+      <tr onclick="window.location='/admin/companies/<%= company.id %>';">
+        <td><%= company.slug %></td>
+        <td><%= company.name %></td>
+        <td><% if company.package %><%= company.package.name %> (<%= number_to_currency(company.package.monthly_fee, :precision => 0) %>)<% else %>Unknown<% end %></td>
+        <td><%= company.contact_name %></td>
+        <td><%= company.contact_email %></td>
+        <td><%= company.contact_phone %></td>
+      </tr>
+    <% end %>
+  </table>
+  <p><%= raw @pager.generate %></p>
+<% else %>
+  <p>No companies found.</p>
+<% end %>

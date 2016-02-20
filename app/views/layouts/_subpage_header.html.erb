@@ -1,0 +1,13 @@
+<div id="block_<%= block.id %>">
+  <%= render 'layouts/header', :block => block %>
+  <%= render 'layouts/mobile_nav' %>
+
+  <div class="subpage-banner">
+    <div class="constrain">
+      <%= render 'layouts/search_form', :keyword => @keyword, :location => @location, :radius => @radius %>
+      <% p4 = Caboose::Page.where(:id => 30).first %>
+			<% if p4 %><a href="/<%= p4.uri %>" id="apply" class="conceal" title="Apply Now">Apply Now &#187;</a><% end %>
+    </div>
+  </div>
+
+</div>

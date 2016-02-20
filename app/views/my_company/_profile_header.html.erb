@@ -1,0 +1,41 @@
+<% content_for :caboose_css do %>
+<%= stylesheet_link_tag "jquery-ui" %>
+<style type='text/css'>
+
+#thecontent p { margin-bottom: 10px; }
+#thecontent .mb_container .mb_placeholder span { font-size: 16px; line-height: 16px; margin-right: 4px; }
+#thecontent .mb_container .mb_fake { border: 0; padding: 12px 0 0 10px; }
+#thecontent table.dates { margin-bottom: 10px; }
+#thecontent table.dates td { padding-right: 10px; padding-bottom: 10px; }
+
+</style>
+<% end %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<%= javascript_include_tag "jquery-ui/datepicker" %>
+<% end %>
+
+<div class="company-grid">
+  <div class="constrain">
+    <div class="top-info clearfix">
+      <h1 class="section-title">Edit Company Profile</h1>      
+    </div>
+    <div class="grid-container clearfix" id='thecontent'>
+
+<%
+tabs = {
+  'General'             => '/my-company/profile',  
+  'Overview'            => '/my-company/overview',
+  'Qualifications'      => '/my-company/qualifications',
+  'Benefits'            => '/my-company/benefits',
+  'Extras'              => '/my-company/extras',  
+  'Hiring States'       => "/my-company/states"  
+}
+
+%>
+<p>
+<% tabs.each do |text, href| %>
+<input type="button" class="btn<%= raw request.fullpath == href ? ' big' : '' %>" value="<%= text %>" onclick="window.location='<%= href %>';" />
+<% end %>
+</p>

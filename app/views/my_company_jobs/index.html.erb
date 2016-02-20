@@ -1,0 +1,130 @@
+<div class="company-grid">
+  <div class="constrain">
+    <div class="top-info clearfix">
+      <h1 class="section-title">My Job Listings</h1>      
+    </div>
+    <div class="grid-container clearfix">
+
+<div id='thejobs'><p class='loading'>Getting your job listings...</p></div>
+
+<p>
+<input type="button" class="btn" value="< Back to Company Dashboard" onclick="window.location='/my-company';" />
+</p>
+
+    </div><!-- end grid-container --> 
+  </div><!-- end constrain --> 
+</div><!-- end company grid --> 
+
+<% content_for :caboose_css do %>
+<%= stylesheet_link_tag "jquery-ui" %>
+<%= stylesheet_link_tag "caboose/message_boxes" %>
+<style type='text/css'>
+
+#thejobs { margin-bottom: 20px; }
+
+#thejobs input[type=button], #thejobs input[type=submit] {
+  background: none repeat scroll 0 0 #fa7306;
+  border-color: -moz-use-text-color -moz-use-text-color #964300;
+  border-radius: 0;
+  border-style: none none solid;
+  border-width: 0 0 4px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font: bold 16px/1em "Myriad",sans-serif;
+  padding: 7px 15px 5px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase; 
+}
+
+#thejobs_controls { margin-bottom: 10px; }
+
+#thejobs .note { color: #000; }
+
+table.data {
+  border-collapse: collapse;
+}
+  
+table.data th {
+  background: #333;
+  border: #333 1px solid;  
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+table.data th a {
+  color: #fff;
+  display: block;
+  text-decoration: none;
+  border: none;
+  padding: 8px 12px;
+}
+
+table.data th a:hover {
+  color: #000;
+  background: #fff;
+}
+
+table.data td {
+  background: #fff;
+  border: #333 1px solid;
+  margin: 0;
+  padding: 8px 12px;
+}
+
+table.data td.edit_button {
+  
+}
+
+table.data td.edit_button_over {
+  background: #f9ad81 !important;
+}
+
+table.data tr:nth-child(even) td {
+  background-color: #efefef;
+}
+
+
+table.data tr:nth-child(odd) td {
+  background-color: transparent;
+}
+
+table.data tr:hover td,
+table.data tr:nth-child(even):hover td,
+table.data tr:nth-child(odd):hover td {
+  background: #fff799;
+  cursor: pointer; 
+  cursor: hand;
+}
+
+</style>
+<% end %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<%= javascript_include_tag "my_company_jobs_index" %>
+<%= javascript_include_tag "jquery-ui" %>
+<script type="text/javascript">
+
+var controller = false;
+$(document).ready(function() {  
+  controller = new JobsController({
+    company_id: <%= @company.id %>,
+    form_authenticity_token: '<%= form_authenticity_token %>'    
+  });    
+});
+
+</script>
+<%= raw caboose_tinymce %>
+<% end %>
+
+<% content_for :caboose_css do %>
+<style type='text/css'>
+div.label_with_checkbox { display: inline-block; margin: 0; padding: 0; position: relative; }
+div.label_with_checkbox input { position: absolute; top: 0; left: 4px; }
+div.label_with_checkbox label { display: block; margin: 0 10px 10px 0; padding: 6px 8px 4px 30px; background: #efefef; border: #ccc 1px solid; }
+div.pager { margin-bottom: 10px; }
+</style>
+<% end %>

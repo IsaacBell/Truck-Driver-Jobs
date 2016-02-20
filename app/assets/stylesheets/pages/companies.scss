@@ -1,0 +1,108 @@
+.company-grid {
+  padding: 35px 0 62px 0;
+  @include fullgradient(); 
+  .top-info {
+    padding-left: 20px;
+  }
+  .section-title {
+    font-size: 16px;
+    color: #35495d;
+    margin-bottom: 0;
+    float: left;
+    font-weight: bold;
+    margin-right: 12px;
+  }
+  .meta {
+    color: $color-dark;
+    font-size: 14px;
+    float: left;
+  }
+  .constrain {
+    max-width: 980px;
+  }
+  .grid-container {
+    width: 100%;
+    max-width: 10000000px;
+    clear: both;
+    margin-top: 27px;
+  }
+  .company-unit-link {
+    display: block;
+    width: 25%;
+    float: left;
+    height: 255px;
+    text-decoration: none;
+    margin-bottom: 8px;
+    &:hover {
+      .company-unit .contain {
+    //    background: none;
+      }
+      .company-unit .view-profile {
+        text-decoration: underline; 
+      }
+    }
+    @include breakpx(650px, 856px) {
+      width: 33.333333%;
+    }
+    @include breakpx(440px, 650px) {
+      width: 50%;
+    }
+    @include breakpx(0, 440px) {
+      width: 100%;
+    }
+  }
+  .company-unit {
+    margin: 0 auto 10px auto;
+   // width: 25%;
+  //  float: left;
+    text-align: center; 
+    padding: 0 1.1%;
+    .contain {
+      background: #fff;
+      padding: 23px 5% 43px 5%;
+      width: 100%;
+      max-width: 220px;
+      margin: 0 auto;
+      @include breakpx(0, 500px) {
+        width: 90%;
+        max-width: none;
+      }
+    }
+    .logo-container {
+      display: table;
+      height: 90px;
+      width: 100%;
+    }
+    .logo-holder {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center; 
+      img {
+        max-height: 85px;
+        max-width: 95px;
+      }
+    }
+    .orange-line {
+      width: 90%;
+      max-width: 165px;
+      height: 1px;
+      background: $color-main;
+      margin: 0 auto 16px auto;
+    }
+    .name {
+      color: #35495d;
+      font-size: 15px;
+      margin-bottom: 8px;
+      min-height: 30px;
+    }
+    .phone {
+      color: #31690c !important;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .view-profile {
+      font-size: 11px;
+      color: $color-link;
+    }
+  }
+}

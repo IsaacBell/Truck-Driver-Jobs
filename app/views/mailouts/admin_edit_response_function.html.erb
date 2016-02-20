@@ -1,0 +1,30 @@
+<%= render :partial => 'mailouts/admin_header' %>
+
+<p><a href='/admin/mailouts/response-function-examples' class='caboose_modal'>Examples</a></p>
+<p><div id='mailout_<%= @mailout.id %>_response_function'     ></div></p>
+
+<%= render :partial => 'mailouts/admin_footer' %>
+               
+<% content_for :caboose_css do %>
+<style type='text/css'>
+#mailout_<%= @mailout.id %>_render_function { font-family: Courier; font-size: 95%; }
+</style>
+<% end %>
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+$(document).ready(function() {  
+  m = new ModelBinder({
+    name: 'Mailout',
+    id: <%= @mailout.id %>,
+    update_url: '<%= @mailout.url %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [    
+      { name: 'response_function'     , nice_name: 'Response function'  , type: 'textarea' , value: <%= raw Caboose.json(@mailout.response_function ) %>, width: '95%', height: 500 }
+    ]
+  });  
+});
+
+</script>
+<% end %>

@@ -1,0 +1,31 @@
+<h1>New Company</h1>
+
+<form action='/admin/companies' method='post' id='new_company_form'>
+  <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+  <p><input type='text' name='name' id='name' placeholder='Name' style='width: 500px;'></p>
+  <div id='message'></div>
+  <p>
+  <input type='button' value='< Back' onclick="window.location='/admin/companies';">
+  <input type='submit' value='Add New Company' onclick="add_company(); return false;">
+  </p>
+</form>
+
+<% content_for :caboose_js do %>
+<script type='text/javascript'>
+
+function add_company() 
+{
+  $('#message').html("<p class='loading'>Adding Company...</p>");
+  $.ajax({
+    url: '/admin/companies',
+    type: 'post',
+    data: $('#new_company_form').serialize(),
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+</script>
+<% end %>

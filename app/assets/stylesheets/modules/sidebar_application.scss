@@ -1,0 +1,142 @@
+.form-wrapper {
+  @include gradient(); 
+  width: 100%;
+  padding-bottom: 18px;
+}
+.sidebar-application, #contact-form {
+  width: 90%; 
+  margin: 0 auto;
+  color: #303438;
+  font-size: 15px;
+  .countries {
+    text-align: center;
+    margin-bottom: 20px;
+    .country {
+      padding: 5px 0;
+      img {
+        width: 20px;
+        margin-right: 8px;
+      }
+      span {
+        font-size: 13px;
+      }
+    }
+  }
+  .form-title {
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    color: $color-dark;
+    margin-bottom: 30px;
+    span {
+      color: #303438;
+    }
+  }
+  .field {
+    margin-bottom: 10px;
+    clear: both;
+    &::after {
+      content: "."; 
+      visibility: hidden; 
+      display: block; 
+      height: 0; 
+      clear: both;
+    }
+    label {
+      color: #303438;
+      font-size: 15px;
+      display: block;
+      margin-bottom: 2px;
+      &.required {
+        &::after {
+          content: "*"; 
+          margin-left: 4px;
+        }
+      }
+    }
+    select {
+      width: 150px;
+      &.small {
+        width: 150px !important;
+      }
+    }
+    .small {
+      width: 150px;
+    }
+    .option {
+      width: 50%;
+      float: left;
+      padding: 2px 0;
+      &.short {
+        width: 33.333333%;
+      }
+      &.long {
+        width: 66.666666%;
+      }
+    }
+    .customSelect { 
+      background: #ececec;
+      color: $color-link;
+      display: inline-block;
+      font-size: 15px;
+      -webkit-appearance: none;
+      padding: 6px 6px 2px 6px;
+      border: 1px solid $color-main;
+      font: $input-font;
+      width: 150px;
+    }
+    .customSelect.customSelectHover {
+    /* Styles for when the select box is hovered */
+    }
+    .customSelect.customSelectOpen {
+    /* Styles for when the select box is open */
+    }
+    .customSelect.customSelectFocus {
+ //     border: 1px solid $color-main;
+    }
+    .customSelectInner {
+      width: 137px !important;
+      &:after {
+        content: '\25BC';
+        float: right;
+        font-size: 9px;
+        position: relative;
+        top: 3px;
+        right: 1px;
+        color: $color-link;
+      }
+    }
+    input[type=text], textarea {
+      border: 1px solid $color-main;
+      background: #ececec;
+      width: 100%;
+      font-size: 15px;
+      padding: 6px 6px 2px 6px;
+      &.small {
+        width: 150px;
+      }
+    }
+    input[type=radio], input[type=checkbox] {
+      margin-right: 5px;
+    }
+    .meta {
+      color: $color-link;
+      font-size: 12px;
+    }
+    .left {
+      float: left;
+      width: 50%;
+    }
+    .right {
+      width: 50%;
+      float: right;
+    }
+    .opt-text {
+      display: inline;
+    }
+  }
+  input[type=submit] {
+    display: block;
+    width: 100%;
+  }
+}

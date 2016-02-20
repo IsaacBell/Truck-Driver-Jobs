@@ -1,0 +1,20 @@
+<div class="left-content subpage" id='block_<%= block.id %>'>    
+                
+  <% if block.children.count > 0 %>
+    <% block.children.each do |b| %><%= raw block.render(b, local_assigns) %><% end %>
+
+  <% else %>
+    <% if editing %>
+      <p style='padding:10px;border:1px solid gray;'>Empty content area. Click to add child blocks.</p>
+    <% end %>
+  <% end %>
+
+</div>
+
+<% if editing %>
+  <style>
+    .left-content {
+      padding-bottom: 30px;
+    }
+  </style>
+<% end %>

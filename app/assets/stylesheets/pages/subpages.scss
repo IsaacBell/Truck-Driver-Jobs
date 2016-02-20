@@ -1,0 +1,132 @@
+.subpage-banner {
+  height: 200px;
+  width: 100%; 
+  padding-top: 104px;
+  background-color: rgb(38, 38, 38);
+  background-image: url("/assets/test_banner.jpg ");
+  -ms-behavior: url("/bg.htc"); background-size: 1600px;
+  background-position: top center;
+  background-repeat: no-repeat;
+  text-align: center;
+  #apply {
+    color: $color-main;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: 10px;
+    text-decoration: none;
+    position: absolute;
+    top: -30px;
+    letter-spacing: 2px;
+    right: 2%;
+    #arrows {
+      display: inline-block;
+      height: 12px;
+      img {
+        width: 3px;
+        height: 6px;
+        position: relative;
+        bottom: 1px;
+      }
+    }
+    @include small {
+      display: block;
+      margin-top: 7px;
+    }
+  }
+  @include small {
+    height: 330px;
+  }
+}
+
+.current-jobs {
+  clear: both;
+  text-align: left;
+  font-size: 14px;
+  padding: 24px 0 17px 12px; 
+  color: $color-dark;
+  .top {
+    font-size: 16px;
+    font-weight: bold;
+    color: $color-blue;
+    span.orange {
+      color: $color-main; 
+      text-decoration: underline;
+    }
+    span.blue {
+      color: $color-blue; 
+      text-decoration: underline;
+    }
+  }
+  .state-title {
+    color: $color-main;
+    text-transform: uppercase;
+    font-size: 16px;
+    margin-top: 15px;
+    margin-bottom: 6px;
+  }
+}
+
+.company-row {
+  width: 100%; 
+  padding: 30px 0 21px 0;
+  .company-unit {
+    color: $color-blue; 
+    padding: 1px 64px 1px 9px;
+    text-align: left;
+    display: block;
+    text-decoration: none;
+    border-left: 1px solid $color-main;
+    max-width: 288px;
+    width: 50%;
+    float: left;
+    &:hover {
+  //    border: 1px solid $color-main; 
+  //    padding: 12px 14px;
+      .name {
+        text-decoration: underline;
+      }
+    }
+    @include mini {
+      margin: 5px auto 10px auto;
+    }
+    .name {
+      font-size: 16px;
+      margin-bottom: 3px;
+      color: $color-link;
+    }
+    .phone {
+      color: #31690c !important;
+      display: inline-block;
+      font-size: 15px;
+      margin-bottom: 3px;
+    }
+    .content {
+      color: $color-dark;
+      font-size: 13px;
+      text-decoration: none;
+      min-height: 48px;
+    }
+    @include mini {
+      width: 90%;
+      max-width: none;
+      float: none;
+      clear: both;
+      padding: 1px 5%;
+    }
+  }
+}
+
+.page-title-banner {
+  background: #fff;
+  padding: 15px 0;
+  .page-title {
+    color: #35495d;
+    margin-bottom: 5px;
+    font-size: 25px;
+  }
+  .page-description {
+    color: $color-main;
+    font-size: 14px;
+  }
+}

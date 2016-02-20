@@ -1,0 +1,92 @@
+<div class="home-banner">
+  <div class="constrain">
+    <a href="/" id="logo-link" title="TruckDriverJobs.com">
+      <img src="//d2ju3eumzwbxuv.cloudfront.net/assets/white_logo.png" alt="Truck Driver Jobs" class="logo" />
+    </a>
+    <br />
+    <%= render 'layouts/search_form' %>
+    <% p4 = Caboose::Page.where(:id => 30).first %>
+    <% if p4 %><a href="/<%= p4.uri %>" title="Apply Now" id="apply" class="conceal">Apply Now &#187;</a><% end %>
+  </div>
+</div>
+
+<div class="company-row-home clearfix">
+  <div class="constrain">
+    <div class="grid-row-mini">
+      <% Listing.homepage_listings.all.each do |listing| %>
+        <%= render :partial => 'layouts/listing', :locals => { :listing => listing } %>
+      <% end %>            
+    </div>
+  </div>
+</div>
+
+<div class="constrain home-constrain">
+  <div class="main-page-content clearfix">
+    <div class="left-content">
+
+      <%    
+        params = {
+          :date_available_null => false,
+          :date_available_lte  => DateTime.now.utc, #DateTime.now.strftime("%Y-%m-%dT%H:%M:%S%:z"),
+          :sort                => "date_available",
+          :desc                => 1,
+          :page                => 1
+        }
+        @pager = JobsPager.new(params)      
+      %>   
+
+      <div class="current-listings">
+        <h1 style="color:#999;font-size:1.7em;">Truck Driving Jobs</h1>
+        <h2 class="top">Current Truck Driver Job Openings</h2>
+        <% amount = @pager.options['item_count'] %>
+        <p class="bottom"><%= amount.to_s %> Truck Driver Jobs available.</p>
+      </div>
+
+      <% @pager.items.each do |job| %>
+        <% job.view_count_home += 1 %>
+        <% job.save %>
+        <%= render 'layouts/job_post_listing', :job => job %>
+      <% end %>      
+      <%== @pager.generate %>
+      
+      <div class="home-blurb">
+        <p class="section-title">What we do:</p>
+        <div class="content">
+          <p><strong>TruckDriverJobs.com</strong> lists current trucking job openings from Leading Trucking Companies seeking to hire CDL drivers immediately! Review local, dedicated, regional, and OTR (Over-the-Road) truck driving jobs and apply directly to the company(s) of your choice! If you are looking for a more specific job, use our search bar above or view a list of all <a href="/companies-hiring" title="Companies Hiring">companies hiring</a>.</p>
+          <p>You may not realize just how much <span class="big">truck drivers are needed</span> right now, and how valuable your driving skills are.  Want to save time and have companies call you? Fill our our 
+          <% p4 = Caboose::Page.where(:id => 30).first %>
+    <% if p4 %><a href="/<%= p4.uri %>" title="Quick App">quick app &#187;</a><% end %> now and begin to receive job offers within 24 hours!</p>
+        </div>
+      </div>
+    </div><!-- end job-listings --> 
+
+    <div class="right-sidebar" style="padding-top:33px;">
+      <%= render 'layouts/quick_apply_button' %>
+      
+      <%= render 'layouts/sidebar_job_categories' %>
+      
+      <div class="ad-container">
+        <p class="section-title">Truck Driving Sponsors</p>
+        <% Banner.homepage_banners.each do |b| %>
+          <%= render :partial => 'layouts/banner', :locals => { :banner => b } %>
+        <% end %>
+      </div>
+      
+      <div class="driver-facts">
+        <p class="section-title">Truck Driver Facts</p>
+        <div class="content">
+          <p><span class="number">$650,000,000,000</span><br />trucking industry annual revenue</p>
+          <p><span class="number">$139,463,000,000</span><br />value of shipped goods per year</p>
+          <p><span class="number">93,512,000,000</span><br />distance traveled in miles per year</p>
+          <p><span class="number">$52,300,000,000</span><br />diesel fuel used per year</p>
+          <p><span class="huge"><span style="font-size:30px;">21%</span> Growth</span><br />expected over the next 10 years</p>
+          <% p2 = Caboose::Page.where(:id => 25).first %>
+          <% if p2 %><p><a href="/<%= p2.uri %>">(sources)</a></p><% end %>
+        </div>
+      </div><!-- end driver facts --> 
+
+    </div><!-- end right-sidebar --> 
+  </div><!-- end main-page-content --> 
+</div><!-- end constrain --> 
+
+

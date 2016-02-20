@@ -1,0 +1,50 @@
+<% content_for :caboose_css do %>
+<% end %>
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<% end %>
+
+<%
+@crumbtrail.add({
+  '/admin' => 'Admin',
+  '/admin/companies' => 'Companies'
+})
+if @company
+  @crumbtrail.add(@company.url, @company.name)
+  @crumbtrail.add("#{@company.url}/mailouts", 'Mailouts')
+elsif @mailout
+  @crumbtrail.add("/admin/companies/#{@mailout.company_id}", @mailout.company.name)
+  @crumbtrail.add("/admin/companies/#{@mailout.company_id}/mailouts", 'Mailouts')  
+end
+case request.fullpath
+  when @mailout.url                         then @crumbtrail.add('#', 'General'          )
+  when "#{@mailout.url}/render-function"    then @crumbtrail.add('#', 'Render Function'  )
+  when "#{@mailout.url}/response-function"  then @crumbtrail.add('#', 'Response Function')
+  when "#{@mailout.url}/schedule"           then @crumbtrail.add('#', 'Schedule'         )
+  when "#{@mailout.url}/filter"             then @crumbtrail.add('#', 'Filter'           )
+  when "#{@mailout.url}/send"               then @crumbtrail.add('#', 'Manually Send'    )
+  when "#{@mailout.url}/delete"             then @crumbtrail.add('#', 'Delete'           )
+end
+%>
+<%= raw @crumbtrail.print %>
+
+<h1>Edit Mailout for <%= @mailout.company.name %></h1>
+<ul id='tabs'>
+<%
+tabs = {
+  'General'           => @mailout.url,
+  'Render Function'   => "#{@mailout.url}/render-function",
+  'Response Function' => "#{@mailout.url}/response-function",
+  'Schedule'          => "#{@mailout.url}/schedule",     
+  'Filter'            => "#{@mailout.url}/filter",  
+  'Manually Send'     => "#{@mailout.url}/send",
+  'Delete Mailout'    => "#{@mailout.url}/delete"
+}
+
+%>
+<% tabs.each do |text, href| %>
+<li<%= raw request.fullpath == href ? " class='selected'" : '' %>><a href='<%= href %>'><%= raw text %></a></li>
+<% end %>
+<li class='back'><input type='button' value='< Back' onclick="window.location='<%= @company ? @company.url : @mailout.company.url %>/mailouts';" /></li>
+</ul>
+<div id='content2'>

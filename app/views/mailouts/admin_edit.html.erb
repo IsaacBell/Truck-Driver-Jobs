@@ -1,0 +1,43 @@
+<%= render :partial => 'mailouts/admin_header' %>
+
+<p><div id='mailout_<%= @mailout.id %>_name'                ></div></p>
+<p><div id='mailout_<%= @mailout.id %>_company_id'          ></div></p>
+<p><div id='mailout_<%= @mailout.id %>_url'                 ></div></p>
+<p><div id='mailout_<%= @mailout.id %>_email'               ></div></p>
+<p><div id='mailout_<%= @mailout.id %>_email_subject'       ></div></p>
+<p><div id='mailout_<%= @mailout.id %>_content_type'        ></div></p>
+<p><div id='mailout_<%= @mailout.id %>_batch_size'          ></div></p>
+<p><div id='mailout_<%= @mailout.id %>_last_applicant_id'   ></div></p>
+
+<%= render :partial => 'mailouts/admin_footer' %>
+               
+<% content_for :caboose_css do %>
+<style type='text/css'>
+#mailout_<%= @mailout.id %>_render_function { font-family: Courier; font-size: 95%; }
+</style>
+<% end %>
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+$(document).ready(function() {  
+  m = new ModelBinder({
+    name: 'Mailout',
+    id: <%= @mailout.id %>,
+    update_url: '<%= @mailout.url %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      { name: 'name'                , nice_name: 'Name'              , type: 'text'     , value: <%= raw Caboose.json(@mailout.name              ) %>, width: 800 },    
+      { name: 'company_id'          , nice_name: 'Company'           , type: 'select'   , value: <%= raw Caboose.json(@mailout.company.id        ) %>, width: 800, text: <%= raw Caboose.json(@mailout.company.name) %>, options_url: '/admin/companies/options' },          
+      { name: 'url'                 , nice_name: 'URL'               , type: 'text'     , value: <%= raw Caboose.json(@mailout.url               ) %>, width: 800 },   
+      { name: 'email'               , nice_name: 'Email'             , type: 'text'     , value: <%= raw Caboose.json(@mailout.email             ) %>, width: 800 },
+      { name: 'email_subject'       , nice_name: 'Email subject'     , type: 'text'     , value: <%= raw Caboose.json(@mailout.email_subject     ) %>, width: 800 },
+      { name: 'content_type'        , nice_name: 'Content-type'      , type: 'text'     , value: <%= raw Caboose.json(@mailout.content_type      ) %>, width: 800 },
+      { name: 'batch_size'          , nice_name: 'Batch size'        , type: 'text'     , value: <%= raw Caboose.json(@mailout.batch_size        ) %>, width: 800 },
+      { name: 'last_applicant_id'   , nice_name: 'Last applicant ID' , type: 'text'     , value: <%= raw Caboose.json(@mailout.last_applicant_id ) %>, width: 800 }      
+    ]
+  });  
+});
+
+</script>
+<% end %>

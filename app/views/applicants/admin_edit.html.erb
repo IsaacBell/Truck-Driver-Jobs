@@ -1,0 +1,132 @@
+<h1>Edit Applicant</h1>
+
+<p>Date added: <%= @applicant.date_added ? @applicant.date_added.strftime('%F %T') : '' %></p>
+<p><div id="applicant_<%= @applicant.id %>_approved"                ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_first_name"              ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_last_name"               ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_email"                   ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_phone"                   ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_address"                 ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_address2"                ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_city"                    ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_state"                   ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_zip"                     ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_years_experience"        ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_driving_school_graduate" ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_currently_employed"      ></div></p>
+<p>License Type</p>
+<table><tr>
+<td><div id='applicant_<%= @applicant.id %>_license_type_a'             ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_license_type_b'             ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_license_type_c'             ></div></td>
+<tr></table>
+<p>Driver Type</p>
+<table><tr>
+<td><div id='applicant_<%= @applicant.id %>_driver_type_company'     ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_driver_type_owner'       ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_driver_type_team'        ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_driver_type_student'     ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_driver_type_lease'       ></div></td>
+</tr></table>
+<p>Distance</p>
+<table><tr>
+<td><div id='applicant_<%= @applicant.id %>_distance_local'          ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_distance_dedicated'      ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_distance_regional'       ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_distance_otr'            ></div></td>
+</tr></table>
+<p>Haul Type</p>
+<table><tr>
+<td><div id='applicant_<%= @applicant.id %>_haul_type_dry_van'      ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_haul_type_flatbed'      ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_haul_type_reefer'       ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_haul_type_tanker'       ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_haul_type_hazmat'       ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_haul_type_auto_hauler'  ></div></td>
+<td><div id='applicant_<%= @applicant.id %>_haul_type_specialized'  ></div></td>
+</tr></table>
+<p><div id="applicant_<%= @applicant.id %>_moving_violations"       ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_preventable_accidents"   ></div></p>
+<p><div id="applicant_<%= @applicant.id %>_dui"                     ></div></p>
+
+<div id="message"></div>
+<p>
+<input type='button' value='Back' onclick="window.location='/admin/applicants';" >
+<input type='button' value='Delete Applicant' onclick="delete_applicant(<%= @applicant.id %>);" >
+</p>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+function delete_applicant(applicant_id, confirm) 
+{
+  if (!confirm)
+  {
+    var p = $('<p/>').addClass('note warning')
+      .append("Are you sure you want to delete the applicant? ")
+      .append($('<input/>').attr('type','button').val('Yes').click(function() { delete_applicant(applicant_id, true); })).append(' ')
+      .append($('<input/>').attr('type','button').val('No').click(function() { $('#message').empty(); }));      
+    $('#message').empty().append(p);
+    return;
+  }  
+  $('#message').empty().html($('<p/>').addClass('loading').html("Deleting applicant..."));
+  $.ajax({
+    url: '/applicants/' + applicant_id,
+    type: 'delete',    
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+<% Caboose.log(@applicant.approved) %>
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'Applicant',
+    id: <%= @applicant.id %>,
+    update_url: '/applicants/<%= @applicant.id %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      { name: 'approved'                 , nice_name: 'Approved'                              , type: 'checkbox'   , value: <%= @applicant.approved                ? 1 : 0             %> , width: 800 },
+      { name: 'first_name'               , nice_name: 'First name'                            , type: 'text'       , value: <%= raw Caboose.json(@applicant.first_name               ) %> , width: 800 }, 
+      { name: 'last_name'                , nice_name: 'Last name'                             , type: 'text'       , value: <%= raw Caboose.json(@applicant.last_name                ) %> , width: 800 },
+      { name: 'email'                    , nice_name: 'Email'                                 , type: 'text'       , value: <%= raw Caboose.json(@applicant.email                    ) %> , width: 800 },
+      { name: 'phone'                    , nice_name: 'Phone'                                 , type: 'text'       , value: <%= raw Caboose.json(@applicant.phone                    ) %> , width: 800 },
+      { name: 'address'                  , nice_name: 'Address'                               , type: 'text'       , value: <%= raw Caboose.json(@applicant.address                  ) %> , width: 800 },
+      { name: 'address2'                 , nice_name: 'Address2'                              , type: 'text'       , value: <%= raw Caboose.json(@applicant.address2                 ) %> , width: 800 },
+      { name: 'city'                     , nice_name: 'City'                                  , type: 'text'       , value: <%= raw Caboose.json(@applicant.city                     ) %> , width: 800 },
+      { name: 'state'                    , nice_name: 'State'                                 , type: 'text'       , value: <%= raw Caboose.json(@applicant.state                    ) %> , width: 800 },
+      { name: 'zip'                      , nice_name: 'Zip'                                   , type: 'text'       , value: <%= raw Caboose.json(@applicant.zip                      ) %> , width: 800 },
+      { name: 'years_experience'         , nice_name: 'Years experience'                      , type: 'text'       , value: <%= raw Caboose.json(@applicant.years_experience         ) %> , width: 800 },
+      { name: 'driving_school_graduate'  , nice_name: 'Driving school graduate'               , type: 'checkbox'   , value: <%= @applicant.driving_school_graduate == true ? 1 : 0     %> , width: 800 },
+      { name: 'currently_employed'       , nice_name: 'Currently employed'                    , type: 'checkbox'   , value: <%= @applicant.currently_employed      == true ? 1 : 0     %> , width: 800 },
+      { name: 'license_type_a'           , nice_name: 'Class A'                               , type: 'checkbox'   , value: <%= @applicant.license_type_a          == true ? 1 : 0     %> , width: 100, align: 'right' },
+      { name: 'license_type_b'           , nice_name: 'Class B'                               , type: 'checkbox'   , value: <%= @applicant.license_type_b          == true ? 1 : 0     %> , width: 100, align: 'right' },
+      { name: 'license_type_c'           , nice_name: 'Class C'                               , type: 'checkbox'   , value: <%= @applicant.license_type_c          == true ? 1 : 0     %> , width: 100, align: 'right' },
+      { name: 'driver_type_company'      , nice_name: 'Company'                               , type: 'checkbox'   , value: <%= @applicant.driver_type_company     == true ? 1 : 0     %> , width: 120, align: 'right' },
+      { name: 'driver_type_owner'        , nice_name: 'Owner Operator'                        , type: 'checkbox'   , value: <%= @applicant.driver_type_owner       == true ? 1 : 0     %> , width: 180, align: 'right' },
+      { name: 'driver_type_team'         , nice_name: 'Team'                                  , type: 'checkbox'   , value: <%= @applicant.driver_type_team        == true ? 1 : 0     %> , width:  80, align: 'right' },
+      { name: 'driver_type_student'      , nice_name: 'Student'                               , type: 'checkbox'   , value: <%= @applicant.driver_type_student     == true ? 1 : 0     %> , width: 110, align: 'right' },
+      { name: 'driver_type_lease'        , nice_name: 'Lease'                                 , type: 'checkbox'   , value: <%= @applicant.driver_type_lease       == true ? 1 : 0     %> , width:  90, align: 'right' },                
+      { name: 'distance_local'           , nice_name: 'Local'                                 , type: 'checkbox'   , value: <%= @applicant.distance_local          == true ? 1 : 0     %> , width: 120, align: 'right' },
+      { name: 'distance_dedicated'       , nice_name: 'Dedicated'                             , type: 'checkbox'   , value: <%= @applicant.distance_dedicated      == true ? 1 : 0     %> , width: 120, align: 'right' },
+      { name: 'distance_regional'        , nice_name: 'Regional'                              , type: 'checkbox'   , value: <%= @applicant.distance_regional       == true ? 1 : 0     %> , width: 120, align: 'right' },
+      { name: 'distance_otr'             , nice_name: 'OTR'                                   , type: 'checkbox'   , value: <%= @applicant.distance_otr            == true ? 1 : 0     %> , width: 120, align: 'right' },
+      { name: 'haul_type_dry_van'        , nice_name: 'Dry Van'                               , type: 'checkbox'   , value: <%= @applicant.haul_type_dry_van       == true ? 1 : 0     %> , width: 100, align: 'right' },
+      { name: 'haul_type_flatbed'        , nice_name: 'Flatbed'                               , type: 'checkbox'   , value: <%= @applicant.haul_type_flatbed       == true ? 1 : 0     %> , width: 100, align: 'right' },
+      { name: 'haul_type_reefer'         , nice_name: 'Reefer'                                , type: 'checkbox'   , value: <%= @applicant.haul_type_reefer        == true ? 1 : 0     %> , width: 100, align: 'right' },
+      { name: 'haul_type_tanker'         , nice_name: 'Tanker'                                , type: 'checkbox'   , value: <%= @applicant.haul_type_tanker        == true ? 1 : 0     %> , width: 100, align: 'right' },
+      { name: 'haul_type_hazmat'         , nice_name: 'Hazmat'                                , type: 'checkbox'   , value: <%= @applicant.haul_type_hazmat        == true ? 1 : 0     %> , width: 100, align: 'right' },
+      { name: 'haul_type_auto_hauler'    , nice_name: 'Auto Hauler'                           , type: 'checkbox'   , value: <%= @applicant.haul_type_auto_hauler   == true ? 1 : 0     %> , width: 100, align: 'right' },
+      { name: 'haul_type_specialized'    , nice_name: 'Specialized'                           , type: 'checkbox'   , value: <%= @applicant.haul_type_specialized   == true ? 1 : 0     %> , width: 100, align: 'right' },
+      { name: 'moving_violations'        , nice_name: 'Moving violations in past 3 years'     , type: 'text'       , value: <%= raw Caboose.json(@applicant.moving_violations        ) %> , width: 800 },
+      { name: 'preventable_accidents'    , nice_name: 'Preventable accidents in past 3 years' , type: 'text'       , value: <%= raw Caboose.json(@applicant.preventable_accidents    ) %> , width: 800 },
+      { name: 'dui'                      , nice_name: 'DUI in past 5 years'                   , type: 'checkbox'   , value: <%= @applicant.dui                     == true ? 1 : 0     %> , width: 800 }
+    ]
+  });  
+});
+
+</script>
+<% end %>

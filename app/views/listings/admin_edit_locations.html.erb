@@ -1,0 +1,102 @@
+<%= render :partial => 'listings/admin_header' %>
+<%
+all_categories_checked = true
+Category.all.each do |cat|
+  if !ListingCategory.where(:category_id => cat.id, :listing_id => @listing.id).exists?  
+    all_categories_checked = false
+    break
+  end
+end
+all_states_checked = true
+States.all.each do |abbr, name|
+  if !ListingState.where(:listing_id => @listing.id, :state => abbr).exists?  
+    all_states_checked = false
+    break
+  end
+end
+%>
+
+<p><div id='listing_<%= @listing.id %>_homepage' ></div></p>
+
+<table>
+  <tr>
+    <th>Categories</th>
+    <th>States</th>
+  </tr>
+  <tr>
+    <td valign='top'>
+      <div id='listing_<%= @listing.id %>_category_id_all'></div>
+      <% Category.reorder(:name).all.each do |cat| %>
+        <div id='listing_<%= @listing.id %>_category_id_<%= cat.id %>'></div>
+      <% end %>
+    </td>
+    <td valign='top'>
+      <div id='listing_<%= @listing.id %>_state_all'></div>
+      <% States.all.each do |abbr, name| %>
+        <div id='listing_<%= @listing.id %>_state_<%= abbr %>'></div>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+<div id="message"></div>
+
+<%= render :partial => 'listings/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+var mb = false;
+$(document).ready(function() {
+  mb = new ModelBinder({
+    name: 'Listing',
+    id: <%= @listing.id %>,
+    update_url: '<%= @listing.url %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      { name: 'homepage' , nice_name: 'Show on Homepage' , type: 'checkbox' , value: <%= raw Caboose.json(@listing.homepage ? 1 : 0) %>, width: 800 },
+      { name: 'category_id_all' , nice_name: 'All', type: 'checkbox', value: <%= all_categories_checked ? 1 : 0 %>, width: 400, align: 'right', after_update: after_all_categories_checked },
+      { name: 'state_all'       , nice_name: 'All', type: 'checkbox', value: <%= all_states_checked     ? 1 : 0 %>, width: 300, align: 'right', after_update: after_all_states_checked     },
+      <% Category.reorder(:name).all.each do |cat| %>{ name: 'category_id_<%= cat.id %>', nice_name: '<%= cat.name %>' , type: 'checkbox', value: <%= ListingCategory.where(:listing_id => @listing.id, :category_id => cat.id).exists? ? 1 : 0 %>, width: 400, align: 'right', after_update: after_category_checked },<% end %>
+      <% States.all.each do |abbr, name|           %>{ name: 'state_<%= abbr %>'        , nice_name: '<%= name %>'     , type: 'checkbox', value: <%= ListingState.where(   :listing_id => @listing.id, :state => abbr        ).exists? ? 1 : 0 %>, width: 300, align: 'right', after_update: after_state_checked    },<% end %>      
+    ]
+  });  
+});
+
+function after_all_categories_checked() 
+{
+  var checked = $('#listing_<%= @listing.id %>_category_id_all').prop('checked');
+  <% Category.all.each do |cat| %>          
+    $('#listing_<%= @listing.id %>_category_id_<%= cat.id %>').prop('checked', checked);                        
+  <% end %>          
+}
+        
+function after_all_states_checked() 
+{
+  var checked = $('#listing_<%= @listing.id %>_state_all').prop('checked');
+  <% States.all.each do |abbr, name| %>          
+    $('#listing_<%= @listing.id %>_state_<%= abbr %>').prop('checked', checked);                        
+  <% end %>          
+}
+        
+function after_category_checked()
+{
+  var all_checked = true;
+  <% Category.all.each do |cat| %>    
+    if ($('#listing_<%= @listing.id %>_category_id_<%= cat.id %>').prop('checked') == false) all_checked = false;                        
+  <% end %>
+  var checked = $('#listing_<%= @listing.id %>_category_id_all').prop('checked', all_checked);
+}
+
+function after_state_checked()
+{
+  var all_checked = true;
+  <% States.all.each do |abbr, name| %>    
+    if ($('#listing_<%= @listing.id %>_state_<%= abbr %>').prop('checked') == false) all_checked = false;                        
+  <% end %>
+  var checked = $('#listing_<%= @listing.id %>_state_all').prop('checked', all_checked);
+}
+
+</script>
+<% end %>

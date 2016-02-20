@@ -1,0 +1,37 @@
+<h1>Mailout Log Totals</h1>
+<form action='/admin/logs/totals' method='get'>
+<p>
+<input type='text' name='d1' value='<%= @d1.strftime('%F %I:%M %P') %>' style='width: 200px;' /> -
+<input type='text' name='d2' value='<%= @d2.strftime('%F %I:%M %P') %>' style='width: 200px;' />
+<input type='submit' value='Search' />
+</p>
+</form> 
+
+<% if @totals.count > 0 %>
+  <table class='data'>
+    <tr>
+      <th>Company</th>
+      <th>Mailout</th>
+      <th>Total</th>      
+    </tr>
+    <% total_successful = 0 %>
+    <% total_failed = 0 %>
+    <% @totals.each do |h| %>
+      <% total_successful = total_successful + h['count_successful'] %>
+      <% total_failed     = total_failed     + h['count_failed']     %>
+      <tr>
+        <td><%= h['company_name'] %></td>
+        <td><%= h['mailout_name'] %></td>
+        <td align='right'><%= number_with_delimiter(h['count_successful'], :precision => 0) %></td>        
+      </tr>
+    <% end %>
+    <tr>
+      <th colspan='2' align='right' style='padding-right: 10px;'>Total: </th>
+      <th align='right'><%= number_with_delimiter(total_successful, :precision => 0) %>      
+    </tr>
+  </table><br />  
+<% else %>
+  <p>No logs found.</p>
+<% end %>
+
+<p><input type='button' value='< Back' onclick="window.location='/admin/logs';" /></p>

@@ -1,0 +1,6 @@
+<% c = listing.company %>
+<a href="/companies/<%= c.slug %>" target="_blank" class="company-unit unit1of4" title="<%= c.name %>">
+  <p class="name"><%= c.name %></p>
+  <p class="phone"><%= c.nice_recruiter_phone %></p>
+  <div class="content"><%= raw Caboose.teaser_text(listing.content, 100) %></div>          
+</a>

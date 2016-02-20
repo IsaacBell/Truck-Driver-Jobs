@@ -1,0 +1,40 @@
+<div class="company-specific">
+  <div class="constrain">    
+    <div class="left-content">
+      <div class="current-jobs">
+        <h1 class="top"><%= @company.name %> Truck Driver Job Application</h1>
+      </div>
+      <div class="company-container">
+        <div class="profile-section clearfix">
+          <div class="logo-container">
+            <div class="logo-holder">
+              <% if @company.logo %>
+                <img src="<%= @company.logo.url(:thumb) %>" alt="<%= @company.name %>" class="logo">
+              <% end %>
+            </div>
+          </div>
+          <div class="buttons">
+            <p class="head">Call:</p>
+            <p class="phone"><%= @company.recruiter_phone %></p>
+            <p class="head">Visit:</p>
+            <p class="website">
+              <a href="<%= @company.website.start_with?('http') ? @company.website : ("http://" + @company.website) %>" title="<%= @company.name %>" target="_blank"><%= @company.website.gsub('http://', '').gsub('https://', '') %></a>
+            </p>
+            <p class="head">or Apply Now &#187;</p>
+          </div>
+        </div>
+        <div class="section job-benefits">
+          <h3 class="section-title">Job Benefits</h3>
+          <%= raw @company.benefits %>          
+        </div>
+        <div class="section job-qualifications">
+          <h3 class="section-title">Job Qualifications:</h3>
+          <%= raw @company.qualifications %>          
+        </div>
+      </div>
+    </div><!-- end left-content --> 
+    <div class="right-sidebar">
+      <%= render "layouts/sidebar_application", :locals => { :company => @company, :job => @job } %>      
+    </div><!-- end right-sidebar --> 
+  </div>
+</div>

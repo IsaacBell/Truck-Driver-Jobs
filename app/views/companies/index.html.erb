@@ -1,0 +1,31 @@
+<div class="company-grid">
+  <div class="constrain">
+    <div class="top-info clearfix">
+      <h1 class="section-title">Companies Hiring Truck Drivers</h1>
+      <h2 class="meta">List of truck driver jobs from Leading Trucking Companies</h2>
+    </div>
+    <div class="grid-container clearfix">
+
+      <% Company.where(:status => Company::STATUS_ACTIVE).reorder("client_package_id desc, random()").all.each do |c| %>
+        <a href="/companies/<%= c.slug %>" title="View Profile for <%= c.name %>" class="company-unit-link">
+          <div class="company-unit">
+            <div class="contain">
+              <div class="logo-container">
+                <div class="logo-holder">
+                  <% if c.logo %>
+                    <img src="<%= c.logo.url(:thumb) %>" alt="<%= c.name %>" class="logo">
+                  <% end %>
+                </div>
+              </div>
+              <div class="orange-line"></div>
+              <h3 class="name"><%= c.name %></h3>
+              <p class="phone"><%= c.recruiter_phone %></p>
+              <p class="view-profile">view profile &#187;</p>
+            </div>
+          </div>
+        </a>
+      <% end %>
+
+    </div><!-- end grid-container --> 
+  </div><!-- end constrain --> 
+</div><!-- end company grid --> 

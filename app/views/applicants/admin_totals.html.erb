@@ -1,0 +1,37 @@
+<h1>Applicants</h1>
+<form action='/applicants/totals' method='get'>
+<p>
+<input type='text' name='d1' value='<%= @d1.strftime('%F') %>' style='width: 125px;' /> -
+<input type='text' name='d2' value='<%= @d2.strftime('%F') %>' style='width: 125px;' />
+<input type='submit' value='Search' />
+</p>
+</form>
+
+<table class='data'>
+<tr>
+  <th>&nbsp;</th>
+  <th>Total Received</th>
+  <th>Currently Approved</th>
+  <th>Currently Unapproved</th>
+</tr>
+<% d = @d1 %>
+<% i = 0 %>
+<% while d <= @d2 %>
+  <tr>
+    <td><%= d.strftime('%F') %></td>
+    <td align='right'><%= @approved[i] + @unapproved[i] %></td>
+    <td align='right'><%= @approved[i] %></td>
+    <td align='right'><%= @unapproved[i] %></td>
+  </tr>
+  <% d = d + 1.days %>
+  <% i = i + 1 %>
+<% end %>
+<tr>
+  <td              ><strong>Total</strong></td>
+  <td align='right'><strong><%= @total_approved + @total_unapproved %></strong></td>
+  <td align='right'><strong><%= @total_approved   %></strong></td>
+  <td align='right'><strong><%= @total_unapproved %></strong></td>
+</tr>
+</table>
+
+<p><input type='button' value='< Back' onclick="window.location='/admin/applicants';" /></p>

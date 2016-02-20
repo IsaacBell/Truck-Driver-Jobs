@@ -1,0 +1,87 @@
+<div class="constrain">
+  <div class="main-page-content">
+    <div class="left-content categories">
+      <div class="top-info clearfix">
+        <h1 class="section-title" style="margin-bottom:2px;">Advanced Truck Driver Job Search</h1>
+      </div>
+
+      <div class="advanced-search-form">
+        <form id="advanced-search" action="/s" method="get">
+          <div class="field">
+            <label>Keyword</label>
+            <input type="text" name="q" placeholder="Keyword">
+          </div>
+       
+          <div class="field">
+            <label>Category</label>
+            <div class="select-container">
+              <select name="category_id" class="select-box">
+                <option value="">Select a Category</option>
+                <% Category.all.each do |c| %>
+                  <option value="<%= c.id %>"><%= c.name %></option>
+                <% end %>                
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Company Name</label>
+            <div class="select-container">
+              <select name="company_id" class="select-box">
+                <option value="">Select a Company</option>
+                <% Company.all.each do |c| %>
+                  <option value="<%= c.id %>"><%= c.name %></option>
+                <% end %>
+              </select>
+            </div>
+          </div>
+
+          <div class="field" style="padding:0 0 5px 0;">
+            <label>Job Type</label>
+            <div class="option"><input type="radio" name="job_type" value="Part Time"><span class="opt-text">Part Time</span></div>
+            <div class="option"><input type="radio" name="job_type" value="Full Time"><span class="opt-text">Full Time</span></div>
+          </div>
+
+          <div class="field">
+            <label>State</label>
+            <div class="select-container">
+              <select name="state" class="select-box">
+                <option value="">Select a State</option>
+                <% States.all.each do |k,v| %>
+                  <% next if k == "HI" || k == "AK" %>
+                  <option value="<%= k %>"><%= v %></option>
+                <% end %>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Location</label>
+            <div class="input-container">
+              <input type="text" name="location">
+              <p class="meta">City, State, or Zip (Ex. Dallas, TX 75032)</p>
+            </div>
+          </div>
+
+          <input type="hidden" name="radius" value="100" />
+
+        <!--   <a href="#" id="submit-advanced-search" class="dark btn">Search Jobs</a> -->
+          <input type="submit" value="Search Jobs" class="dark btn">
+
+        </form>
+      </div>
+
+
+    </div><!-- left-content --> 
+
+    <div class="right-sidebar">
+
+      <%= render 'layouts/quick_apply_button' %>
+
+      <%= render 'layouts/sidebar_job_categories' %>
+
+      <%= render 'layouts/sidebar_sponsors' %>
+
+    </div><!-- end right-sidebar --> 
+  </div><!-- end main-page-content --> 
+</div><!-- end constrain --> 

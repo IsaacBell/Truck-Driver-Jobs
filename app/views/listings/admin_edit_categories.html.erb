@@ -1,0 +1,72 @@
+<%= render :partial => 'listings/admin_header' %>
+<%
+all_checked = true
+Category.all.each do |cat|
+  if !ListingCategory.where(:category_id => cat.id, :listing_id => @listing.id).exists?  
+    all_checked = false
+    break
+  end
+end
+%>
+<div id='listing_<%= @listing.id %>_category_id_all'></div>
+
+<% Category.reorder(:name).all.each do |cat| %>
+  <div id='listing_<%= @listing.id %>_category_id_<%= cat.id %>'></div>
+<% end %>
+    
+<div id="message"></div>
+
+<%= render :partial => 'listings/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+var mb = false;
+$(document).ready(function() {
+  mb = new ModelBinder({
+    name: 'Listing',
+    id: <%= @listing.id %>,
+    update_url: '<%= @listing.url %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      {
+        name: 'category_id_all',
+        nice_name: 'All',
+        type: 'checkbox',
+        value: <%= all_checked ? 1 : 0 %>,
+        width: 400,
+        align: 'right',
+        after_update: function() {
+          var checked = $('#listing_<%= @listing.id %>_category_id_all').prop('checked');
+          <% Category.all.each do |cat| %>          
+            $('#listing_<%= @listing.id %>_category_id_<%= cat.id %>').prop('checked', checked);                        
+          <% end %>          
+        }
+      },
+      <% Category.reorder(:name).all.each do |cat| %>
+        {
+          name: 'category_id_<%= cat.id %>',
+          nice_name: '<%= cat.name %>',
+          type: 'checkbox',
+          value: <%= ListingCategory.where(:category_id => cat.id, :listing_id => @listing.id).exists? ? 1 : 0 %>,
+          width: 400,
+          align: 'right',
+          after_update: all_categories_checked                      
+        },
+      <% end %>      
+    ]
+  });  
+});
+
+function all_categories_checked()
+{
+  var all_checked = true;
+  <% Category.all.each do |cat| %>    
+    if ($('#listing_<%= @listing.id %>_category_id_<%= cat.id %>').prop('checked') == false) all_checked = false;                        
+  <% end %>
+  var checked = $('#listing_<%= @listing.id %>_category_id_all').prop('checked', all_checked);
+}
+
+</script>
+<% end %>

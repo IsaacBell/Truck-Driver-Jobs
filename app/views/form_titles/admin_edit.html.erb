@@ -1,0 +1,35 @@
+<h1>Form Titles</h1>
+
+<p>Enter the titles of all the forms you want to capture.  Enter one title per line.</p>
+
+<p><div id="formtitle_1_value"></div></p>    
+  
+<div id="message"></div>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+var m = false
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'FormTitle',
+    id: 1,
+    update_url: '/admin/form-titles',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      {
+        name: 'value',
+        nice_name: 'Form Titles',
+        type: 'textarea',
+        value: <%= raw Caboose.json(@form_titles) %> ,
+        fixed_placeholder: false, 
+        width: 400,
+        height: 300                
+      }            
+    ]
+  });
+});
+
+</script>
+<% end %>

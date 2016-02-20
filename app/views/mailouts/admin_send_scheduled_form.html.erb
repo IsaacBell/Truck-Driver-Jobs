@@ -1,0 +1,44 @@
+<h1>Send All Scheduled Mailouts</h1>
+
+<div id='message'></div>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+function send_scheduled_mailouts(confirm) 
+{  
+  if (!confirm)
+  {
+    var p = $('<p/>').addClass('note warning')
+      .append("Are you sure you want to send all the scheduled mailouts?<br />")      
+      .append($('<input/>').attr('type','button').val('Yes').click(function() { send_scheduled_mailouts(true); })).append(' ')
+      .append($('<input/>').attr('type','button').val('No').click(function() { cancel_send_scheduled(); }));
+    $('#message').empty().append(p);
+    return;
+  }
+  $('#message').empty().html($('<p/>').addClass('loading').html("Sending scheduled mailouts..."));    
+  $.ajax({
+    url: '/admin/mailouts/send-scheduled',
+    type: 'post',    
+    success: function(resp) { 
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.success) $('#message').html("<p class='note success'>" + resp.success + "</p>");
+    }
+  });
+}
+
+function cancel_send_scheduled()
+{
+  var p = $('<p/>').append(
+    $('<input/>').attr('type','button').val('Send Scheduled Mailouts').click(function() { send_scheduled_mailouts(); })
+  );                
+  $('#message').empty().append(p);
+}
+
+$(document).ready(function() {
+  cancel_send_scheduled();
+});
+
+</script>
+<% end %>

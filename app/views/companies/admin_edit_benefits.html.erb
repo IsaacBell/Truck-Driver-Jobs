@@ -1,0 +1,27 @@
+<%= render :partial => 'companies/admin_header' %>
+
+<p><div id='company_<%= @company.id %>_benefits'     ></div></p>
+        
+<div id="message"></div>
+
+<%= render :partial => 'companies/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'Company',
+    id: <%= @company.id %>,
+    update_url: '/admin/companies/<%= @company.id %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [      
+      { name: 'benefits', nice_name: 'Benefits', type: 'richtext', value: <%= raw Caboose.json(@company.benefits) %>, width: 800, height: 350 }      
+    ]
+  });  
+});
+
+</script>
+<%= raw caboose_tinymce %>
+<% end %>

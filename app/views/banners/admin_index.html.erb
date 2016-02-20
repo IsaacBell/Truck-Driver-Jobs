@@ -1,0 +1,49 @@
+<%= render :partial => 'companies/admin_header' %>
+
+<p><a href='/admin/banners/new' id='new_banner'>New Banner</a></p>
+
+<% if (@banners.count > 0) %>
+  <table class='data'>
+    <tr>
+      <th>Status</th>            
+      <th>Image</th>
+    </tr>
+    <% @banners.each do |banner| %>
+      <tr onclick="window.location='<%= banner.url %>';">
+        <td><%= banner.status    %></td>                
+        <td><img src='<%= banner.image ? banner.image.url(:thumb) : 'http://placehold.it?150x150' %>' /></td>        
+      </tr>
+    <% end %>
+  </table>
+  <p><%= raw @pager.generate %></p>
+<% else %>
+  <p>No banners found for this company.</p>
+<% end %>
+
+<%= render :partial => 'companies/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<script type="text/javascript">
+
+$(document).ready(function() {  
+  $('#new_banner').click(function(e) {
+    e.preventDefault();
+    add_banner();    
+  });
+});
+
+function add_banner() 
+{
+  $('#new_message').html("<p class='loading'>Adding banner...</p>");
+  $.ajax({
+    url: '<%= @company.url %>/banners',
+    type: 'post',    
+    success: function(resp) {
+      if (resp.error) $('#new_message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+</script>
+<% end %>

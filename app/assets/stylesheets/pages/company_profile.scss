@@ -1,0 +1,164 @@
+.company-profile {
+  margin-bottom: 30px;
+  .left-content {
+    width: 600px;
+    float: left;
+    @include breakpx(0, 800px) {
+      width: 100%;
+      float: none; 
+    }
+    @include breakpx(800px, 960px) {
+      width: 66.666666%;
+      float: left;
+    }
+  }
+  .right-sidebar {
+    margin-left: 60px;
+    width: 300px;
+    float: left;
+    padding-top: 42px;
+    @include breakpx(0, 800px) {
+      width: 100%;
+      float: none; 
+      margin-left: 0;
+      padding-left: 0;
+    }
+    @include breakpx(800px, 960px) {
+      width: 33.33333%;
+      float: right;
+      margin-left: 0;
+      padding-left: 0;
+    }
+  }
+  .company-container {
+    padding: 32px 28px 42px 28px;
+    background: #fff;
+    font-size: 15px;
+    p {
+      margin-bottom: 18px;
+    }
+    p.head {
+      margin-bottom: 5px;
+    }
+  }
+  .left-content {
+    .photo-profile {
+      width: 100%;
+      height: 250px;
+      -ms-behavior: url("/bg.htc"); background-size: cover;
+      border-bottom: 1px solid $color-main;
+      position: relative;
+      margin-top: 30px;
+      @include small {
+        margin-top: 0;
+      }
+      .logo-container {
+        display: table;
+        height: 150px;
+        width: 150px;
+        border: 1px solid #afafaf;
+        background: #fff;
+        position: absolute;
+        top: 34px;
+        left: 30px;
+      }
+      .logo-holder {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center; 
+        img {
+          max-height: 140px;
+          width: 130px;
+        }
+      }
+    }
+    .company-info {
+      .left {
+        width: 50%;
+        float: left;
+        .company-name {
+          font-size: 24px;
+          color: #303438;
+          margin-bottom: 12px;
+        }
+        .location {
+          font-size: 15px;
+          margin-bottom: 4px;
+        }
+        .phone {
+          color: #31690c;
+          font-size: 16px;
+        }
+        .head {
+          font-size: 20px;
+          margin-top: 9px;
+        }
+        .website, .view-jobs {
+          font-size: 15px;
+        }
+        @include small {
+          float: none;
+          width: 100%;
+        }
+      }
+      .right {
+        width: 50%;
+        float: right;
+        .head {
+          font-size: 15px;
+          color: #303438;
+          margin-top: 10px;
+          margin-bottom: 10px;
+        }
+        .apply {
+          font-size: 15px;
+          margin-top: 7px;
+        }
+        .state-list {
+          li {
+            display: inline;
+            font-size: 15px;
+            &::after {
+              content: ", "; 
+            }
+            &:last-of-type::after {
+              content: ""; 
+            }
+          }
+        }
+        @include small {
+          float: none;
+          width: 100%;
+          margin-top: 15px;
+        }
+      }
+    }
+    .section {
+      margin-top: 25px;
+      .section-title {
+        font-size: 20px;
+        color: #303438;
+        margin-bottom: 20px;
+      }
+      ul {
+        list-style-type: disc;
+        padding-left: 20px;
+        margin-bottom: 18px;
+        margin-left: 20px;
+        &:last-of-type { margin-bottom: 0; }
+        li {
+          padding: 2px 0;
+        }
+      }
+    }
+    .company-overview {
+      clear: both;
+    }
+    .job-benefits {
+      .benefit-title {
+        font-weight: bold;
+        margin-bottom: 6px;
+      }
+    }
+  }
+}

@@ -1,0 +1,87 @@
+<h1>Applicants</h1>
+<p>
+  <a href='#' onclick="$('#search_form').slideToggle();">Show/Hide Search Form</a> |
+  <a href='/applicants/new'>New Applicant</a> | 
+  <a href='/applicants/totals'>Totals</a>  
+</p>
+
+<%= render :partial => 'applicants/search_form' %>
+
+<% if (@applicants.count > 0) %>
+  <div style='width: 100%; overflow-x: scroll;'>
+  <table class='data' id='applicants'>    
+      <th><input type='checkbox' name='all_applicants' id='all_applicants' value='1' onclick="controller.check_all(this.checked);" /></th>
+      <%= raw @pager.sortable_table_headings(        
+        'approved'                  => 'Approved'                 ,
+        'date_added'                => 'Date Added'               ,
+        'possible_duplicate'        => 'Possible Duplicate'       ,
+        'form_title'                => 'Form Title'               ,
+        'last_name, first_name'     => 'Name'                     ,
+        'email'                     => 'Email'                    ,
+        'phone'                     => 'Phone'                    ,
+        'state, city, address'      => 'Contact Info'             ,      
+        'years_experience_str'      => 'Years experience'         ,
+        'driving_school_graduate'   => 'Driving school graduate'  ,
+        'currently_employed'        => 'Currently employed'
+      ) %>
+      <th>License type</th>      
+      <th>Driver type</th>
+      <th>Distance</th>
+      <th>Haul Type</th>
+      <%= raw @pager.sortable_table_headings(        
+        'moving_violations'         => 'Moving violations'        ,
+        'preventable_accidents'     => 'Preventable accidents'    ,
+        'dui'                       => 'DUI'
+      ) %></tr>
+    <% @applicants.each do |a| %>
+      <%
+      address = []
+      address << a.address if a.address
+      address << a.address2 if a.address2
+      address << "#{a.city}, #{a.state} #{a.zip}"
+      address = address.join("<br />")
+      %>
+      <tr id='applicant_row_<%= a.id %>'<% if a.possible_duplicate %> class='possible_duplicate'<% end %>>
+        <td class='checkbox'><input type='checkbox' name='applicant_<%= a.id %>' id='applicant_<%= a.id %>' value='1' /></td>
+        <td align='center' ><%= a.approved ? 'Yes' : 'No'                %></td>
+        <td align='center' ><%= a.date_added ? a.date_added.strftime('%F %T') : ''  %></td>
+        <td align='center' <%= raw a.possible_duplicate ? " class='possible_duplicate'" : '' %>><%= a.possible_duplicate ? 'Yes' : 'No'      %></td>
+        <td align='left'   ><%= a.form_title                             %></td>
+        <td align='left'   ><%= "#{a.first_name} #{a.last_name}"         %></td>
+        <td align='left'   ><%= a.email                                  %></td>
+        <td align='left'   ><%= a.phone                                  %></td>        
+        <td align='left'   ><%= raw address                              %></td>        
+        <td align='right'  ><%= a.years_experience_str                   %></td>
+        <td align='center' ><%= a.driving_school_graduate ? 'Yes' : 'No' %></td>
+        <td align='center' ><%= a.currently_employed ? 'Yes' : 'No'      %></td>
+        <td align='left'   ><% if a.license_type %><ul><%= raw a.license_type.collect{|x| "<li>#{x}</li>" }.join() %></ul><% end %></td>        
+        <td align='left'   ><% if a.driver_type  %><ul><%= raw a.driver_type.collect{ |x| "<li>#{x}</li>" }.join() %></ul><% end %></td>
+        <td align='left'   ><% if a.distance     %><ul><%= raw a.distance.collect{    |x| "<li>#{x}</li>" }.join() %></ul><% end %></td>
+        <td align='left'   ><% if a.haul_type    %><ul><%= raw a.haul_type.collect{   |x| "<li>#{x}</li>" }.join() %></ul><% end %></td>
+        <td align='right'  ><%= a.moving_violations                      %></td>
+        <td align='right'  ><%= a.preventable_accidents                  %></td>
+        <td align='center' ><%= a.dui ? 'Yes' : 'No'                     %></td>
+      </tr>
+    <% end %>
+  </table>
+  </div>
+  <p><%= raw @pager.generate %></p>
+  <div id='message'></div>
+  <p>
+    <input type='button' value='Approve Selected Applicants'   onclick="controller.mass_approve(true);" />
+    <input type='button' value='Unapprove Selected Applicants' onclick="controller.mass_approve(false);" />
+    <input type='button' value='Delete Selected Applicants'    onclick="controller.mass_delete();" />
+  </p>  
+<% else %>
+  <p>No applicants found.</p>
+<% end %>
+
+<%= content_for :caboose_css do %>
+<%= stylesheet_link_tag "applicants", :media => "all" %>
+<style type='text/css'>
+#applicants td.possible_duplicate { color: #990000; font-weight: bold; }
+</style>
+<% end %>
+<%= content_for :caboose_js do %>
+<%= javascript_include_tag 'applicants' %>
+<% end %>

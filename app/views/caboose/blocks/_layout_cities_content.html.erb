@@ -1,0 +1,67 @@
+<%
+  def cities_for_states(states)
+    html = ""
+    states.each do |s|
+      html << "\n\n<h2 class='state-name'><a id='" + States.name(s) + "'>" + States.name(s) + "</a></h2>\n"
+      cities = City.where(:state => s).order("id").limit(10)
+      html << "<ul>"
+      cities.each do |c|
+        html << "\n<li><h3 class='city-name'>\n<a href='/s?location=" + c.name + ",%20" + c.state
+        html << "&radius=50' title='Jobs in " + c.name + "'>" + c.name + "</a></h3></li>"
+      end
+      html << "\n</ul>"
+    end
+    return html
+  end
+%>
+
+
+
+<div class="constrain">
+  <div class="main-page-content jobs-by-city">
+
+      <div class="page-title-text clearfix">
+        <div class="text-area">
+          <h1 class="section-title">Truck Driver Jobs by City</h1>
+          <div class="content">
+            <p>Search truck driver jobs by city below. Click on your city to review trucking companies hiring in your area. If you are looking for a specific truck driver job use our search bar above or use our <% p3 = Caboose::Page.where(:id => 24).first %><% if p3 %><a href="/<%= p3.uri %>" title="Advanced Search">advanced search</a><% end %>.</p>
+          </div>
+        </div>
+        <div id="quick-apply">
+          <%= render 'layouts/quick_apply_button' %>
+        </div>
+      </div>
+
+      <div class="page-text-wrapper">
+        <div class="quick-links">
+          <p class="section-title">Quick Links:</p>
+          <% States.all.each do |abbr,name| %>
+            <% next if abbr == "HI" || abbr == "AK" || abbr == "DC" %>
+            <a href="#<%= name %>" class="quick-link"><%= abbr %></a> 
+            <% if abbr != "WY" %>
+              <span class="separator"> / </span>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="city-list">
+          <div class="grid-row">
+            <div class="unit1of4">
+              <%= raw cities_for_states(["AL","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN"]) %>
+            </div>
+            <div class="unit1of4">
+              <%= raw cities_for_states(["IA","KS","KY","LA","MD","ME","MA","MI","MN","MS","MO","MT"]) %>
+            </div>
+            <div class="unit1of4">
+              <%= raw cities_for_states(["NE","ND","NV","NH","NJ","NM","NY","NC","OH","OK","OR","PA"]) %>
+            </div>
+            <div class="unit1of4">
+              <%= raw cities_for_states(["RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]) %>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+  </div><!-- end main-page-content --> 
+</div><!-- end constrain --> 

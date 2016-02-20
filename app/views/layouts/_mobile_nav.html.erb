@@ -1,0 +1,10 @@
+<div id="sidr" style="display:none;">
+  <div class="nav">
+    <ul>
+      <li><a href="/" title="Home">Home</a></li>
+      <% Caboose::Page.where(:parent_id => 6, :hide => false).order(:sort_order).all.each do |p| %>
+        <li><a href="/<%= p.uri %>" title="<%= p.title %>"><%= p.title %></a></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

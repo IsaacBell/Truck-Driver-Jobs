@@ -1,0 +1,26 @@
+<form id="main-search" action="/s" method="get">
+  <div class="field" id="keyword">
+    <input type="text" name="q" placeholder="Type Keyword Here" value="<%= @keyword ? @keyword : '' %>" />
+    <span class="info">Keyword Example: (Delivery Driver)</span>
+  </div>
+  <div class="field" id="location">
+    <% if @location %>
+      <input type="text" name="location" placeholder="City, State, or Zip" value="<%= @location %>"/>
+    <% else %>
+      <input type="text" name="location" placeholder="City, State, or Zip" />
+    <% end %>
+    <span class="info">Location Example: (New York, NY)</span>
+  </div>
+  <div class="field" id="radius">
+    <select name="radius" class="select-box">
+      <option value="50" <%= @radius && @radius == '50' ? 'selected' : '' %>>50 Miles</option>
+      <option value="75" <%= @radius && @radius == '75' ? 'selected' : '' %>>75 Miles</option>
+      <option value="100" <%= @radius && @radius == '100' ? 'selected' : '' %>>100 Miles</option>
+      <option value="500" <%= @radius && @radius == '500' ? 'selected' : '' %>>500 Miles</option>
+      <option value="750" <%= @radius && @radius == '750' ? 'selected' : '' %>>750 Miles</option>
+      <option value="1000" <%= @radius && @radius == '1000' ? 'selected' : '' %>>1000 Miles</option>
+    </select>
+    <span class="info">Distance: (Miles)</span>
+  </div>
+  <button class="big btn">Search Jobs</button>
+</form>

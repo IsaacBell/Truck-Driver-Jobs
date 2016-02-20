@@ -1,0 +1,23 @@
+<div class="constrain">
+  <div class="main-page-content">
+    <div class="left-content">
+      <div class="current-jobs">
+        <h1 class="top"><%= @company.name %> Jobs:</h1>
+        <p class="bottom"><%= @pager.options['item_count'] %> <%= @company.name %> Jobs available on truckdriverjobs.com.</p>
+      </div>
+
+      <% @jobs.each do |job| %>
+        <%= render :partial => 'layouts/job_post_listing', :locals => { :job => job } %>
+      <% end %>      
+      <%= raw @pager.generate %>
+       
+    </div><!-- end left-content --> 
+
+    <div class="right-sidebar">
+      <%= render 'layouts/quick_apply_button' %>
+      <%= render 'layouts/sidebar_job_categories' %>                  
+    </div><!-- end right-sidebar --> 
+  </div><!-- end main-page-content --> 
+</div><!-- end constrain --> 
+
+

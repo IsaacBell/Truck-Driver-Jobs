@@ -1,0 +1,22 @@
+<%
+a = @applicant
+%>
+<table style="border-collapse: collapse;" border="1">
+<tr><td>First name:               </td><td><%= a.first_name                             %></td></tr> 
+<tr><td>Last name:                </td><td><%= a.last_name                              %></td></tr>
+<tr><td>Email:                    </td><td><%= a.email                                  %></td></tr>        
+<tr><td>Phone:                    </td><td><%= a.phone                                  %></td></tr>
+<tr><td>City:                     </td><td><%= a.city                                   %></td></tr>
+<tr><td>State:                    </td><td><%= a.state                                  %></td></tr>
+<tr><td>Zip:                      </td><td><%= a.zip                                    %></td></tr>
+<tr><td>Yrs. of Exp:              </td><td><%= a.years_experience_str                   %></td></tr>        
+<tr><td>Driving School Graduate:  </td><td><%= a.driving_school_graduate ? 'Yes' : 'No' %></td></tr>
+<tr><td>Currently Employed:       </td><td><%= a.currently_employed      ? 'Yes' : 'No' %></td></tr>                
+<tr><td>License Type:             </td><td><%= a.license_type.join(', ')                %></td></tr> 
+<tr><td>Driver Type:              </td><td><%= a.driver_type.join(', ')                 %></td></tr>
+<tr><td>Distance:                 </td><td><%= a.distance.join(', ')                    %></td></tr>
+<tr><td>Haul Type:                </td><td><%= a.haul_type.join(', ')                   %></td></tr>
+<tr><td>Moving Violations:        </td><td><%= a.moving_violations                      %></td></tr>
+<tr><td>Preventable Accidents:    </td><td><%= a.preventable_accidents                  %></td></tr>
+<tr><td>DUI:                      </td><td><%= a.dui ? 'Yes' : 'No'                     %></td></tr>
+</table>

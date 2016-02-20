@@ -1,0 +1,35 @@
+
+<%= render :partial => 'my_company_jobs/header' %>
+
+<table class='data'>
+  <tr>
+    <td>Date available:</td>
+    <td id='da_current_value'></td>      
+    <td id='da_message'></td>
+  </tr>
+  <tr>
+    <td>Date expires:</td>
+    <td id='de_current_value'></td>      
+    <td id='de_message'></td>
+  </tr>
+</table>
+
+<p>All dates and times are in <%= @logged_in_user.timezone %> timezone.</p>
+
+<%= render :partial => 'my_company_jobs/footer' %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag 'caboose/date_format' %>
+<%= javascript_include_tag 'my_company_jobs_dates' %>
+<script type="text/javascript">
+
+var controller = false;
+$(document).ready(function() {
+  controller = new JobDatesController({ 
+    job_posting_id: <%= @job.id %>,    
+    utc_offset: <%= Time.now.utc.in_time_zone(@logged_in_user.timezone).utc_offset/3600 %> 
+  });  
+});
+
+</script>
+<% end %>

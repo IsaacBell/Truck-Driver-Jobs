@@ -1,0 +1,74 @@
+
+<%= raw @crumbtrail.print({
+  '/admin' => 'Admin',
+  '/admin/jobs' => 'Job Postings'  
+}) %>
+
+<h1>Job Postings</h1>
+<p><a href='/admin/jobs/new' id='new_job'>New Job Posting</a></p>
+                                 
+<form action='/admin/jobs' method='post' id='new_job_form'>
+  <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>  
+  <p><select name='company_id'>
+    <option value=''>-- Select a company --</option>
+    <% Company.reorder(:name).all.each do |c| %><option value='<%= c.id %>'><%= c.name %></option><% end %>
+  </select></p>
+  <p><input type='text' name='title' id='title' placeholder='Job Title' style='width: 500px;'></p>    
+  <div id='new_message'></div>
+  <p>
+    <input type='button' value='Cancel' onclick="$('#new_job_form').slideToggle();">
+    <input type='submit' value='Add New Job Posting' onclick="add_job_posting(); return false;">
+  </p>
+</form>
+
+<% if (@jobs.count > 0) %>
+  <table class='data'>
+    <tr><%= raw @pager.sortable_table_headings({
+      'company_id'     => 'Company',
+      'title'          => 'Title',
+      'state, city'    => 'Location',
+      'date_available' => 'Date Available',
+      'date_expires'   => 'Date Expires'
+    }) %></tr>
+    <% @jobs.each do |job| %>
+      <tr onclick="window.location='<%= job.url %>';">
+        <td><%= job.company ? job.company.name : 'Unknown company' %></td>
+        <td><%= job.title %></td>
+        <td><%= job.city %>, <%= job.state %></td>
+        <td><%= job.date_available ? job.date_available.strftime('%m/%d/%Y') : '' %></td>
+        <td><%= job.date_expires   ? job.date_expires.strftime('%m/%d/%Y')   : '' %></td>        
+      </tr>
+    <% end %>
+  </table>
+  <p><%= raw @pager.generate %></p>
+<% else %>
+  <p>No job postings found for this company.</p>
+<% end %>
+
+<% content_for :caboose_js do %>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  $('#new_job_form').hide();
+  $('#new_job').click(function(e) {
+    e.preventDefault();
+    $('#new_job_form').slideToggle();
+  });
+});
+
+function add_job_posting() 
+{
+  $('#new_message').html("<p class='loading'>Adding job posting...</p>");
+  $.ajax({
+    url: '/admin/jobs',
+    type: 'post',
+    data: $('#new_job_form').serialize(),
+    success: function(resp) {
+      if (resp.error) $('#new_message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+</script>
+<% end %>

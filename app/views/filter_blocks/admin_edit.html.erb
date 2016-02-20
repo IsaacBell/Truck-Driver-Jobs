@@ -1,0 +1,92 @@
+<%
+filter_url = @filter.url
+filter_block_url = "#{filter_url}/blocks/#{@filter_block.id}"
+%>
+<h1>Edit Filter Block</h1>
+
+<p><div id="filterblock_<%= @filter_block.id %>_join_type"></div></p>
+
+<h2>Criteria</h2>
+<p><a href='<%= filter_block_url %>/criteria/new' id='new_criteria'>New criteria</a></p>
+
+<% if @filter_block.filter_criteria && @filter_block.filter_criteria.count > 0 %>
+  <table class='data'>
+    <% @filter_block.filter_criteria.collect do |fc| %> 
+        <tr onclick="caboose_modal_url('<%= filter_block_url %>/criteria/<%= fc.id %>');">
+        <td><%= fc.col      %></td>
+        <td><%= fc.operator %></td>
+        <td><%= fc.value    %></td>
+      <?tr>
+    <% end %>    
+  </table>
+<% else %>
+  <p>This filter block doesn't have any criteria yet.</p>
+<% end %>
+
+<div id="message"></div>
+<p>
+<input type='button' value='Back' onclick="window.location='<%= filter_url %>';" >
+<input type='button' value='Delete Applicant' onclick="delete_filter_block(<%= @filter_block.id %>);" >
+</p>
+
+<% content_for :caboose_css do %>
+<style type='text/css'>
+div.filter_block { }
+</style>
+<% end %>
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+                  
+function delete_filter_block(filter_block_id, confirm) 
+{
+  if (!confirm)
+  {
+    var p = $('<p/>').addClass('note warning')
+      .append("Are you sure you want to delete the filter block? ")
+      .append($('<input/>').attr('type','button').val('Yes').click(function() { delete_filter_block(filter_block_id, true); })).append(' ')
+      .append($('<input/>').attr('type','button').val('No').click(function() { $('#message').empty(); }));      
+    $('#message').empty().append(p);
+    return;
+  }  
+  $('#message').empty().html($('<p/>').addClass('loading').html("Deleting filter block..."));
+  $.ajax({
+    url: '<%= filter_url %>/blocks/' + filter_block_id,
+    type: 'delete',    
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+$(document).ready(function() {
+  caboose_modal('new_criteria');
+  
+  m = new ModelBinder({
+    name: 'FilterBlock',
+    id: <%= @filter_block.id %>,
+    update_url: '<%= filter_block_url %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      { name: 'join_type', nice_name: 'Join type', type: 'select', value: <%= raw Caboose.json(@filter_block.join_type) %> , text: <%= raw Caboose.json(@filter_block.join_type) %> , options_url: '/admin/filter-blocks/license-type-options', width: 800 }      
+    ]
+  });
+
+  <% @filter_block.filter_criteria.each do |fc| %>
+  m = new ModelBinder({
+    name: 'FilterCriteria',
+    id: <%= fc.id %>,    
+    update_url: '<%= filter_block_url %>/criteria/<%= fc.id %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [            
+      { name: 'col'      , nice_name: 'Column'   , type: 'select' , value: <%= raw Caboose.json(fc.col     ) %> , text: <%= raw Caboose.json(fc.col     ) %> , options_url: '/admin/filter-blocks/col-options'      , width: 200 },
+      { name: 'operator' , nice_name: 'Operator' , type: 'select' , value: <%= raw Caboose.json(fc.operator) %> , text: <%= raw Caboose.json(fc.operator) %> , options_url: '/admin/filter-blocks/operator-options' , width: 100 },
+      { name: 'value'    , nice_name: 'Value'    , type: 'text'   , value: <%= raw Caboose.json(fc.value   ) %> , width: 200 },         
+    ]
+  });
+  <% end %>  
+});
+
+</script>
+<% end %>

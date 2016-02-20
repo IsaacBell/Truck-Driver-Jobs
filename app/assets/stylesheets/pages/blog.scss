@@ -1,0 +1,174 @@
+.left-content.blog {
+  padding-top: 32px;
+  width: 612px;
+  margin-bottom: 30px;
+  @include breakpx(0, 600px) {
+    width: 100%;
+    float: none; 
+  }
+  @include breakpx(600px, 960px) {
+    width: 66.666666%;
+    float: left;
+  }
+  .news-wrapper {
+    padding-left: 12px;
+    @include small {
+      padding-left: 2%;
+      padding: 0 2%;
+    }
+    .post-wrapper {
+      display: block;
+      text-decoration: none;
+      margin-bottom: 28px; 
+      color: $color-dark;
+      &:hover {
+        .news-post {
+          background: none;
+        }
+        .author-name {
+          text-decoration: underline;
+        }
+      }
+      .news-title {
+        font-size: 18px;
+        color: #303438;
+        margin-bottom: 11px;
+      }
+      .news-post {
+        width: 100%;
+        min-height: 150px;
+        background: #fff;
+        @include small {
+          padding-top: 20px;
+        }
+        img {
+          float: left;
+          width: 50%;
+          max-width: 300px;
+          @include small {
+            float: none;
+            display: block;
+            margin: 0 auto;
+            width: auto;
+          }
+        }
+        .text {
+          width: 50%;
+          float: right;
+          padding: 20px;
+          .author {
+            font-size: 14px;
+            margin-bottom: 6px;
+            .author-name {
+              color: $color-main;
+            }
+          }
+          .body {
+            font-size: 13px;
+          }
+          @include small {
+            float: none;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+  .blog-header {
+    padding-left: 12px;
+    .back {
+      font-size: 13px;
+    }
+    .blog-title {
+      color: #303438;
+      font-size: 18px;
+      margin-top: 26px;
+      margin-bottom: 26px;
+    }
+  }
+  .blog-wrapper {
+    background: #fff;
+    margin-left: 12px; 
+    padding-top: 15px;
+    @include small {
+      width: 96%;
+      margin: 0 auto;
+    }
+    .top {
+      width: 100%;
+      min-height: 150px;
+      padding-left: 15px;
+      @include small {
+        padding-left: 0;
+        padding-top: 20px;
+      }
+      img {
+        float: left;
+        width: 50%;
+        max-width: 300px;
+        border: 3px solid #303438;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -ms-border-radius: 3px;
+        -o-border-radius: 3px;
+        border-radius: 3px;
+        @include small {
+          float: none;
+          display: block;
+          margin: 0 auto;
+          width: 90%;
+        }
+      }
+      .text {
+        width: 50%;
+        float: right;
+        padding: 20px;
+        .author {
+          font-size: 14px;
+          margin-bottom: 6px;
+          .author-name {
+            color: $color-main;
+          }
+        }
+        .body {
+          font-size: 13px;
+        }
+        @include small {
+          float: none;
+          width: 100%;
+        }
+      }
+    }
+    .blog-body {
+      padding: 20px 0;
+      border-top: 1px dashed #c8c8c8;
+      width: 90%;
+      margin: 20px auto;
+      font-size: 14px;
+      p, h1, h2, h3, h4, h5, h6 {
+        margin-bottom: 18px;
+      }
+    }
+  }
+
+}
+
+.blog-links {
+  margin-top: 25px;
+  font-size: 13px;
+  padding-left: 12px;
+  a {
+    margin-right: 20px;
+  }
+}
+
+.right-sidebar.blog {
+  margin-left: 48px;
+  margin-bottom: 30px;
+  @include breakpx(0, 600px) {
+    margin-left: 0;
+  }
+  @include breakpx(600px, 960px) {
+    margin-left: 0;
+  }
+}

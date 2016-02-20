@@ -1,0 +1,46 @@
+<% content_for :caboose_css do %>
+<% end %>
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<% end %>
+
+<%
+@crumbtrail.add({
+  '/admin' => 'Admin',
+  '/admin/companies' => 'Companies',
+  @job.company.url => @job.company.name,
+  "#{@job.company.url}/jobs" => 'Jobs',
+  @job.url => @job.title
+})
+case request.fullpath
+  when @job.url                         then @crumbtrail.add('#', 'General')
+  when "#{@job.url}/categories"         then @crumbtrail.add('#', 'Categories')
+  when "#{@job.url}/description"        then @crumbtrail.add('#', 'Description')
+  when "#{@job.url}/stats"              then @crumbtrail.add('#', 'Stats') 
+  when "#{@job.url}/make-available-now" then @crumbtrail.add('#', 'Make Available Now')
+  when "#{@job.url}/delete"             then @crumbtrail.add('#', 'Delete')
+end
+%>
+<%= raw @crumbtrail.print %>
+
+<h1>Edit Job Posting</h1>
+<ul id='tabs'>
+<%
+tabs = {
+  'General'            => @job.url,
+  'Categories'         => "#{@job.url}/categories",
+  'Description'        => "#{@job.url}/description",
+  'Stats'              => "#{@job.url}/stats",
+  'Make Available Now' => "#{@job.url}/make-available-now",
+  'View Job On Site'   => "/job/#{@job.slug}",
+  'Delete Job Posting' => "#{@job.url}/delete"
+}
+%>
+<% tabs.each do |text, href| %>
+<li<%= raw request.fullpath == href ? " class='selected'" : '' %>>
+<a href='<%= href %>' <%= text == 'View Job On Site' ? raw("target='_blank'") : '' %>><%= raw text %></a>
+</li>
+<% end %>
+<li class='back'><input type='button' value='< Back' onclick="window.location='<%= @job.company.url %>/jobs';" /></li>
+</ul>
+<div id='content2'>

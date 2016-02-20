@@ -1,0 +1,72 @@
+.about-us-wrapper {
+  background-color: rgb(38, 38, 38);
+  background-image: url("//d2ju3eumzwbxuv.cloudfront.net/assets/home_banner.jpg ");
+  -ms-behavior: url("/bg.htc"); background-size: 1600px;
+  background-position: top center;
+  background-repeat: no-repeat;
+  position: relative;
+  border-top: 1px solid $color-main;
+  .overlay {
+    width: 100%;
+    height: 100%;
+    padding: 60px 30px;
+    @include halfgradient(); 
+    @include small {
+      padding: 20px;
+    }
+  }
+  .left {
+    float: left;
+    width: 28%;
+    text-align: center;
+    img {
+      width: 90%;
+      max-width: 270px;
+    }
+    @include small {
+      float: none;
+      width: 100%;
+      margin-bottom: 20px;
+      img {
+        max-width: 220px;
+      }
+    }
+  }
+  .right {
+    float: right;
+    width: 70%;
+    .content {
+      font-size: 15px;
+      h2 {
+        color: #303438;
+        font-size: 36px;
+        margin-bottom: 8px;
+      }
+      strong {
+        font-weight: bold;
+      }
+      p {
+        margin-bottom: 20px;
+        .big {
+          font-size: 20px;
+        }
+        a {
+          color: $color-dark;
+          &:hover {
+            color: $color-main;
+          }
+        }
+        &.blue {
+          color: $color-link;
+          a {
+            color: $color-link; 
+          }
+        }
+      }
+    }
+    @include small {
+      float: none;
+      width: 100%;
+    }
+  }
+}

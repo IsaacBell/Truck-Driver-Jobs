@@ -1,0 +1,514 @@
+<%
+now = DateTime.now
+available_jobs_filter = ["date_available is not null and date_available <= ? and (date_expires is null or date_expires >= ?)", now, now]
+%>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">  
+  <%= raw url_node('/', '1.0') %>
+  <%= raw url_node('/truck-driver-job-application/') %>  
+  <%= raw url_node('/policy/') %>
+  <%= raw url_node('/s/') %>        
+  <%= raw url_node('/companies/') %>
+  <%= raw url_node('/companies-hiring/') %>    
+  <%= raw url_node('/blog/') %>    
+<% Company.where(:status => Company::STATUS_ACTIVE).reorder(:name).all.each do |c| %>  
+  <%= raw url_node("/#{c.slug}-jobs/") %>
+  <%= raw url_node("/#{c.slug}-job-application/") %>       
+  <% c.job_postings.where(available_jobs_filter).all.each do |j| %>        
+  <%= raw url_node("/#{c.slug}-job-application/#{j.slug}/") %>
+  <%= raw url_node("/job/#{j.slug}/") %>
+  <% end %>
+  <%= raw url_node("/companies/#{c.slug}/") %>  
+<% end %>
+
+<% Category.reorder(:name).all.each do |c| %>
+  <%= raw url_node("/#{c.slug}-truck-driver-jobs/") %>
+<% end %>
+
+<% States.all.each do |abbr, state| %>
+  <%= raw url_node("/truck-driver-jobs-in-#{state.downcase.gsub(' ', '-')}/") %>
+<% end %>
+  <%= raw url_node("/s/?location=Birmingham, AL&radius=50") %>
+  <%= raw url_node("/s/?location=Montgomery, AL&radius=50") %>
+  <%= raw url_node("/s/?location=Mobile, AL&radius=50") %>
+  <%= raw url_node("/s/?location=Huntsville, AL&radius=50") %>
+  <%= raw url_node("/s/?location=Tuscaloosa, AL&radius=50") %>
+  <%= raw url_node("/s/?location=Hoover, AL&radius=50") %>
+  <%= raw url_node("/s/?location=Dothan, AL&radius=50") %>
+  <%= raw url_node("/s/?location=Decatur, AL&radius=50") %>
+  <%= raw url_node("/s/?location=Auburn, AL&radius=50") %>
+  <%= raw url_node("/s/?location=Madison, AL&radius=50") %>
+  <%= raw url_node("/s/?location=Phoenix, AZ&radius=50") %>
+  <%= raw url_node("/s/?location=Tucson, AZ&radius=50") %>
+  <%= raw url_node("/s/?location=Mesa, AZ&radius=50") %>
+  <%= raw url_node("/s/?location=Chandler, AZ&radius=50") %>
+  <%= raw url_node("/s/?location=Glendale, AZ&radius=50") %>
+  <%= raw url_node("/s/?location=Scottsdale, AZ&radius=50") %>
+  <%= raw url_node("/s/?location=Gilbert, AZ&radius=50") %>
+  <%= raw url_node("/s/?location=Tempe, AZ&radius=50") %>
+  <%= raw url_node("/s/?location=Peoria, AZ&radius=50") %>
+  <%= raw url_node("/s/?location=Surprise, AZ&radius=50") %>
+  <%= raw url_node("/s/?location=Little Rock, AR&radius=50") %>
+  <%= raw url_node("/s/?location=Fort Smith, AR&radius=50") %>
+  <%= raw url_node("/s/?location=Fayetteville, AR&radius=50") %>
+  <%= raw url_node("/s/?location=Guira de Melena, AR&radius=50") %>
+  <%= raw url_node("/s/?location=Springdale, AR&radius=50") %>
+  <%= raw url_node("/s/?location=Artemisa, AR&radius=50") %>
+  <%= raw url_node("/s/?location=Jonesboro, AR&radius=50") %>
+  <%= raw url_node("/s/?location=North Little Rock, AR&radius=50") %>
+  <%= raw url_node("/s/?location=San Cristobal, AR&radius=50") %>
+  <%= raw url_node("/s/?location=Conway, AR&radius=50") %>
+  <%= raw url_node("/s/?location=Los Angeles, CA&radius=50") %>
+  <%= raw url_node("/s/?location=San Diego, CA&radius=50") %>
+  <%= raw url_node("/s/?location=San Jose, CA&radius=50") %>
+  <%= raw url_node("/s/?location=San Francisco, CA&radius=50") %>
+  <%= raw url_node("/s/?location=Fresno, CA&radius=50") %>
+  <%= raw url_node("/s/?location=Sacramento, CA&radius=50") %>
+  <%= raw url_node("/s/?location=Long Beach, CA&radius=50") %>
+  <%= raw url_node("/s/?location=Oakland, CA&radius=50") %>
+  <%= raw url_node("/s/?location=Bakersfield, CA&radius=50") %>
+  <%= raw url_node("/s/?location=Anaheim, CA&radius=50") %>
+  <%= raw url_node("/s/?location=Denver, CO&radius=50") %>
+  <%= raw url_node("/s/?location=Colorado Springs, CO&radius=50") %>
+  <%= raw url_node("/s/?location=Aurora, CO&radius=50") %>
+  <%= raw url_node("/s/?location=Fort Collins, CO&radius=50") %>
+  <%= raw url_node("/s/?location=Lakewood, CO&radius=50") %>
+  <%= raw url_node("/s/?location=Thornton, CO&radius=50") %>
+  <%= raw url_node("/s/?location=Pueblo, CO&radius=50") %>
+  <%= raw url_node("/s/?location=Arvada, CO&radius=50") %>
+  <%= raw url_node("/s/?location=Westminster, CO&radius=50") %>
+  <%= raw url_node("/s/?location=Centennial, CO&radius=50") %>
+  <%= raw url_node("/s/?location=Bridgeport, CT&radius=50") %>
+  <%= raw url_node("/s/?location=New Haven, CT&radius=50") %>
+  <%= raw url_node("/s/?location=Hartford, CT&radius=50") %>
+  <%= raw url_node("/s/?location=Stamford, CT&radius=50") %>
+  <%= raw url_node("/s/?location=North Stamford, CT&radius=50") %>
+  <%= raw url_node("/s/?location=Waterbury, CT&radius=50") %>
+  <%= raw url_node("/s/?location=Norwalk, CT&radius=50") %>
+  <%= raw url_node("/s/?location=East Norwalk, CT&radius=50") %>
+  <%= raw url_node("/s/?location=Danbury, CT&radius=50") %>
+  <%= raw url_node("/s/?location=New Britain, CT&radius=50") %>
+  <%= raw url_node("/s/?location=Wilmington, DE&radius=50") %>
+  <%= raw url_node("/s/?location=Dover, DE&radius=50") %>
+  <%= raw url_node("/s/?location=Newark, DE&radius=50") %>
+  <%= raw url_node("/s/?location=Bear, DE&radius=50") %>
+  <%= raw url_node("/s/?location=Middletown, DE&radius=50") %>
+  <%= raw url_node("/s/?location=Brookside, DE&radius=50") %>
+  <%= raw url_node("/s/?location=Glasgow, DE&radius=50") %>
+  <%= raw url_node("/s/?location=Hockessin, DE&radius=50") %>
+  <%= raw url_node("/s/?location=Pike Creek Valley, DE&radius=50") %>
+  <%= raw url_node("/s/?location=Smyrna, DE&radius=50") %>
+  <%= raw url_node("/s/?location=Jacksonville, FL&radius=50") %>
+  <%= raw url_node("/s/?location=Miami, FL&radius=50") %>
+  <%= raw url_node("/s/?location=Tampa, FL&radius=50") %>
+  <%= raw url_node("/s/?location=Saint Petersburg, FL&radius=50") %>
+  <%= raw url_node("/s/?location=Orlando, FL&radius=50") %>
+  <%= raw url_node("/s/?location=Hialeah, FL&radius=50") %>
+  <%= raw url_node("/s/?location=Tallahassee, FL&radius=50") %>
+  <%= raw url_node("/s/?location=Fort Lauderdale, FL&radius=50") %>
+  <%= raw url_node("/s/?location=Port Saint Lucie, FL&radius=50") %>
+  <%= raw url_node("/s/?location=Pembroke Pines, FL&radius=50") %>
+  <%= raw url_node("/s/?location=Atlanta, GA&radius=50") %>
+  <%= raw url_node("/s/?location=Columbus, GA&radius=50") %>
+  <%= raw url_node("/s/?location=Savannah, GA&radius=50") %>
+  <%= raw url_node("/s/?location=Athens, GA&radius=50") %>
+  <%= raw url_node("/s/?location=Sandy Springs, GA&radius=50") %>
+  <%= raw url_node("/s/?location=Macon, GA&radius=50") %>
+  <%= raw url_node("/s/?location=Roswell, GA&radius=50") %>
+  <%= raw url_node("/s/?location=Albany, GA&radius=50") %>
+  <%= raw url_node("/s/?location=Johns Creek, GA&radius=50") %>
+  <%= raw url_node("/s/?location=Warner Robins, GA&radius=50") %>
+  <%= raw url_node("/s/?location=Boise, ID&radius=50") %>
+  <%= raw url_node("/s/?location=Nampa, ID&radius=50") %>
+  <%= raw url_node("/s/?location=Meridian, ID&radius=50") %>
+  <%= raw url_node("/s/?location=Idaho Falls, ID&radius=50") %>
+  <%= raw url_node("/s/?location=Pocatello, ID&radius=50") %>
+  <%= raw url_node("/s/?location=Caldwell, ID&radius=50") %>
+  <%= raw url_node("/s/?location=Coeur d Alene, ID&radius=50") %>
+  <%= raw url_node("/s/?location=Twin Falls, ID&radius=50") %>
+  <%= raw url_node("/s/?location=Lewiston, ID&radius=50") %>
+  <%= raw url_node("/s/?location=Lewiston Orchards, ID&radius=50") %>
+  <%= raw url_node("/s/?location=Chicago, IL&radius=50") %>
+  <%= raw url_node("/s/?location=Aurora, IL&radius=50") %>
+  <%= raw url_node("/s/?location=Rockford, IL&radius=50") %>
+  <%= raw url_node("/s/?location=Joliet, IL&radius=50") %>
+  <%= raw url_node("/s/?location=Naperville, IL&radius=50") %>
+  <%= raw url_node("/s/?location=Springfield, IL&radius=50") %>
+  <%= raw url_node("/s/?location=Peoria, IL&radius=50") %>
+  <%= raw url_node("/s/?location=North Peoria, IL&radius=50") %>
+  <%= raw url_node("/s/?location=Elgin, IL&radius=50") %>
+  <%= raw url_node("/s/?location=Waukegan, IL&radius=50") %>
+  <%= raw url_node("/s/?location=Indianapolis, IN&radius=50") %>
+  <%= raw url_node("/s/?location=Fort Wayne, IN&radius=50") %>
+  <%= raw url_node("/s/?location=Evansville, IN&radius=50") %>
+  <%= raw url_node("/s/?location=South Bend, IN&radius=50") %>
+  <%= raw url_node("/s/?location=Hammond, IN&radius=50") %>
+  <%= raw url_node("/s/?location=Bloomington, IN&radius=50") %>
+  <%= raw url_node("/s/?location=Gary, IN&radius=50") %>
+  <%= raw url_node("/s/?location=Carmel, IN&radius=50") %>
+  <%= raw url_node("/s/?location=Fishers, IN&radius=50") %>
+  <%= raw url_node("/s/?location=Muncie, IN&radius=50") %>
+  <%= raw url_node("/s/?location=Des Moines, IA&radius=50") %>
+  <%= raw url_node("/s/?location=Cedar Rapids, IA&radius=50") %>
+  <%= raw url_node("/s/?location=Davenport, IA&radius=50") %>
+  <%= raw url_node("/s/?location=Sioux City, IA&radius=50") %>
+  <%= raw url_node("/s/?location=Waterloo, IA&radius=50") %>
+  <%= raw url_node("/s/?location=Iowa City, IA&radius=50") %>
+  <%= raw url_node("/s/?location=Council Bluffs, IA&radius=50") %>
+  <%= raw url_node("/s/?location=Ames, IA&radius=50") %>
+  <%= raw url_node("/s/?location=Dubuque, IA&radius=50") %>
+  <%= raw url_node("/s/?location=West Des Moines, IA&radius=50") %>
+  <%= raw url_node("/s/?location=Wichita, KS&radius=50") %>
+  <%= raw url_node("/s/?location=Overland Park, KS&radius=50") %>
+  <%= raw url_node("/s/?location=Kansas City, KS&radius=50") %>
+  <%= raw url_node("/s/?location=Topeka, KS&radius=50") %>
+  <%= raw url_node("/s/?location=Olathe, KS&radius=50") %>
+  <%= raw url_node("/s/?location=Lawrence, KS&radius=50") %>
+  <%= raw url_node("/s/?location=Shawnee, KS&radius=50") %>
+  <%= raw url_node("/s/?location=Manhattan, KS&radius=50") %>
+  <%= raw url_node("/s/?location=Lenexa, KS&radius=50") %>
+  <%= raw url_node("/s/?location=Salina, KS&radius=50") %>
+  <%= raw url_node("/s/?location=Lexington-Fayette, KY&radius=50") %>
+  <%= raw url_node("/s/?location=Ironville, KY&radius=50") %>
+  <%= raw url_node("/s/?location=Meads, KY&radius=50") %>
+  <%= raw url_node("/s/?location=Louisville, KY&radius=50") %>
+  <%= raw url_node("/s/?location=Lexington, KY&radius=50") %>
+  <%= raw url_node("/s/?location=Bowling Green, KY&radius=50") %>
+  <%= raw url_node("/s/?location=Owensboro, KY&radius=50") %>
+  <%= raw url_node("/s/?location=Covington, KY&radius=50") %>
+  <%= raw url_node("/s/?location=Hopkinsville, KY&radius=50") %>
+  <%= raw url_node("/s/?location=Richmond, KY&radius=50") %>
+  <%= raw url_node("/s/?location=New Orleans, LA&radius=50") %>
+  <%= raw url_node("/s/?location=Baton Rouge, LA&radius=50") %>
+  <%= raw url_node("/s/?location=Shreveport, LA&radius=50") %>
+  <%= raw url_node("/s/?location=Lafayette, LA&radius=50") %>
+  <%= raw url_node("/s/?location=Lake Charles, LA&radius=50") %>
+  <%= raw url_node("/s/?location=Kenner, LA&radius=50") %>
+  <%= raw url_node("/s/?location=Bossier City, LA&radius=50") %>
+  <%= raw url_node("/s/?location=Monroe, LA&radius=50") %>
+  <%= raw url_node("/s/?location=Alexandria, LA&radius=50") %>
+  <%= raw url_node("/s/?location=New Iberia, LA&radius=50") %>
+  <%= raw url_node("/s/?location=Baltimore, MD&radius=50") %>
+  <%= raw url_node("/s/?location=Columbia, MD&radius=50") %>
+  <%= raw url_node("/s/?location=Germantown, MD&radius=50") %>
+  <%= raw url_node("/s/?location=Silver Spring, MD&radius=50") %>
+  <%= raw url_node("/s/?location=Waldorf, MD&radius=50") %>
+  <%= raw url_node("/s/?location=Glen Burnie, MD&radius=50") %>
+  <%= raw url_node("/s/?location=Ellicott City, MD&radius=50") %>
+  <%= raw url_node("/s/?location=Frederick, MD&radius=50") %>
+  <%= raw url_node("/s/?location=Dundalk, MD&radius=50") %>
+  <%= raw url_node("/s/?location=Rockville, MD&radius=50") %>
+  <%= raw url_node("/s/?location=West Scarborough, ME&radius=50") %>
+  <%= raw url_node("/s/?location=Westbrook, ME&radius=50") %>
+  <%= raw url_node("/s/?location=Waterville, ME&radius=50") %>
+  <%= raw url_node("/s/?location=York Beach, ME&radius=50") %>
+  <%= raw url_node("/s/?location=Wells Beach Station, ME&radius=50") %>
+  <%= raw url_node("/s/?location=Winslow, ME&radius=50") %>
+  <%= raw url_node("/s/?location=Waterboro, ME&radius=50") %>
+  <%= raw url_node("/s/?location=Rockland, ME&radius=50") %>
+  <%= raw url_node("/s/?location=Topsham, ME&radius=50") %>
+  <%= raw url_node("/s/?location=Yarmouth, ME&radius=50") %>
+  <%= raw url_node("/s/?location=Boston, MA&radius=50") %>
+  <%= raw url_node("/s/?location=South Boston, MA&radius=50") %>
+  <%= raw url_node("/s/?location=Springfield, MA&radius=50") %>
+  <%= raw url_node("/s/?location=Lowell, MA&radius=50") %>
+  <%= raw url_node("/s/?location=Cambridge, MA&radius=50") %>
+  <%= raw url_node("/s/?location=New Bedford, MA&radius=50") %>
+  <%= raw url_node("/s/?location=Brockton, MA&radius=50") %>
+  <%= raw url_node("/s/?location=Quincy  , MA&radius=50") %>
+  <%= raw url_node("/s/?location=Lynn, MA&radius=50") %>
+  <%= raw url_node("/s/?location=Fall River, MA&radius=50") %>
+  <%= raw url_node("/s/?location=Detroit, MI&radius=50") %>
+  <%= raw url_node("/s/?location=Grand Rapids, MI&radius=50") %>
+  <%= raw url_node("/s/?location=Warren, MI&radius=50") %>
+  <%= raw url_node("/s/?location=Sterling Heights, MI&radius=50") %>
+  <%= raw url_node("/s/?location=Lansing, MI&radius=50") %>
+  <%= raw url_node("/s/?location=Ann Arbor, MI&radius=50") %>
+  <%= raw url_node("/s/?location=Flint, MI&radius=50") %>
+  <%= raw url_node("/s/?location=Clinton, MI&radius=50") %>
+  <%= raw url_node("/s/?location=Dearborn, MI&radius=50") %>
+  <%= raw url_node("/s/?location=Livonia, MI&radius=50") %>
+  <%= raw url_node("/s/?location=Minneapolis, MN&radius=50") %>
+  <%= raw url_node("/s/?location=Saint Paul, MN&radius=50") %>
+  <%= raw url_node("/s/?location=Rochester, MN&radius=50") %>
+  <%= raw url_node("/s/?location=Duluth, MN&radius=50") %>
+  <%= raw url_node("/s/?location=Bloomington, MN&radius=50") %>
+  <%= raw url_node("/s/?location=Brooklyn Park, MN&radius=50") %>
+  <%= raw url_node("/s/?location=Plymouth, MN&radius=50") %>
+  <%= raw url_node("/s/?location=Saint Cloud, MN&radius=50") %>
+  <%= raw url_node("/s/?location=Eagan, MN&radius=50") %>
+  <%= raw url_node("/s/?location=West Coon Rapids, MN&radius=50") %>
+  <%= raw url_node("/s/?location=Jackson, MS&radius=50") %>
+  <%= raw url_node("/s/?location=West Gulfport, MS&radius=50") %>
+  <%= raw url_node("/s/?location=Gulfport, MS&radius=50") %>
+  <%= raw url_node("/s/?location=Southaven, MS&radius=50") %>
+  <%= raw url_node("/s/?location=Hattiesburg, MS&radius=50") %>
+  <%= raw url_node("/s/?location=Biloxi, MS&radius=50") %>
+  <%= raw url_node("/s/?location=Meridian, MS&radius=50") %>
+  <%= raw url_node("/s/?location=Tupelo, MS&radius=50") %>
+  <%= raw url_node("/s/?location=Greenville, MS&radius=50") %>
+  <%= raw url_node("/s/?location=Olive Branch, MS&radius=50") %>
+  <%= raw url_node("/s/?location=Kansas City, MO&radius=50") %>
+  <%= raw url_node("/s/?location=St. Louis, MO&radius=50") %>
+  <%= raw url_node("/s/?location=Springfield, MO&radius=50") %>
+  <%= raw url_node("/s/?location=Independence, MO&radius=50") %>
+  <%= raw url_node("/s/?location=East Independence, MO&radius=50") %>
+  <%= raw url_node("/s/?location=Columbia, MO&radius=50") %>
+  <%= raw url_node("/s/?location=Lees Summit, MO&radius=50") %>
+  <%= raw url_node("/s/?location=OFallon, MO&radius=50") %>
+  <%= raw url_node("/s/?location=Saint Joseph, MO&radius=50") %>
+  <%= raw url_node("/s/?location=Saint Charles, MO&radius=50") %>
+  <%= raw url_node("/s/?location=Billings, MT&radius=50") %>
+  <%= raw url_node("/s/?location=Missoula, MT&radius=50") %>
+  <%= raw url_node("/s/?location=Great Falls, MT&radius=50") %>
+  <%= raw url_node("/s/?location=Bozeman, MT&radius=50") %>
+  <%= raw url_node("/s/?location=Butte, MT&radius=50") %>
+  <%= raw url_node("/s/?location=Silver Bow, MT&radius=50") %>
+  <%= raw url_node("/s/?location=Helena, MT&radius=50") %>
+  <%= raw url_node("/s/?location=Kalispell, MT&radius=50") %>
+  <%= raw url_node("/s/?location=Anaconda, MT&radius=50") %>
+  <%= raw url_node("/s/?location=Havre, MT&radius=50") %>
+  <%= raw url_node("/s/?location=Omaha, NE&radius=50") %>
+  <%= raw url_node("/s/?location=Lincoln, NE&radius=50") %>
+  <%= raw url_node("/s/?location=Bellevue, NE&radius=50") %>
+  <%= raw url_node("/s/?location=Grand Island, NE&radius=50") %>
+  <%= raw url_node("/s/?location=La Chaux-de-Fonds, NE&radius=50") %>
+  <%= raw url_node("/s/?location=Neuchatel, NE&radius=50") %>
+  <%= raw url_node("/s/?location=Kearney, NE&radius=50") %>
+  <%= raw url_node("/s/?location=Fremont, NE&radius=50") %>
+  <%= raw url_node("/s/?location=Hastings, NE&radius=50") %>
+  <%= raw url_node("/s/?location=North Platte, NE&radius=50") %>
+  <%= raw url_node("/s/?location=Fargo, ND&radius=50") %>
+  <%= raw url_node("/s/?location=Bismarck, ND&radius=50") %>
+  <%= raw url_node("/s/?location=Grand Forks, ND&radius=50") %>
+  <%= raw url_node("/s/?location=Minot, ND&radius=50") %>
+  <%= raw url_node("/s/?location=West Fargo, ND&radius=50") %>
+  <%= raw url_node("/s/?location=Mandan, ND&radius=50") %>
+  <%= raw url_node("/s/?location=Dickinson, ND&radius=50") %>
+  <%= raw url_node("/s/?location=Jamestown, ND&radius=50") %>
+  <%= raw url_node("/s/?location=Williston, ND&radius=50") %>
+  <%= raw url_node("/s/?location=Wahpeton, ND&radius=50") %>
+  <%= raw url_node("/s/?location=Las Vegas, NV&radius=50") %>
+  <%= raw url_node("/s/?location=Henderson, NV&radius=50") %>
+  <%= raw url_node("/s/?location=Reno, NV&radius=50") %>
+  <%= raw url_node("/s/?location=Paradise, NV&radius=50") %>
+  <%= raw url_node("/s/?location=North Las Vegas, NV&radius=50") %>
+  <%= raw url_node("/s/?location=Sunrise Manor, NV&radius=50") %>
+  <%= raw url_node("/s/?location=Spring Valley, NV&radius=50") %>
+  <%= raw url_node("/s/?location=Enterprise, NV&radius=50") %>
+  <%= raw url_node("/s/?location=Sparks, NV&radius=50") %>
+  <%= raw url_node("/s/?location=Carson City, NV&radius=50") %>
+  <%= raw url_node("/s/?location=Manchester, NH&radius=50") %>
+  <%= raw url_node("/s/?location=Nashua, NH&radius=50") %>
+  <%= raw url_node("/s/?location=Concord, NH&radius=50") %>
+  <%= raw url_node("/s/?location=East Concord, NH&radius=50") %>
+  <%= raw url_node("/s/?location=Derry Village, NH&radius=50") %>
+  <%= raw url_node("/s/?location=Dover, NH&radius=50") %>
+  <%= raw url_node("/s/?location=Rochester, NH&radius=50") %>
+  <%= raw url_node("/s/?location=Salem, NH&radius=50") %>
+  <%= raw url_node("/s/?location=Merrimack, NH&radius=50") %>
+  <%= raw url_node("/s/?location=Keene, NH&radius=50") %>
+  <%= raw url_node("/s/?location=Newark, NJ&radius=50") %>
+  <%= raw url_node("/s/?location=Jersey City, NJ&radius=50") %>
+  <%= raw url_node("/s/?location=Paterson, NJ&radius=50") %>
+  <%= raw url_node("/s/?location=Elizabeth, NJ&radius=50") %>
+  <%= raw url_node("/s/?location=Edison, NJ&radius=50") %>
+  <%= raw url_node("/s/?location=Toms River, NJ&radius=50") %>
+  <%= raw url_node("/s/?location=Trenton, NJ&radius=50") %>
+  <%= raw url_node("/s/?location=Clifton, NJ&radius=50") %>
+  <%= raw url_node("/s/?location=Camden, NJ&radius=50") %>
+  <%= raw url_node("/s/?location=Cherry Hill, NJ&radius=50") %>
+  <%= raw url_node("/s/?location=Albuquerque, NM&radius=50") %>
+  <%= raw url_node("/s/?location=Las Cruces, NM&radius=50") %>
+  <%= raw url_node("/s/?location=Enchanted Hills, NM&radius=50") %>
+  <%= raw url_node("/s/?location=Rio Rancho, NM&radius=50") %>
+  <%= raw url_node("/s/?location=Santa Fe, NM&radius=50") %>
+  <%= raw url_node("/s/?location=Roswell, NM&radius=50") %>
+  <%= raw url_node("/s/?location=Farmington, NM&radius=50") %>
+  <%= raw url_node("/s/?location=South Valley, NM&radius=50") %>
+  <%= raw url_node("/s/?location=Clovis, NM&radius=50") %>
+  <%= raw url_node("/s/?location=Hobbs, NM&radius=50") %>
+  <%= raw url_node("/s/?location=New York City, NY&radius=50") %>
+  <%= raw url_node("/s/?location=Brooklyn, NY&radius=50") %>
+  <%= raw url_node("/s/?location=Manhattan, NY&radius=50") %>
+  <%= raw url_node("/s/?location=Borough of Bronx, NY&radius=50") %>
+  <%= raw url_node("/s/?location=Staten Island, NY&radius=50") %>
+  <%= raw url_node("/s/?location=Buffalo, NY&radius=50") %>
+  <%= raw url_node("/s/?location=Jamaica, NY&radius=50") %>
+  <%= raw url_node("/s/?location=Rochester, NY&radius=50") %>
+  <%= raw url_node("/s/?location=Yonkers, NY&radius=50") %>
+  <%= raw url_node("/s/?location=East New York, NY&radius=50") %>
+  <%= raw url_node("/s/?location=Charlotte, NC&radius=50") %>
+  <%= raw url_node("/s/?location=Raleigh, NC&radius=50") %>
+  <%= raw url_node("/s/?location=West Raleigh, NC&radius=50") %>
+  <%= raw url_node("/s/?location=Greensboro, NC&radius=50") %>
+  <%= raw url_node("/s/?location=Winston-Salem, NC&radius=50") %>
+  <%= raw url_node("/s/?location=Durham, NC&radius=50") %>
+  <%= raw url_node("/s/?location=Fayetteville, NC&radius=50") %>
+  <%= raw url_node("/s/?location=Cary, NC&radius=50") %>
+  <%= raw url_node("/s/?location=Wilmington, NC&radius=50") %>
+  <%= raw url_node("/s/?location=High Point, NC&radius=50") %>
+  <%= raw url_node("/s/?location=Columbus, OH&radius=50") %>
+  <%= raw url_node("/s/?location=Cleveland, OH&radius=50") %>
+  <%= raw url_node("/s/?location=Cincinnati, OH&radius=50") %>
+  <%= raw url_node("/s/?location=Toledo, OH&radius=50") %>
+  <%= raw url_node("/s/?location=Akron, OH&radius=50") %>
+  <%= raw url_node("/s/?location=Dayton, OH&radius=50") %>
+  <%= raw url_node("/s/?location=Parma, OH&radius=50") %>
+  <%= raw url_node("/s/?location=Canton, OH&radius=50") %>
+  <%= raw url_node("/s/?location=Youngstown, OH&radius=50") %>
+  <%= raw url_node("/s/?location=Lorain, OH&radius=50") %>
+  <%= raw url_node("/s/?location=Oklahoma City, OK&radius=50") %>
+  <%= raw url_node("/s/?location=Tulsa, OK&radius=50") %>
+  <%= raw url_node("/s/?location=Norman, OK&radius=50") %>
+  <%= raw url_node("/s/?location=Broken Arrow, OK&radius=50") %>
+  <%= raw url_node("/s/?location=Lawton, OK&radius=50") %>
+  <%= raw url_node("/s/?location=Edmond, OK&radius=50") %>
+  <%= raw url_node("/s/?location=Moore, OK&radius=50") %>
+  <%= raw url_node("/s/?location=Midwest City, OK&radius=50") %>
+  <%= raw url_node("/s/?location=Enid, OK&radius=50") %>
+  <%= raw url_node("/s/?location=Stillwater, OK&radius=50") %>
+  <%= raw url_node("/s/?location=Portland, OR&radius=50") %>
+  <%= raw url_node("/s/?location=Eugene, OR&radius=50") %>
+  <%= raw url_node("/s/?location=Salem, OR&radius=50") %>
+  <%= raw url_node("/s/?location=Gresham, OR&radius=50") %>
+  <%= raw url_node("/s/?location=Hillsboro, OR&radius=50") %>
+  <%= raw url_node("/s/?location=Beaverton, OR&radius=50") %>
+  <%= raw url_node("/s/?location=Bend, OR&radius=50") %>
+  <%= raw url_node("/s/?location=Medford, OR&radius=50") %>
+  <%= raw url_node("/s/?location=Springfield, OR&radius=50") %>
+  <%= raw url_node("/s/?location=Corvallis, OR&radius=50") %>
+  <%= raw url_node("/s/?location=Providence, PA&radius=50") %>
+  <%= raw url_node("/s/?location=Warwick, PA&radius=50") %>
+  <%= raw url_node("/s/?location=Cranston, PA&radius=50") %>
+  <%= raw url_node("/s/?location=Pawtucket, PA&radius=50") %>
+  <%= raw url_node("/s/?location=East Providence, PA&radius=50") %>
+  <%= raw url_node("/s/?location=Woonsocket, PA&radius=50") %>
+  <%= raw url_node("/s/?location=Coventry, PA&radius=50") %>
+  <%= raw url_node("/s/?location=Cumberland, PA&radius=50") %>
+  <%= raw url_node("/s/?location=North Providence, PA&radius=50") %>
+  <%= raw url_node("/s/?location=West Warwick, PA&radius=50") %>
+  <%= raw url_node("/s/?location=Providence, RI&radius=50") %>
+  <%= raw url_node("/s/?location=Warwick, RI&radius=50") %>
+  <%= raw url_node("/s/?location=Cranston, RI&radius=50") %>
+  <%= raw url_node("/s/?location=Pawtucket, RI&radius=50") %>
+  <%= raw url_node("/s/?location=East Providence, RI&radius=50") %>
+  <%= raw url_node("/s/?location=Woonsocket, RI&radius=50") %>
+  <%= raw url_node("/s/?location=Coventry, RI&radius=50") %>
+  <%= raw url_node("/s/?location=Cumberland, RI&radius=50") %>
+  <%= raw url_node("/s/?location=North Providence, RI&radius=50") %>
+  <%= raw url_node("/s/?location=West Warwick, RI&radius=50") %>
+  <%= raw url_node("/s/?location=Columbia, SC&radius=50") %>
+  <%= raw url_node("/s/?location=Charleston, SC&radius=50") %>
+  <%= raw url_node("/s/?location=North Charleston, SC&radius=50") %>
+  <%= raw url_node("/s/?location=Mount Pleasant, SC&radius=50") %>
+  <%= raw url_node("/s/?location=Rock Hill, SC&radius=50") %>
+  <%= raw url_node("/s/?location=Greenville, SC&radius=50") %>
+  <%= raw url_node("/s/?location=Summerville, SC&radius=50") %>
+  <%= raw url_node("/s/?location=Sumter, SC&radius=50") %>
+  <%= raw url_node("/s/?location=Hilton Head Island, SC&radius=50") %>
+  <%= raw url_node("/s/?location=Florence, SC&radius=50") %>
+  <%= raw url_node("/s/?location=Sioux Falls, SD&radius=50") %>
+  <%= raw url_node("/s/?location=Rapid City, SD&radius=50") %>
+  <%= raw url_node("/s/?location=Aberdeen, SD&radius=50") %>
+  <%= raw url_node("/s/?location=Brookings, SD&radius=50") %>
+  <%= raw url_node("/s/?location=Watertown, SD&radius=50") %>
+  <%= raw url_node("/s/?location=Mitchell, SD&radius=50") %>
+  <%= raw url_node("/s/?location=Yankton, SD&radius=50") %>
+  <%= raw url_node("/s/?location=Pierre, SD&radius=50") %>
+  <%= raw url_node("/s/?location=Huron, SD&radius=50") %>
+  <%= raw url_node("/s/?location=Vermillion, SD&radius=50") %>
+  <%= raw url_node("/s/?location=Memphis, TN&radius=50") %>
+  <%= raw url_node("/s/?location=Nashville, TN&radius=50") %>
+  <%= raw url_node("/s/?location=Knoxville, TN&radius=50") %>
+  <%= raw url_node("/s/?location=Chattanooga, TN&radius=50") %>
+  <%= raw url_node("/s/?location=Clarksville, TN&radius=50") %>
+  <%= raw url_node("/s/?location=Murfreesboro, TN&radius=50") %>
+  <%= raw url_node("/s/?location=Jackson, TN&radius=50") %>
+  <%= raw url_node("/s/?location=Franklin, TN&radius=50") %>
+  <%= raw url_node("/s/?location=Johnson City, TN&radius=50") %>
+  <%= raw url_node("/s/?location=Bartlett, TN&radius=50") %>
+  <%= raw url_node("/s/?location=Houston, TX&radius=50") %>
+  <%= raw url_node("/s/?location=San Antonio, TX&radius=50") %>
+  <%= raw url_node("/s/?location=Dallas, TX&radius=50") %>
+  <%= raw url_node("/s/?location=Austin, TX&radius=50") %>
+  <%= raw url_node("/s/?location=Fort Worth, TX&radius=50") %>
+  <%= raw url_node("/s/?location=El Paso, TX&radius=50") %>
+  <%= raw url_node("/s/?location=Arlington, TX&radius=50") %>
+  <%= raw url_node("/s/?location=Corpus Christi, TX&radius=50") %>
+  <%= raw url_node("/s/?location=Lubbock, TX&radius=50") %>
+  <%= raw url_node("/s/?location=Garland, TX&radius=50") %>
+  <%= raw url_node("/s/?location=Salt Lake City, UT&radius=50") %>
+  <%= raw url_node("/s/?location=West Valley City, UT&radius=50") %>
+  <%= raw url_node("/s/?location=Provo, UT&radius=50") %>
+  <%= raw url_node("/s/?location=West Jordan, UT&radius=50") %>
+  <%= raw url_node("/s/?location=Sandy Hills, UT&radius=50") %>
+  <%= raw url_node("/s/?location=Orem, UT&radius=50") %>
+  <%= raw url_node("/s/?location=Sandy City, UT&radius=50") %>
+  <%= raw url_node("/s/?location=Ogden, UT&radius=50") %>
+  <%= raw url_node("/s/?location=Saint George, UT&radius=50") %>
+  <%= raw url_node("/s/?location=Layton, UT&radius=50") %>
+  <%= raw url_node("/s/?location=Burlington, VT&radius=50") %>
+  <%= raw url_node("/s/?location=South Burlington, VT&radius=50") %>
+  <%= raw url_node("/s/?location=Colchester, VT&radius=50") %>
+  <%= raw url_node("/s/?location=Rutland, VT&radius=50") %>
+  <%= raw url_node("/s/?location=Essex Junction, VT&radius=50") %>
+  <%= raw url_node("/s/?location=Bennington, VT&radius=50") %>
+  <%= raw url_node("/s/?location=Barre, VT&radius=50") %>
+  <%= raw url_node("/s/?location=Williston, VT&radius=50") %>
+  <%= raw url_node("/s/?location=Montpelier, VT&radius=50") %>
+  <%= raw url_node("/s/?location=St Johnsbury, VT&radius=50") %>
+  <%= raw url_node("/s/?location=Virginia Beach, VA&radius=50") %>
+  <%= raw url_node("/s/?location=Norfolk, VA&radius=50") %>
+  <%= raw url_node("/s/?location=Chesapeake, VA&radius=50") %>
+  <%= raw url_node("/s/?location=Arlington, VA&radius=50") %>
+  <%= raw url_node("/s/?location=Richmond, VA&radius=50") %>
+  <%= raw url_node("/s/?location=Newport News, VA&radius=50") %>
+  <%= raw url_node("/s/?location=East Hampton, VA&radius=50") %>
+  <%= raw url_node("/s/?location=Alexandria, VA&radius=50") %>
+  <%= raw url_node("/s/?location=Hampton, VA&radius=50") %>
+  <%= raw url_node("/s/?location=Portsmouth Heights, VA&radius=50") %>
+  <%= raw url_node("/s/?location=Seattle, WA&radius=50") %>
+  <%= raw url_node("/s/?location=Spokane, WA&radius=50") %>
+  <%= raw url_node("/s/?location=Tacoma, WA&radius=50") %>
+  <%= raw url_node("/s/?location=Vancouver, WA&radius=50") %>
+  <%= raw url_node("/s/?location=Bellevue, WA&radius=50") %>
+  <%= raw url_node("/s/?location=Everett, WA&radius=50") %>
+  <%= raw url_node("/s/?location=Kent, WA&radius=50") %>
+  <%= raw url_node("/s/?location=Yakima, WA&radius=50") %>
+  <%= raw url_node("/s/?location=Renton, WA&radius=50") %>
+  <%= raw url_node("/s/?location=Spokane Valley, WA&radius=50") %>
+  <%= raw url_node("/s/?location=Charleston, WV&radius=50") %>
+  <%= raw url_node("/s/?location=Huntington, WV&radius=50") %>
+  <%= raw url_node("/s/?location=Parkersburg, WV&radius=50") %>
+  <%= raw url_node("/s/?location=Morgantown, WV&radius=50") %>
+  <%= raw url_node("/s/?location=Wheeling, WV&radius=50") %>
+  <%= raw url_node("/s/?location=Weirton, WV&radius=50") %>
+  <%= raw url_node("/s/?location=Weirton Heights, WV&radius=50") %>
+  <%= raw url_node("/s/?location=Fairmont, WV&radius=50") %>
+  <%= raw url_node("/s/?location=Beckley, WV&radius=50") %>
+  <%= raw url_node("/s/?location=Martinsburg, WV&radius=50") %>
+  <%= raw url_node("/s/?location=Milwaukee, WI&radius=50") %>
+  <%= raw url_node("/s/?location=Madison, WI&radius=50") %>
+  <%= raw url_node("/s/?location=Green Bay, WI&radius=50") %>
+  <%= raw url_node("/s/?location=Kenosha, WI&radius=50") %>
+  <%= raw url_node("/s/?location=Racine, WI&radius=50") %>
+  <%= raw url_node("/s/?location=Appleton, WI&radius=50") %>
+  <%= raw url_node("/s/?location=Waukesha, WI&radius=50") %>
+  <%= raw url_node("/s/?location=Oshkosh, WI&radius=50") %>
+  <%= raw url_node("/s/?location=Eau Claire, WI&radius=50") %>
+  <%= raw url_node("/s/?location=Janesville, WI&radius=50") %>
+  <%= raw url_node("/s/?location=Cheyenne, WY&radius=50") %>
+  <%= raw url_node("/s/?location=Casper, WY&radius=50") %>
+  <%= raw url_node("/s/?location=Laramie, WY&radius=50") %>
+  <%= raw url_node("/s/?location=Gillette, WY&radius=50") %>
+  <%= raw url_node("/s/?location=Rock Springs, WY&radius=50") %>
+  <%= raw url_node("/s/?location=Sheridan, WY&radius=50") %>
+  <%= raw url_node("/s/?location=Green River, WY&radius=50") %>
+  <%= raw url_node("/s/?location=Evanston, WY&radius=50") %>
+  <%= raw url_node("/s/?location=Riverton, WY&radius=50") %>
+  <%= raw url_node("/s/?location=Jackson, WY&radius=50") %>  
+<% Caboose::Post.where(:published => true).reorder(:created_at).all.each do |p| %>
+  <%= raw url_node("/blog/#{p.id}/") %>
+<% end %>
+</urlset>  

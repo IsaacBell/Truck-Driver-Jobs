@@ -1,0 +1,26 @@
+
+<%= raw @crumbtrail.print({
+  '/admin' => 'Admin',
+  '/admin/packages' => 'Packages'  
+}) %>
+
+<h1>Packages</h1>
+<p><a href='/admin/packages/new'>New Package</a></p>
+
+<% if (@packages.count > 0) %>
+  <table class='data'>
+    <tr><%= raw @pager.sortable_table_headings({
+      'name'        => 'Name', 
+      'monthly_fee' => 'Monthly Fee'            
+    }) %></tr>
+    <% @packages.each do |package| %>
+      <tr onclick="window.location='/admin/packages/<%= package.id %>';">
+        <td><%= package.name %></td>
+        <td align='right'><%= number_to_currency(package.monthly_fee, :precision => 2) %></td>                
+      </tr>
+    <% end %>
+  </table>
+  <p><%= raw @pager.generate %></p>
+<% else %>
+  <p>No packages found.</p>
+<% end %>

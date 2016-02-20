@@ -1,0 +1,76 @@
+<div class="form-wrapper" style="padding-top: 40px;" id="block_<%= block.id %>">
+  <form id="contact-form"> 
+    <div class="field">
+      <label class="required">Contact/Company Name</label>
+      <input type="text" name="name">
+    </div>
+
+    <div class="field">
+      <label class="required">Contact Email</label>
+      <input type="text" name="email">
+    </div>
+
+    <div class="field">
+      <label>Contact Phone</label>
+      <input type="text" name="phone">
+    </div>
+
+    <div class="field">
+      <label class="required">Dept. you wish to contact:</label>
+      <div class="select-container">
+        <select name="department" class="select-box">
+          <option value=""></option>
+          <option value="General Inquiry">General Inquiry</option>
+          <option value="Job Posting">Job Posting</option>
+          <option value="Advertising">Advertising</option>
+          <option value="Support">Support</option>
+          <option value="Feedback">Feedback</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="required">Subject</label>
+      <input type="text" name="subject">
+    </div>
+
+    <div class="field">
+      <label class="required">Your Message</label>
+      <textarea rows="6" name="message"></textarea>
+    </div>
+
+    <a id="submit-contact-form" class="dark btn" title="Submit Contact Form">Send &#187;</a>
+
+  </form>
+  <div id="message"></div>
+</div>
+
+<% content_for :js do %>
+  <script>
+    function send_contact_form() {
+      $('#message').html("<p class='note loading'>Submitting contact form...</p>");
+      $.ajax({
+        url: '/contact',
+        type: 'post',
+        data: $('#contact-form').serialize(),
+        success: function(resp) {
+          if(resp.error) {
+            $('#message').html("<p class='note error'>" + resp.error + "</p>");
+          } 
+          if(resp.success) {
+            $("#contact-form").slideUp(); 
+            $('#message').html("<p class='note success'>" + resp.success + "</p>");
+          }
+        }
+      });
+    }
+
+    $(document).ready(function() {
+      $('#submit-contact-form').click(function(e) {
+        e.preventDefault(); 
+        send_contact_form();
+        return false;
+      });
+    });
+  </script>
+<% end %>

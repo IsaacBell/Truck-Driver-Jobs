@@ -1,0 +1,56 @@
+<div class="footer main" id="block_<%= block.id %>">
+  <div class="constrain">
+    <div class="grid-row">
+      <div class="unit1of5 logo">
+        <a href="/" title="TruckDriverJobs.com">
+          <img src="//d2ju3eumzwbxuv.cloudfront.net/assets/footer_logo.png" alt="TDJ" />
+          <span>TruckDriverJobs.com</span>
+        </a>
+      </div>
+      <div class="unit1of5" style="padding-left:3.5%;">
+        <p class="orange title">TruckDriverJobs.com</p>
+        <ul>
+          <% p10 = Caboose::Page.where(:id => 41).first %><% if p10 %><li><a href="/<%= p10.uri %>" title="About Us">About Us</a></li><% end %>
+          <% p9  = Caboose::Page.where(:id => 60).first %><% if p9  %><li><a href="/<%= p9.uri  %>" title="Site Map">Site Map</a></li><% end %>
+          <% p8  = Caboose::Page.where(:id => 44).first %><% if p8  %><li><a href="/<%= p8.uri  %>" title="Contact Us">Contact Us</a></li><% end %>
+          <li>
+            <a href="/my-company" title="My Company">My Company</a>
+            <% if @logged_in_user.id != Caboose::User::LOGGED_OUT_USER_ID %>(<a href="/my-company/logout" title="Logout">Logout</a>)<% end %>
+          </li>                    
+        </ul>
+      </div>
+      <div class="unit1of5" style="padding-left:7%;">
+        <p class="title">Driver Interests</p>
+        <ul>
+          <li><a href="/blog" title="Blog">Blog</a></li>
+          <% p6 = Caboose::Page.where(:id => 42).first %>
+          <% if p6 %><li><a href="/<%= p6.uri %>" title="Industry News">Industry News</a></li><% end %>
+          <% p7 = Caboose::Page.where(:id => 35).first %>
+          <% if p7 %><li><a href="/<%= p7.uri %>" title="Helpful Links">Helpful Links</a></li><% end %>
+        </ul>
+      </div>
+      <div class="unit1of5" style="padding-left:9%;width:23%;">
+        <p class="title">Job Info</p>
+        <ul>
+          <% p4 = Caboose::Page.where(:id => 30).first %>
+          <% if p4 %><li><a href="/<%= p4.uri %>" title="Apply Now">Apply Now</a></li><% end %>
+          <li><a href="/companies-hiring" title="Companies Hiring">Companies Hiring</a></li>
+          <% p5 = Caboose::Page.where(:id => 24).first %>
+          <% if p5 %><li><a href="/<%= p5.uri %>" title="Advanced Search">Advanced Search</a></li><% end %>
+        </ul>
+      </div>
+      <div class="unit1of5" style="padding-left:6%;width:17%;">
+        <p class="title">Questions</p>
+        <ul>
+          <% p3 = Caboose::Page.where(:id => 38).first %>
+          <% if p3 %><li><a href="/<%= p3.uri %>" title="FAQs">FAQs</a></li><% end %>
+          <% p2 = Caboose::Page.where(:id => 27).first %>
+          <% if p2 %><li><a href="/<%= p2.uri %>" title="Posting Plans">Posting Plans</a></li><% end %>
+          <% p1 = Caboose::Page.where(:id => 33).first %>
+          <% if p1 %><li><a href="/<%= p1.uri %>" title="Privacy Policy">Privacy Policy</a></li><% end %>
+        </ul>
+      </div>
+    </div>
+    <p class="copyright">Copyright &copy; 2014 TruckDriverJobs.com - All rights reserved.</p>
+  </div>
+</div>

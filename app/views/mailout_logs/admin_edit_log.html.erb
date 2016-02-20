@@ -1,0 +1,23 @@
+<%
+resp = nil 
+if @log.mailout.email.nil? || @log.mailout.email.strip.length == 0 
+  resp = JSON.pretty_generate(JSON.parse(@log.response))
+else
+  resp = @log.response
+end
+%>
+<h1>Mailout Log Details</h1>
+
+<p><input type='button' value='<Back' onclick="window.location='/admin/logs/<%= @log.batch_id %>';" /></p>
+
+<table class='data'>
+<tr><td>Batch ID:        </td><td><%= @log.batch_id %></td></tr>
+<tr><td>Date sent:       </td><td><%= @log.date_sent.strftime('%F %T') %></td></tr>
+<tr><td>Successful:      </td><td><%= @log.success ? 'Yes' : 'No'      %></td></tr>
+<tr><td>Applicant count: </td><td><%= @log.applicant_count             %></td></tr>
+<tr><td>Scheduled:       </td><td><%= @log.scheduled ? 'Yes' : 'No'    %></td></tr>
+<tr onclick="$('#log_body').slideToggle();$('#log_body_title').slideToggle();"><td valign='top'>Body:      </td><td><div id='log_body_title' style='display: none;'><a href='#'>Click to view</a></div><div id='log_body'><pre><%= @log.body  %></pre></div></td></tr>
+<tr onclick="$('#log_resp').slideToggle();$('#log_resp_title').slideToggle();"><td valign='top'>Response:  </td><td><div id='log_resp_title' style='display: none;'><a href='#'>Click to view</a></div><div id='log_resp'><pre><%= resp       %></pre></div></td></tr>
+</table>
+
+<p><input type='button' value='<Back' onclick="window.location='/admin/logs/<%= @log.batch_id %>';" /></p>

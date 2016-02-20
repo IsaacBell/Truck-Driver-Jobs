@@ -1,0 +1,82 @@
+.jobs-by-city {
+  padding-top: 30px;
+  #quick-apply {
+    float: right;
+    width: 30%;
+    text-align: center;
+    padding-top: 25px;
+    @include small {
+      float: none;
+      width: 100%;
+      text-align: left;
+      padding-left: 0;
+    }
+  }
+  .text-area {
+    width: 70%;
+    float: left;
+    @include small {
+      width: 100%;
+      float: none;
+    }
+  }
+  .page-text-wrapper {
+    padding: 30px 30px 30px 60px;
+    .quick-links {
+      padding-bottom: 40px;
+      padding-right: 55px;
+      .section-title {
+        font-size: 14px;
+        color: #303438;
+        margin-bottom: 5px;
+      }
+      a.quick-link {
+        font-size: 13px;
+      }
+      .separator {
+        color: $color-link;
+        font-size: 13px;
+      }
+      @include small {
+        padding-right: 20px;
+      }
+    }
+    @include small {
+      padding-left: 30px;
+    }
+  }
+  .city-list {
+    .grid-row {
+      .unit1of4 {
+        @include small {
+          text-align: left;
+        }
+        .state-name {
+          margin-top: 25px;
+          margin-bottom: 0;
+          line-height: 15px;
+          &:first-of-type {
+            margin-top: 0;
+          }
+          a {
+            color: #303438;
+            font-size: 15px;
+          }
+        }
+        ul {
+          padding-left: 25px;
+          li {
+            .city-name {
+              margin-bottom: 0;
+              line-height: 13px;
+              a {
+                font-size: 13px;
+                line-height: 14px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

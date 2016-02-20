@@ -1,0 +1,103 @@
+<div class="posting-plans-wrapper">
+  <div class="constrain">
+    <div class="top-text">
+      <h1 class="section-title">Client Posting Plans</h1>
+      <p class="bottom-line">What you receive:</p>
+    </div>
+    <div class="grid-row">
+      <div class="unit1of4">
+        <div class="box gray">
+          <p class="number">25 Jobs</p>
+          <p class="price"><span>$695</span>/mth</p>
+        </div>
+        <h2 class="features-title">25 Job Postings/mth</h2>
+        <ul class="features">
+          <li>Nightly Filtered Apps by hiring area/criteria</li>
+          <li>Company Specific Quick App</li>
+          <li>Company Profile Page displayed in each hiring state</li>
+        </ul>
+      </div>
+      <div class="unit1of4">
+        <div class="box orange">
+          <p class="number">50 Jobs</p>
+          <p class="price"><span>$995</span>/mth</p>
+        </div>
+        <h2 class="features-title">50 Job Postings/mth</h2>
+        <ul class="features">
+          <li>Nightly Filtered Apps by hiring area/criteria</li>
+          <li>Company Specific Quick App</li>
+          <li>Company Profile Page displayed in each hiring state</li>
+          <li class="plus">Banner displayed sitewide</li>
+        </ul>
+      </div>
+      <div class="unit1of4">
+        <div class="box blue">
+          <p class="number">Ongoing Jobs</p>
+          <p class="price"><span>$1995</span>/mth</p>
+        </div>
+        <h2 class="features-title">Ongoing Job Postings/mth</h2>
+        <ul class="features">
+          <li>Nightly Filtered Apps by hiring area/criteria</li>
+          <li>Company Specific Quick App</li>
+          <li>Company Profile Page displayed in each hiring state</li>
+          <li class="plus">Banner displayed sitewide</li>
+          <li class="plus">Homepage Premier Listing</li>
+        </ul>
+      </div>
+      <div class="unit1of4">
+        <div class="box premier">
+          <span id="add-on">+add on</span>
+          <p class="number">Premier<br />Listing</p>
+          <p class="price"><span>$395</span>/mth</p>
+        </div>
+        <h2 class="features-title">Premier Listing in Desired States</h2>
+        <ul class="features">
+          <li>Stand out from the crowd with a premier top placement listing on all desired states.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p id="which">Which plan is for me?</p>
+
+    <div class="plan-compare clearfix">
+      <div class="left-text">
+        <div class="row clearfix">
+          <p class="jobs">25 Jobs -</p>
+          <p class="name"><span class="quote">“</span>Base Plan.</p>
+        </div>
+        <div class="row clearfix">
+          <p class="jobs">50 Jobs -</p>
+          <p class="name"><span class="orange quote">“</span>More Exposure.</p>
+        </div>
+        <div class="row clearfix">
+          <p class="jobs">Daily Jobs -</p>
+          <p class="name"><span class="blue quote">“</span>Premier Exposure.</p>
+        </div>
+      </div>
+      <div class="example">
+        <p class="text">Premier Listing Example:</p>
+        <img src="//d2ju3eumzwbxuv.cloudfront.net/assets/icons/premier_arrows.png" id="arrows">
+        <div class="company-unit">
+          <p class="name">Melton Truck Lines</p>
+          <p class="phone">866-464-4927</p>
+          <div class="content">
+            <p>Top 1% pay nationwide! Become one of our satisfied drivers. Our goal is to help you succeed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="questions">
+      <p class="section-title">
+        <span>Questions?</span>
+        <% p8 = Caboose::Page.where(:id => 44).first %>
+        <% if p8 %><a href="/<%= p8.uri %>" title="Contact Us">Contact Us</a><% end %>
+      </p>
+      <div class="content">
+        <span>FAQ:</span>
+        <p>Job postings are by city. Each month you may send us new cities and jobs never expire unless you request it. Jobs build month to month proving greater client return/brand awareness the longer you run with us. No contracts!</p>
+      </div>
+    </div>
+
+  </div>
+</div>

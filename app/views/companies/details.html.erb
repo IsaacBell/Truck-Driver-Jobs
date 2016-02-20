@@ -1,0 +1,86 @@
+<% c = @company %>
+
+<div class="company-profile" itemscope itemtype="http://schema.org/Organization">
+  <div class="constrain">
+    <div class="left-content">
+      <div class="photo-profile" style="<%= c.background ? "background-image:url('#{c.background.url(:large)}');" : '' %>">
+        <div class="logo-container">
+          <div class="logo-holder">
+            <% if c.logo %>
+              <img itemprop="logo" src="<%= c.logo.url(:thumb) %>" alt="<%= c.name %>" class="logo">
+            <% end %>
+          </div>
+        </div>
+      </div>      
+      <div class="company-container">
+        <div class="company-info clearfix">
+          <div class="left">
+            <h1 class="company-name" itemprop="name"><%= c.name %></h1>
+            <% if !c.city.blank? && !c.state.blank? %>
+              <p class="location" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                <span itemprop="addressLocality"><%= c.city %></span>, 
+                <span itemprop="addressRegion"><%= c.state %></span> 
+                <span itemprop="postalCode"><%= c.zip %></span>
+              </p>                                                   
+            <% end %>
+            <% if !c.recruiter_phone.blank? %>
+              <p class="head">Call:</p>
+              <p class="phone" itemprop="telephone"><%= c.recruiter_phone %></p>
+            <% end %>
+            <% if !c.website.blank? %>
+              <p class="head">Visit:</p>
+              <p class="website">
+                <a itemprop="url" href="<%= c.website.start_with?('http') ? c.website : ("http://" + c.website) %>" title="<%= c.name %>" target="_blank"><%= c.website.gsub('http://', '').gsub('https://', '') %></a>
+              </p>
+            <% end %>
+            <p class="head">Jobs:</p>
+            <p class="view-jobs"><a href="/<%= c.slug %>-jobs" title="View Jobs">view jobs &#187;</a></p>
+          </div>
+          <div class="right">
+            <p class="apply"><a href="#" id="apply-now" title="Apply">APPLY &#187;</a></p>
+            <% if c.company_states.count > 0 %>
+              <p class="head">Hiring States:</p>
+              <ul class="state-list">
+                <% c.company_states.order("state").each do |s| %>
+                  <li><%= s.state %></li>
+                <% end %>
+              </ul> 
+            <% end %>
+          </div>
+        </div>    
+        <% if !c.overview.blank? %>
+          <div class="section company-overview formatted-textarea">
+            <h2 class="section-title">Company Overview:</h2>
+            <%== c.overview %>
+          </div>
+        <% end %>
+        <% if !c.benefits.blank? %>
+          <div class="section job-benefits formatted-textarea">
+            <h3 class="section-title">Company Benefits:</h3>
+            <%== c.benefits %>
+          </div>
+        <% end %>
+        <% if !c.qualifications.blank? %>
+          <div class="section job-qualifications formatted-textarea">
+            <h3 class="section-title">Company Qualifications:</h3>
+            <%== c.qualifications %>
+          </div>
+        <% end %>
+      </div>
+    </div><!-- end left-content --> 
+
+    <div class="right-sidebar">
+      <%= render 'layouts/sidebar_application', :locals => { :company => @company } %>
+    </div><!-- end right-sidebar --> 
+
+  </div>
+</div>
+
+<%= content_for :caboose_js do %>
+  <script>
+    $("#apply-now").click(function(event) {
+      event.preventDefault(); 
+      $("#app_form").find("input[type=text]").first().focus(); 
+    }); 
+  </script>
+<% end %>

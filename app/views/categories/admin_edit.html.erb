@@ -1,0 +1,57 @@
+
+<%= raw @crumbtrail.print({
+  '/admin' => 'Admin',
+  '/admin/categories' => 'Categories',
+  "/admin/categories/#{@category.id}" => @category.name  
+}) %>
+
+<h1>Edit Category</h1>
+<p><div id='category_<%= @category.id %>_name'         ></div></p>
+        
+<div id="message"></div>
+
+<p>
+  <input type='button' value='< Back' onclick="window.location='/admin/categories';" />
+  <input type='button' value='Delete Category' onclick="delete_category(<%= @category.id %>);" />
+</p>
+  
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'Category',
+    id: <%= @category.id %>,
+    update_url: '/admin/categories/<%= @category.id %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      { name: 'name'        , nice_name: 'Name'        , type: 'text' , value: <%= raw Caboose.json(@category.name        ) %>, width: 800 }      
+    ]
+  });  
+});
+
+function delete_category(category_id, confirm) 
+{
+  if (!confirm)
+  {
+    var p = $('<p/>').addClass('note warning')
+      .append("Are you sure you want to delete the category? ")
+      .append($('<input/>').attr('type','button').val('Yes').click(function() { delete_category(category_id, true); })).append(' ')
+      .append($('<input/>').attr('type','button').val('No').click(function() { $('#message').empty(); }));      
+    $('#message').empty().append(p);
+    return;
+  }  
+  $('#message').empty().html($('<p/>').addClass('loading').html("Deleting category..."));
+  $.ajax({
+    url: '/admin/categories/' + category_id,
+    type: 'delete',    
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+</script>
+<% end %>

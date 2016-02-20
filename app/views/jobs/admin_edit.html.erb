@@ -1,0 +1,75 @@
+<%= render :partial => 'jobs/admin_header' %>
+
+<p><div id='jobposting_<%= @job.id %>_title'    ></div></p>
+<p><div id='jobposting_<%= @job.id %>_slug'     ></div></p>
+<p><div id='jobposting_<%= @job.id %>_job_type' ></div></p>
+<p><div id='jobposting_<%= @job.id %>_city'     ></div></p>
+<p><div id='jobposting_<%= @job.id %>_state'    ></div></p>
+<p><div id='jobposting_<%= @job.id %>_phone'    ></div></p>
+<p><div id='jobposting_<%= @job.id %>_website'  ></div></p>
+<p><div id='jobposting_<%= @job.id %>_app_url'  ></div></p>
+<table>
+  <tr>    
+    <td>Date available: </td>
+    <td><div id='jobposting_<%= @job.id %>_date_available'       ></div></td>
+    <td><div id='jobposting_<%= @job.id %>_time_available'       ></div></td>
+  </tr>
+  <tr>
+    <td>Date expires: </td>
+    <td><div id='jobposting_<%= @job.id %>_date_expires'         ></div></td>
+    <td><div id='jobposting_<%= @job.id %>_time_expires'         ></div></td>
+  </tr>
+</table>
+<p>All dates and times are in central timezone.</p>
+
+<div id="message"></div>
+
+<%= render :partial => 'jobs/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<%= javascript_include_tag "jquery-ui/datepicker" %>
+<script type="text/javascript">
+<%
+da = @job.date_available ? @job.date_available - 5.hours : nil
+de = @job.date_expires   ? @job.date_expires   - 5.hours : nil
+%>
+var mb = false;
+$(document).ready(function() {
+  mb = new ModelBinder({
+    name: 'JobPosting',
+    id: <%= @job.id %>,
+    update_url: '<%= @job.url %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      { name: 'title'                , nice_name: 'Title'                , type: 'text'     , value: <%= raw Caboose.json(@job.title     ) %>, width: 800 , after_update: refresh_slug },
+      { name: 'slug'                 , nice_name: 'Slug'                 , type: 'text'     , value: <%= raw Caboose.json(@job.slug      ) %>, width: 800 },
+      { name: 'job_type'             , nice_name: 'Job type'             , type: 'select'   , value: <%= raw Caboose.json(@job.job_type  ) %>, width: 800 , options_url: '/admin/jobs/job-type-options' },
+      { name: 'city'                 , nice_name: 'City'                 , type: 'text'     , value: <%= raw Caboose.json(@job.city      ) %>, width: 800 , after_update: refresh_slug },
+      { name: 'state'                , nice_name: 'State'                , type: 'select'   , value: <%= raw Caboose.json(@job.state     ) %>, width: 800 , options_url: '/admin/jobs/state-options' , after_update: refresh_slug },
+      { name: 'phone'                , nice_name: 'Phone'                , type: 'text'     , value: <%= raw Caboose.json(@job.phone     ) %>, width: 800 },
+      { name: 'website'              , nice_name: 'Website'              , type: 'text'     , value: <%= raw Caboose.json(@job.website   ) %>, width: 800 },
+      { name: 'app_url'              , nice_name: 'App Link'             , type: 'text'     , value: <%= raw Caboose.json(@job.app_url   ) %>, width: 800 },      
+      { name: 'date_available'       , nice_name: 'Date available'       , type: 'date'     , value: <%= raw Caboose.json(da ? da.strftime('%m/%d/%Y') : '') %>, width: 100, fixed_placeholder: false },
+      { name: 'date_expires'         , nice_name: 'Date expires'         , type: 'date'     , value: <%= raw Caboose.json(de ? de.strftime('%m/%d/%Y') : '') %>, width: 100, fixed_placeholder: false },
+      { name: 'time_available'       , nice_name: 'Time available'       , type: 'time'     , value: <%= raw Caboose.json(da ? da.strftime('%I:%M %P') : '') %>, width: 100, fixed_placeholder: false },
+      { name: 'time_expires'         , nice_name: 'Time expires'         , type: 'time'     , value: <%= raw Caboose.json(de ? de.strftime('%I:%M %P') : '') %>, width: 100, fixed_placeholder: false }            
+    ]
+  });  
+});
+
+function refresh_slug()
+{
+  $.ajax({
+    url: '/admin/companies/<%= @job.company_id %>/jobs/<%= @job.id %>/json',
+    success: function(job) {
+      var slug = mb.control_with_id('jobposting_<%= @job.id %>_slug');      
+      slug.attribute.value = job.slug;
+      slug.attribute.value_clean = job.slug;      
+      slug.cancel();
+    }
+  });   
+}
+
+</script>
+<% end %>

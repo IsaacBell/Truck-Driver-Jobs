@@ -1,0 +1,11 @@
+<h1>Scheduled Mailout Report</h1>
+
+<table>
+<tr><td>Started:  </td><%= @d1.strftime('%F %T') %></td></tr>
+<tr><td>Ended:    </td><%= @d2.strftime('%F %T') %></td></tr>
+<tr><td>Number of apps sent successfully:       </td><%= @success_app_count %></tr></tr>
+<tr><td>Number of apps submissions that failed: </td><%= @fail_app_count %></tr></tr>
+</table><br />
+
+<p><a href='https://truckdriverjobs.herokuapp.com/logs?date_sent_gte=<%= @d1.strftime('%F %T') %>&date_sent_lte=<%= @d2.strftime("%F %T") %>'>View logs</a><?p>
+<p><a href='https://truckdriverjobs.herokuapp.com/logs/totals?d1=<%= @d1.strftime('%F') %>&d2=<%= @d2.strftime %>'>View totals</a><?p>

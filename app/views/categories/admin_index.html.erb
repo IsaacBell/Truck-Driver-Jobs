@@ -1,0 +1,26 @@
+
+<%= raw @crumbtrail.print({
+  '/admin' => 'Admin',
+  '/admin/categories' => 'Categories'  
+}) %>
+
+<h1>Categories</h1>
+<p><a href='/admin/categories/new'>New Category</a></p>
+
+<% if (@categories.count > 0) %>
+  <table class='data'>
+    <tr><%= raw @pager.sortable_table_headings({
+      'name' => 'Name',
+      'slug' => 'slug'
+    }) %></tr>
+    <% @categories.each do |cat| %>
+      <tr onclick="window.location='/admin/categories/<%= cat.id %>';">
+        <td><%= cat.name %></td>
+        <td><%= cat.slug %></td>
+      </tr>
+    <% end %>
+  </table>
+  <p><%= raw @pager.generate %></p>
+<% else %>
+  <p>No categories found.</p>
+<% end %>

@@ -1,0 +1,32 @@
+<h1>Scheduled Mailout Report</h1>
+
+<table border="1" style="border-collapse: collapse;">
+<tr><td>Started:  </td><td><%= @d1 ? @d1.strftime('%F %T') : "" %></td></tr>
+<tr><td>Ended:    </td><td><%= @d2 ? @d2.strftime('%F %T') : "" %></td></tr>
+</table><br />
+
+<% if @batches && @batches.count > 0 %>
+  <table border="1" style="border-collapse: collapse;">
+    <tr>
+      <th>Mailout</th>      
+      <th>App count</th>
+      <th>Successful</th>
+      <th>Failed</th>            
+    </tr>    
+    <% @batches.each do |b| %>
+      <tr>                
+        <td>
+          <% if b.mailout && b.mailout.company %><%= b.mailout.company.name %><% else %>Unknown Company<% end %> -
+          <% if b.mailout %><%= b.mailout.name %><% else %>Uknown Mailout<% end %>
+        </td>
+        <td align='right'><%= b.applicant_count %></td>
+        <td align='right'><%= b.count_successful %></td>
+        <td align='right'><%= b.count_failed %></td>
+      </tr>
+    <% end %>
+  </table>  
+<% else %>
+  <p>No log batches found.</p>
+<% end %>
+
+<p><a href='https://truckdriverjobs.herokuapp.com/logs?schedule_id=<%= @schedule_id %>'>View full report</a></p>

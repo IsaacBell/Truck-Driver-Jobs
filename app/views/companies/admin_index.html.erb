@@ -1,0 +1,48 @@
+
+<%= raw @crumbtrail.print({
+  '/admin' => 'Admin',
+  '/admin/companies' => 'Companies'  
+}) %>
+
+<h1>Companies</h1>
+<p>
+<a href='/admin/companies/new'>New Company</a> | 
+<a href='/admin/mailouts/send-scheduled'>Send All Scheduled Mailouts</a> |
+<a href='/admin/mailouts/upcoming'>View Upcoming Scheduled Mailouts</a>
+</p>
+
+<div id='companies'></div>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag 'caboose/model/all' %>
+<script type='text/javascript'>
+
+$(document).ready(function() {
+  var table = new IndexTable({    
+    form_authenticity_token: '<%= form_authenticity_token %>',
+    container: 'companies',
+    base_url: '/admin/companies',
+    allow_bulk_edit: false,
+    allow_bulk_delete: false,
+    allow_duplicate: false,    
+    fields: [              
+      { name: 'name'               , nice_name: 'Name'              , show: true  , type: 'text'     , value: function (company) { return company.name;            } },
+      { name: 'slug'               , nice_name: 'Slug'              , show: true  , type: 'text'     , value: function (company) { return company.slug;            } },
+      { name: 'package_id'         , nice_name: 'Package'           , show: true  , type: 'select'   , value: function (company) { return company.package_id;      }, text: function(company) { return company.package ? company.package.name : 'Unknown'; }, options_url: '/admin/packages/options' },
+      { name: 'status'             , nice_name: 'Status'            , show: true  , type: 'select'   , value: function (company) { return company.package_id;      }, text: function(company) { return company.status ? company.status : 'Unknown'; }, options_url: '/admin/companies/status-options' },
+      { name: 'address'            , nice_name: 'Address'           , show: false , type: 'text'     , value: function (company) { return company.address;         } },
+      { name: 'city'               , nice_name: 'City'              , show: false , type: 'text'     , value: function (company) { return company.city;            } },
+      { name: 'state'              , nice_name: 'State'             , show: false , type: 'text'     , value: function (company) { return company.state;           } },
+      { name: 'zip'                , nice_name: 'Zip'               , show: false , type: 'text'     , value: function (company) { return company.zip;             } },
+      { name: 'website'            , nice_name: 'Website'           , show: false , type: 'text'     , value: function (company) { return company.website;         } },
+      { name: 'app_url'            , nice_name: 'App Link'          , show: false , type: 'text'     , value: function (company) { return company.app_url;         } },
+      { name: 'contact_name'       , nice_name: 'Contact name'      , show: true  , type: 'text'     , value: function (company) { return company.contact_name;    } },
+      { name: 'contact_email'      , nice_name: 'Contact email'     , show: true  , type: 'text'     , value: function (company) { return company.contact_email;   } },
+      { name: 'contact_phone'      , nice_name: 'Contact phone'     , show: true  , type: 'text'     , value: function (company) { return company.contact_phone;   } },
+      { name: 'recruiter_phone'    , nice_name: 'Recruiter phone'   , show: false , type: 'text'     , value: function (company) { return company.recruiter_phone; } }            
+    ]    
+  });
+});
+    
+</script>
+<% end %>

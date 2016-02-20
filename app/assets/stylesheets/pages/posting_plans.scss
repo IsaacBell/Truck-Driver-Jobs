@@ -1,0 +1,290 @@
+.posting-plans-wrapper {
+  padding: 30px 2%;
+  @include fullgradient(); 
+  .top-text {
+    text-align: center; 
+    margin-bottom: 35px;
+    .section-title {
+      color: #35495d;
+      font-size: 16px;
+      text-decoration: underline;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+    .bottom-line {
+      font-size: 30px;
+      color: #303438;
+    }
+    @include small {
+      margin-bottom: 10px;
+    }
+  }
+  .grid-row {
+    margin-bottom: 30px;
+    .unit1of4 {
+      @include small {
+        text-align: left; 
+      }
+      .box {
+        background: #fff;
+        text-align: center;
+        width: 150px;
+        margin: 0 auto;
+        height: 150px;
+        position: relative;
+        margin-bottom: 24px;
+        -webkit-box-shadow: -2px 2px 9px 0px rgba(53, 53, 53, 0.2);
+        -moz-box-shadow:    -2px 2px 9px 0px rgba(53, 53, 53, 0.2);
+        box-shadow:         -2px 2px 9px 0px rgba(53, 53, 53, 0.2);
+        &.gray { border: 1px solid $color-dark; padding-top: 35px; }
+        &.orange { border: 1px solid $color-main; padding-top: 35px; }
+        &.blue { border: 1px solid $color-link; padding-top: 12px; }
+        &.premier { 
+          background: none; 
+          padding-top: 25px; 
+          box-shadow: none; 
+          -moz-box-shadow: none; 
+          -webkit-box-shadow: none; 
+          .number { 
+            font-size: 22px; 
+            font-style: italic; 
+          }
+        }
+        #add-on {
+          color: #afafaf;
+          position: absolute;
+          left: 5px;
+          top: 4px;
+        }
+        .number {
+          font-size: 30px;
+          color: #303438;
+        }
+        .price {
+          font-size: 16px;
+          border-top: 1px solid $color-main;
+          width: 80%;
+          margin: 0 auto;
+          position: absolute;
+          bottom: 16px;
+          left: 10%; 
+          padding-top: 15px;
+          span {
+            color: $color-link;
+          }
+        }
+        @include small {
+          margin-top: 25px;
+        }
+      }
+      .features-title {
+        font-weight: bold;
+        font-size: 14px;
+        width: 220px;
+        margin: 0 auto;
+        margin-bottom: 10px;
+        padding-left: 34px;
+        @include small {
+          padding-left: 0;
+          text-align: center;
+        }
+      }
+      .features {
+        font-size: 14px;
+        list-style-type: disc;
+        width: 229px;
+        margin: 0 auto;
+        padding-left: 54px;
+        line-height: 21px;
+        .plus {
+          list-style-type: none;
+          position: relative;
+          right: 9px;
+          &::before {
+            content: "+"; 
+            position: relative;
+            right: 7px;
+          }
+        }
+        @include small {
+          padding-left: 10px;
+        }
+      }
+    }
+  }
+  #which {
+    font-size: 30px;
+    color: #303438;
+    text-align: center; 
+    clear: both;
+  }
+  .plan-compare {
+    margin-top: 20px;
+    .left-text {
+      width: 320px;
+      float: left;
+      .row {
+        clear: both;
+        width: 100%;
+        padding: 5px 0;
+        .jobs {
+          font-size: 15px;
+          font-weight: bold;
+          text-transform: uppercase; 
+          float: left;
+          width: 95px;
+          text-align: right;
+          position: relative;
+          top: 11px;
+        }
+        .name {
+          font-size: 24px;
+          float: left;
+          line-height: 20px;
+          padding-left: 12px;
+          .quote {
+            font-size: 48px;
+            font-family: "Georgia", serif;
+            position: relative;
+            top: 11px;
+            margin-right: 3px;
+            &.orange {
+              color: $color-main;
+            }
+            &.blue {
+              color: $color-link; 
+            }
+          }
+          @include small {
+            font-size: 20px;
+            .quote {
+              font-size: 36px;
+            }
+          }
+        }
+      }
+      @include breakpx(0,874px) {
+        float: none;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 320px;
+      }
+    }
+    .example {
+      width: 520px;
+      background: #ececec;
+      float: right;
+      padding: 22px 60px;
+      .text {
+        float: left;
+        text-align: center;
+        color: #303438;
+        font-size: 22px;
+        width: 120px;
+        margin-top: 8px;
+        font-style: italic; 
+        @include small {
+          text-align: left;
+          margin: 0 auto 10px auto;
+          padding-left: 16px;
+        }
+      }
+      #arrows {
+        height: 75px;
+        position: relative;
+        top: 10px;
+        @include small {
+          display: none;
+        }
+      }
+      .company-unit {
+        color: $color-blue; 
+        padding: 1px 9px;
+        text-align: left;
+        text-decoration: none;
+        border-left: 1px solid $color-main;
+        max-width: 288px;
+        width: 50%;
+        float: right;
+        cursor: pointer;
+        @include small {
+          float: none;
+          margin: 0 auto;
+        }
+        &:hover {
+          .name {
+            text-decoration: underline;
+          }
+        }
+        @include mini {
+          margin: 5px auto 10px auto;
+        }
+        .name {
+          font-size: 16px;
+          margin-bottom: 3px;
+          color: $color-link;
+        }
+        .phone {
+          color: #31690c !important;
+          display: inline-block;
+          font-size: 15px;
+          margin-bottom: 3px;
+        }
+        .content {
+          color: $color-dark;
+          font-size: 13px;
+          text-decoration: none;
+        }
+        @include mini {
+          width: 90%;
+          max-width: none;
+          float: none;
+          clear: both;
+          padding: 1px 5%;
+        }
+      }
+      @include breakpx(0,874px) {
+        float: none;
+        margin: 20px auto 0 auto;
+      }
+      @include small {
+        width: 100%;
+        padding: 20px 2%;
+        max-width: 520px;
+      }
+    }
+  }
+  .questions {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 680px;
+    padding: 25px 2% 10px 2%;
+    border-top: 1px solid #d8d8d8;
+    margin-top: 25px;
+    .section-title {
+      text-align: center; 
+      span {
+        font-size: 24px;
+        margin-right: 10px;
+      }
+      a {
+        position: relative;
+        bottom: 2px;
+      }
+    }
+    .content {
+      font-size: 14px;
+      margin-top: 15px;
+      span {
+        float: left;
+        font-size: 24px;
+        height: 50px;
+        margin-right: 10px;
+        position: relative;
+        top: 11px;
+      }
+    }
+  }
+
+
+}

@@ -1,0 +1,194 @@
+<div class="form-wrapper">
+  <form class="sidebar-application" id='app_form'>
+    <div class="countries">
+      <div class="country">
+        <img src="//d2ju3eumzwbxuv.cloudfront.net/assets/icons/usa.png" class="flag">
+        <span>U.S. Residents Only</span>
+      </div>
+    </div>    
+    <% if @company %>
+      <h4 class="form-title">'<%= @company.name %>' <span>Quick App</span></h4>   
+    <% end %> 
+    <input type="hidden" name="company_id" value="<%= @company ? @company.id : 0 %>" />
+    <% if @job %>
+      <input type="hidden" name="job_posting_id" value="<%= @job.id %>" />
+    <% end %>
+    <div class="field"><label class="required">Applicant First Name   </label><input type="text" name="first_name" /></div>
+    <div class="field"><label class="required">Applicant Last Name    </label><input type="text" name="last_name"  /></div>
+    <div class="field"><label class="required">Applicant Email        </label><input type="text" name="email"      /></div>
+    <div class="field"><label class="required">Applicant Phone Number </label><input type="text" name="phone"      /></div>
+    <div class="field"><label class="required">City                   </label><input type="text" name="city"       /></div>
+    <div class="field"><label class="required">State                  </label>
+      <select name="state" class="small select-box">
+        <option value="">---</option>
+        <% States.all.each do |k,v| %>
+          <% next if k == "HI" || k == "AK" %>
+          <option value="<%= k %>"><%= k %></option>
+        <% end %>
+      </select>
+    </div>
+    <div class="field"><label class="required">Zip</label><input type="text" name="zip" class="small" maxlength="5"></div>
+    <div class="field">
+      <label class="required">Years of Experience</label>
+      <select name="years_experience" class="small select-box">
+        <option value="">---</option>
+        <% years_exp = ['0-3 months','3-6 months','6-12 months','1 year','1-2 years','2-5 years','5+ years'] %>
+        <% years_exp.each do |ye| %><option value="<%= ye %>"><%= ye %></option><% end %>        
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="required">Driving School Graduate?</label>
+      <div class="option"><input type="radio" name="driving_school_graduate" value="yes"><span class="opt-text">Yes</span></div>
+      <div class="option"><input type="radio" name="driving_school_graduate" value="no" ><span class="opt-text">No</span></div>
+    </div>
+
+    <div class="field">
+      <label class="required">Currently employed as a Driver?</label>
+      <div class="option"><input type="radio" name="currently_employed" value="yes"><span class="opt-text">Yes</span></div>
+      <div class="option"><input type="radio" name="currently_employed" value="no" ><span class="opt-text">No</span></div>
+    </div>
+
+    <div class="field">
+      <label class="required">License Type</label>
+      <div class="option"><input type="checkbox" name="license_type_a"><span class="opt-text">Class A</span></div>
+      <div class="option"><input type="checkbox" name="license_type_b"><span class="opt-text">Class B</span></div>      
+    </div>
+
+    <div class="field">
+      <label class="required">Driver Type</label>
+      <div class="option"><input type="checkbox" name="driver_type_company" ><span class="opt-text">Company Driver</span></div>
+      <div class="option"><input type="checkbox" name="driver_type_owner"   ><span class="opt-text">Owner Operator</span></div>
+      <div class="option"><input type="checkbox" name="driver_type_team"    ><span class="opt-text">Team Driver</span></div>
+      <div class="option"><input type="checkbox" name="driver_type_student" ><span class="opt-text">Student Driver</span></div>
+      <div class="option"><input type="checkbox" name="driver_type_lease"   ><span class="opt-text">Lease Purchase</span></div>
+    </div>
+
+     <div class="field">
+      <label class="required">Distance</label>
+      <p class="meta">(Local jobs not available in all areas, must select 2 distances you are willing to drive to apply)</p>
+      <div class="option short"><input type="checkbox" name="distance_local"     ><span class="opt-text">Local</span></div>
+      <div class="option long" ><input type="checkbox" name="distance_dedicated" ><span class="opt-text">Dedicated</span></div>
+      <div class="option short"><input type="checkbox" name="distance_regional"  ><span class="opt-text">Regional</span></div>
+      <div class="option long" ><input type="checkbox" name="distance_otr"       ><span class="opt-text">OTR (Over-the-Road)</span></div>
+    </div>
+
+    <div class="field">
+      <label>Preferred Haul Type</label>
+      <div class="option" style="width: 45%;"><input type="checkbox" name="haul_type_dry_van"     ><span class="opt-text">Dry Van</span></div>
+      <div class="option" style="width: 45%;"><input type="checkbox" name="haul_type_flatbed"     ><span class="opt-text">Flatbed</span></div>
+      <div class="option" style="width: 45%;"><input type="checkbox" name="haul_type_reefer"      ><span class="opt-text">Reefer</span></div>
+      <div class="option" style="width: 45%;"><input type="checkbox" name="haul_type_tanker"      ><span class="opt-text">Tanker</span></div>
+      <div class="option" style="width: 45%;"><input type="checkbox" name="haul_type_hazmat"      ><span class="opt-text">Hazmat</span></div>
+      <div class="option" style="width: 45%;"><input type="checkbox" name="haul_type_intermodal"  ><span class="opt-text">Intermodal</span></div>
+      <div class="option" style="width: 45%;"><input type="checkbox" name="haul_type_auto_hauler" ><span class="opt-text">Auto Hauler</span></div>
+      <div class="option" style="width: 45%;"><input type="checkbox" name="haul_type_specialized" ><span class="opt-text">Specialized</span></div>
+    </div>
+
+    <div class="field">
+      <label class="required">Number of moving violations in the past 3 years</label>
+      <select name="moving_violations" class="small select-box">
+        <option value="">---</option>
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3+">3+</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="required">Number of preventable accidents in the past 3 years</label>
+      <select name="preventable_accidents" class="small select-box">
+        <option value="">---</option>
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3+">3+</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="required">DUI in the past 5 years?</label>
+      <select name="dui" class="small select-box">
+        <option value="">---</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+    <div id='app_message'></div>
+    <% if @company %>
+      <a href="#" id="submit-application" class="dark btn">Apply to <%= @company.name %> &#187;</a>
+    <% else %>
+      <a href="#" id="submit-application" class="dark btn">Apply now &#187;</a>
+    <% end %>
+  </form>
+</div>
+
+<% content_for :css do %>
+<style type='text/css'>
+
+.note { padding: 10px 20px; }
+.error { background: #990000; color: #fff; }
+
+</style>
+<% end %>
+
+<% if @page.id != 30 %>
+
+  <% content_for :caboose_js do %>
+  <script type='text/javascript'>
+
+  $(document).ready(function() {
+    $('#submit-application').click(function(e) {
+      e.preventDefault();
+      add_applicant();  
+    });
+  });
+
+  function add_applicant()
+  {
+    $('#app_message').html("<p class='note loading' style='width:100%;'>Submitting...</p>");
+    $.ajax({
+      url: '/applicants',
+      type: 'post',
+      data: $('#app_form').serialize(),
+      success: function(resp) {
+        if (resp.error) $('#app_message').html("<p class='note error' style='width:100%;'>" + resp.error + "</p>");
+        if (resp.redirect) window.location = resp.redirect;
+      }
+    });
+  }
+      
+  </script>
+  <% end %>
+
+<% else %>
+
+  <% content_for :js do %>
+  <script type='text/javascript'>
+
+  $(document).ready(function() {
+    $('#submit-application').click(function(e) {
+      e.preventDefault();
+      add_applicant();  
+    });
+  });
+
+  function add_applicant()
+  {
+    $('#app_message').html("<p class='note loading' style='width:100%;'>Submitting...</p>");
+    $.ajax({
+      url: '/applicants',
+      type: 'post',
+      data: $('#app_form').serialize(),
+      success: function(resp) {
+        if (resp.error) $('#app_message').html("<p class='note error' style='width:100%;'>" + resp.error + "</p>");
+        if (resp.redirect) window.location = resp.redirect;
+      }
+    });
+  }
+      
+  </script>
+  <% end %>
+
+<% end %>

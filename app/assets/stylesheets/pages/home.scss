@@ -1,0 +1,169 @@
+.home-banner {
+  height: 550px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 80px;
+  background-color: rgb(38, 38, 38);
+  //background-image: url("//d2ju3eumzwbxuv.cloudfront.net/assets/home_banner.jpg ");
+  background-image: url("/assets/test_banner.jpg ");
+  -ms-behavior: url("/bg.htc"); background-size: 1600px;
+  background-position: top center;
+  background-repeat: no-repeat;
+  text-align: center;
+  #main-search {
+    margin-top: 50px;
+    @include small {
+      margin-top: 10px;
+    }
+  }
+  .logo {
+    display: inline-block;
+    width: 230px;
+    @include small {
+      width: 190px;
+    }
+  }
+  #logo-link {
+    margin-top: 64px;
+    display: inline-block;
+    text-decoration: none;
+    @include small {
+      margin-top: 0;
+      position: relative;
+      left: 2px;
+    }
+  }
+  #arrow {
+    position: absolute;
+    bottom: 0; 
+    left: 50%; 
+    margin-left: -26px;
+  }
+  #apply {
+    color: $color-main;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: 10px;
+    text-decoration: none;
+    position: absolute;
+    top: 0;
+    letter-spacing: 2px;
+    right: 2%;
+    #arrows {
+      display: inline-block;
+      height: 12px;
+      img {
+        width: 3px;
+        height: 6px;
+        position: relative;
+        bottom: 1px;
+      }
+    }
+    @include small {
+      display: block;
+      margin-top: 7px;
+    }
+  }
+  @include small {
+    height: 500px;
+    -ms-behavior: url("/bg.htc"); background-size: 1300px;
+  }
+}
+
+.company-row-home {
+  width: 100%; 
+  padding: 15px 0 12px 0; 
+  background: $color-white;
+  .company-unit {
+    color: $color-blue; 
+    padding: 13px 15px;
+    text-align: left;
+    display: block;
+    text-decoration: none;
+    a {
+      color: #31690c !important;
+    }
+    &:hover {
+      border: 1px solid $color-main; 
+      padding: 12px 14px;
+      .name {
+        text-decoration: underline;
+      }
+    }
+    @include mini {
+      margin: 5px auto 10px auto;
+      &:hover {
+        padding: 1px 5%;
+        border: 0;
+      }
+    }
+    .name {
+      font-size: 16px;
+      margin-bottom: 3px;
+      color: $color-link;
+    }
+    .phone {
+      color: #31690c !important;
+      display: inline-block;
+      font-size: 15px;
+      margin-bottom: 3px;
+    }
+    .content {
+      color: $color-dark;
+      font-size: 13px;
+      text-decoration: none;
+    }
+    @include mini {
+      padding: 1px 5%; 
+    }
+  }
+}
+
+.current-listings {
+  text-align: left;
+  font-size: 14px;
+  padding: 24px 0 17px 15px; 
+  color: $color-dark;
+  .top {
+    font-size: 16px;
+    font-weight: bold;
+    color: $color-blue; 
+  }
+}
+
+.home-blurb {
+  @include gradient(); 
+  padding: 27px 25px;
+  margin-top: 10px;
+  .section-title {
+    color: #35495d;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 28px;
+  }
+  .content {
+    font-size: 15px;
+    color: $color-dark;
+    padding-left: 18px;
+    strong {
+      font-weight: bold;
+    }
+    span.big {
+      font-size: 20px;
+    }
+    p {
+      margin-bottom: 16px;
+      line-height: 22px;
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+
+
+
+
+

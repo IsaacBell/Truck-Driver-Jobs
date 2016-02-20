@@ -1,0 +1,79 @@
+<%= render :partial => 'companies/admin_header' %>
+
+<p><a href='<%= @company.url %>/mailouts/new' id='new_mailout'>New Mailout</a></p>
+
+<form action='<%= @company.url %>/mailouts' method='post' id='new_mailout_form'>
+  <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+  <p>Please enter a name for the mailout and either the URL where the applicant data should be posted or the email address to which it should be sent:</p>
+  <p><input type='text' name='name'     id='name'    placeholder='Name'   style='width: 500px;'></p>  
+  <p><input type='text' name='post_url' id='post_url' placeholder='URL'   style='width: 500px;'></p>
+  <p><input type='text' name='email'    id='email'    placeholder='Email' style='width: 500px;'></p>
+  <div id='new_message'></div>
+  <p>
+    <input type='button' value='Cancel' onclick="$('#new_mailout_form').slideToggle();">
+    <input type='submit' value='Add New Mailout' onclick="add_mailout(); return false;">
+  </p>
+</form>
+
+<% if @company.mailouts && @company.mailouts.count > 0 %>
+  <table class='data'>
+    <tr>
+      <th>Name</th>
+      <th>Recipient</th>
+      <th>Content Type</th>
+      <th>Filter</th>
+      <th>Start/Stops</th>
+      <th>Repeats</th>    
+    </tr>    
+  <% @company.mailouts.each do |m| %>
+    <tr onclick="window.location='<%= m.url %>';">
+      <td><%= m.name %></td>
+      <td><%= m.post_url && m.post_url.strip.length > 0 ? m.post_url : m.email %></td>
+      <td><%= m.content_type %></td>
+      <td><%= m.filter_string %></td>
+      <td><%= m.schedule_start_date %>-<%= m.schedule_end_date %></td>
+      <td><% if m.repeat_sun %>S<% end 
+             if m.repeat_mon %>M<% end
+             if m.repeat_tue %>T<% end
+             if m.repeat_wed %>W<% end
+             if m.repeat_thu %>R<% end
+             if m.repeat_fri %>F<% end
+             if m.repeat_sat %>S<% end %></td>
+    </tr>
+  <% end %>
+  </table><br />
+<% else %>
+  <p>This company doesn't have any mailouts.</p>
+<% end %>
+
+<div id="message"></div>
+
+<%= render :partial => 'companies/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  $('#new_mailout_form').hide();
+  $('#new_mailout').click(function(e) {
+    e.preventDefault();
+    $('#new_mailout_form').slideToggle();
+  });
+});
+
+function add_mailout() 
+{
+  $('#new_message').html("<p class='loading'>Adding mailout...</p>");
+  $.ajax({
+    url: '/admin/companies/<%= @company.id %>/mailouts',
+    type: 'post',
+    data: $('#new_mailout_form').serialize(),
+    success: function(resp) {
+      if (resp.error) $('#new_message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+</script>
+<% end %>

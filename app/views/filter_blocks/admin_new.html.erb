@@ -1,0 +1,45 @@
+
+<h1>New Filter Block</h1>
+
+<form action='<%= @filter.url %>/blocks' method='post' id='new_filter_block_form'>
+  <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>' />
+  <input type='hidden' name='mailout_id' value='<%= @mailout.id %>' />
+  <input type='hidden' name='join_type' id='join_type' value='and' />
+  <p>A filter block has one or many criteria.</p>
+  <p>Must all of the criteria match or may any one criteria match?</p>  
+  <p>                             
+    <input type='button' value='All' onclick="$('#join_type').val('and'); add_filter_block(); return false;" />
+    <input type='button' value='Any' onclick="$('#join_type').val('or');  add_filter_block(); return false;" />
+  </p>
+  <p>
+    <input type='button' value='Cancel' onclick="modal.close();">    
+  </p>
+</form>
+
+<% content_for :caboose_js do %>
+<script type='text/javascript'>
+
+function add_filter_block() 
+{
+  $('#message').html("<p class='loading'>Adding filter block...</p>");
+  $.ajax({
+    url: '<%= @filter.url %>/blocks',
+    type: 'post',
+    data: $('#new_filter_block_form').serialize(),
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.reload) {
+        parent.reload_filter_blocks();
+        modal.close();
+      }
+    }
+  });
+}
+
+var modal = false;
+$(window).load(function() {
+  modal = new CabooseModal(600);
+});
+
+</script>
+<% end %>

@@ -1,0 +1,59 @@
+
+<%= raw @crumbtrail.print({
+  '/admin' => 'Admin',
+  '/admin/packages' => 'Packages',
+  "/admin/packages/#{@package.id}" => @package.name  
+}) %>
+
+<h1>Edit Package</h1>
+<p><div id='package_<%= @package.id %>_name'         ></div></p>
+<p><div id='package_<%= @package.id %>_monthly_fee'  ></div></p>
+        
+<div id="message"></div>
+
+<p>
+  <input type='button' value='< Back' onclick="window.location='/admin/packages';" />
+  <input type='button' value='Delete Package' onclick="delete_package(<%= @package.id %>);" />
+</p>
+  
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'Package',
+    id: <%= @package.id %>,
+    update_url: '/admin/packages/<%= @package.id %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [
+      { name: 'name'        , nice_name: 'Name'        , type: 'text' , value: <%= raw Caboose.json(@package.name        ) %>, width: 800 },
+      { name: 'monthly_fee' , nice_name: 'Monthly Fee' , type: 'text' , value: <%= raw Caboose.json(@package.monthly_fee ) %>, width: 800 }
+    ]
+  });  
+});
+
+function delete_package(package_id, confirm) 
+{
+  if (!confirm)
+  {
+    var p = $('<p/>').addClass('note warning')
+      .append("Are you sure you want to delete the package? ")
+      .append($('<input/>').attr('type','button').val('Yes').click(function() { delete_package(package_id, true); })).append(' ')
+      .append($('<input/>').attr('type','button').val('No').click(function() { $('#message').empty(); }));      
+    $('#message').empty().append(p);
+    return;
+  }  
+  $('#message').empty().html($('<p/>').addClass('loading').html("Deleting package..."));
+  $.ajax({
+    url: '/admin/packages/' + package_id,
+    type: 'delete',    
+    success: function(resp) {
+      if (resp.error) $('#message').html("<p class='note error'>" + resp.error + "</p>");
+      if (resp.redirect) window.location = resp.redirect;
+    }
+  });
+}
+
+</script>
+<% end %>

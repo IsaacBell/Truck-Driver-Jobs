@@ -1,0 +1,4 @@
+<% p1 = Caboose::Page.where(:id => 30).first %>
+<% if p1 %>
+<a href="/<%= p1.uri %>" class="btn quick" title="Quick Apply"><span id="quick">Quick </span>Apply &#187;</a>
+<% end %>

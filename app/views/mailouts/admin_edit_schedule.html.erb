@@ -1,0 +1,46 @@
+<%= render :partial => 'mailouts/admin_header' %>
+
+<p><div id='mailout_<%= @mailout.id %>_schedule_start_date' ></div></p>
+<p><div id='mailout_<%= @mailout.id %>_schedule_end_date'   ></div></p>
+<p>Repeats on what days? </p>
+<table>
+<tr><th>S</th><th>M</th><th>T</th><th>W</th><th>R</th><th>F</th><th>S</th></tr>
+<tr>
+<td><div id='mailout_<%= @mailout.id %>_repeat_sun'></div></td>
+<td><div id='mailout_<%= @mailout.id %>_repeat_mon'></div></td>
+<td><div id='mailout_<%= @mailout.id %>_repeat_tue'></div></td>
+<td><div id='mailout_<%= @mailout.id %>_repeat_wed'></div></td>
+<td><div id='mailout_<%= @mailout.id %>_repeat_thu'></div></td>
+<td><div id='mailout_<%= @mailout.id %>_repeat_fri'></div></td>
+<td><div id='mailout_<%= @mailout.id %>_repeat_sat'></div></td>
+</tr>
+</table>
+
+<%= render :partial => 'mailouts/admin_footer' %>
+
+<% content_for :caboose_js do %>
+<%= javascript_include_tag "caboose/model/all" %>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  m = new ModelBinder({
+    name: 'Mailout',
+    id: <%= @mailout.id %>,
+    update_url: '<%= @mailout.url %>',
+    authenticity_token: '<%= form_authenticity_token %>',
+    attributes: [    
+      { name: 'schedule_start_date' , nice_name: 'Start date'       , type: 'date'     , value: <%= raw Caboose.json(@mailout.schedule_start_date ? @mailout.schedule_start_date.strftime('%m/%d/%Y') : '') %>, width: 800 },
+      { name: 'schedule_end_date'   , nice_name: 'End date'         , type: 'date'     , value: <%= raw Caboose.json(@mailout.schedule_end_date   ? @mailout.schedule_end_date.strftime(  '%m/%d/%Y') : '') %>, width: 800 },     
+      { name: 'repeat_sun'          , nice_name: 'Repeat sun'       , type: 'checkbox' , value: <%= raw Caboose.json(@mailout.repeat_sun          ) %>, width: 40, fixed_placeholder: false },   
+      { name: 'repeat_mon'          , nice_name: 'Repeat mon'       , type: 'checkbox' , value: <%= raw Caboose.json(@mailout.repeat_mon          ) %>, width: 40, fixed_placeholder: false },   
+      { name: 'repeat_tue'          , nice_name: 'Repeat tue'       , type: 'checkbox' , value: <%= raw Caboose.json(@mailout.repeat_tue          ) %>, width: 40, fixed_placeholder: false },   
+      { name: 'repeat_wed'          , nice_name: 'Repeat wed'       , type: 'checkbox' , value: <%= raw Caboose.json(@mailout.repeat_wed          ) %>, width: 40, fixed_placeholder: false },   
+      { name: 'repeat_thu'          , nice_name: 'Repeat thu'       , type: 'checkbox' , value: <%= raw Caboose.json(@mailout.repeat_thu          ) %>, width: 40, fixed_placeholder: false },   
+      { name: 'repeat_fri'          , nice_name: 'Repeat fri'       , type: 'checkbox' , value: <%= raw Caboose.json(@mailout.repeat_fri          ) %>, width: 40, fixed_placeholder: false },   
+      { name: 'repeat_sat'          , nice_name: 'Repeat sat'       , type: 'checkbox' , value: <%= raw Caboose.json(@mailout.repeat_sat          ) %>, width: 40, fixed_placeholder: false }                          
+    ]
+  });    
+});
+
+</script>
+<% end %>

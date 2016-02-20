@@ -1,0 +1,21 @@
+
+<div class="company-post clearfix">
+  <div class="logo-container">
+    <div class="logo-holder">
+      <% if company.logo %>
+        <a href='/companies/<%= company.slug %>'><img src="<%= company.logo.url(:thumb) %>" alt="<%= company.name %>" class="logo"></a>
+      <% end %>
+    </div>
+  </div>
+  <div class="company-content">
+    <h3 class="company-name"><a href='/companies/<%= company.slug %>'><%= company.name %></a></h3>
+    <div class="description">
+      <%= raw Caboose.teaser_text(company.overview, 200) %>        
+    </div>
+    <div class="links">
+      <span class="phone"><%= company.recruiter_phone %></span>
+      <a href="/companies/<%= company.slug %>" class="view" title="View Profile for <%= company.name %>">view profile &#187;</a>
+      <a href="/<%= company.slug %>-job-application" class="apply" title="Apply">apply &#187;</a>
+    </div>  
+  </div>
+</div>
